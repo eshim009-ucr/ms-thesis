@@ -52,3 +52,40 @@ experiments.
 	\caption{CPU Insertion}
 	\label{fig:cpu-insert}
 \end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-search-sequential}
+		\caption{Sequential Search}
+		\label{fig:fpga-search-sequential}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-search-random}
+		\caption{Random Search}
+		\label{fig:fpga-search-random}
+	\end{subfigure}
+	\caption{FPGA Search}
+	\label{fig:fpga-search}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-search-sequential}
+		\caption{Sequential Search}
+		\label{fig:cpu-insert-sequential}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-search-random}
+		\caption{Random Search}
+		\label{fig:cpu-search-random}
+	\end{subfigure}
+	\caption{CPU Search}
+	\label{fig:cpu-search}
+\end{figure}
