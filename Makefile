@@ -1,21 +1,30 @@
 ### DEFINITIONS ###
 # Root LaTeX file
-SRC=thesis.tex
+SRC=$(wildcard *.tex)
+
+# Citations
+BIB=$(wildcard *.bib)
 
 # Output PDF file #
 PDF=thesis.pdf
 
 # pdflatex build logs #
-LOG=$(subst .pdf,.log,$(PDF))
+LOG=$(subst .tex,.log,$(SRC))
 
 # pdflatex temp files #
-AUX=$(subst .pdf,.aux,$(PDF))
-LOF=$(subst .pdf,.lof,$(PDF))
-LOT=$(subst .pdf,.lot,$(PDF))
+AUX=$(subst .tex,.aux,$(SRC))
+LOF=$(subst .tex,.lof,$(SRC))
+LOT=$(subst .tex,.lot,$(SRC))
 OUT=$(subst .pdf,.out,$(PDF))
-TOC=$(subst .pdf,.toc,$(PDF))
+TOC=$(subst .tex,.toc,$(SRC))
 SYN=$(subst .pdf,.pdfsync,$(PDF))
-TMP=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(SYN) $(TOC)
+
+# biblatex temp files #
+BBL=$(subst .tex,.bbl,$(SRC))
+BCF=$(subst .tex,.bcf,$(SRC))
+BLG=$(subst .tex,.blg,$(SRC))
+
+TMP=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(SYN) $(TOC) $(BBL) $(BCF) $(BLG)
 
 # Spellcheck backup files #
 BAK=$(wildcard *.bak)
@@ -25,8 +34,11 @@ BAK=$(wildcard *.bak)
 all: $(PDF)
 
 # Build PDF #
-$(PDF): $(SRC)
-	pdflatex --halt-on-error --jobname $(basename $(PDF)) $(SRC)
+$(PDF): thesis.tex $(SRC) $(BIB)
+	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
+	bibtex $(basename $<)
+	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
+	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
 
 # Spellcheck source files #
 check:
