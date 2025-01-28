@@ -1,9 +1,11 @@
 ### DEFINITIONS ###
 # Root LaTeX file
-SRC=thesis.tex
+NAME=thesis
+ROOT=$(NAME).tex
+SRC=$(wildcard *.tex)
 
 # Output PDF file #
-PDF=thesis.pdf
+PDF=$(NAME).pdf
 
 # pdflatex build logs #
 LOG=$(subst .pdf,.log,$(PDF))
@@ -26,7 +28,14 @@ all: $(PDF)
 
 # Build PDF #
 $(PDF): $(SRC)
-	pdflatex --halt-on-error --jobname $(basename $(PDF)) $(SRC)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+
+# Regenerate citations
+cite:
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+	bibtex $(NAME)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 
 # Spellcheck source files #
 check:
@@ -46,4 +55,4 @@ clean: clean-tmp
 
 # Remove temporary files #
 clean-tmp:
-	rm -f $(TMP)
+	rm -f $(TMP) comment.cut

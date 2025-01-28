@@ -13,3 +13,9 @@ comment.cut
 
 # Output Files
 *.pdf
+
+# Intermediate bibliography files
+*.bbl
+*.bcf
+*.blg
+*.run.xml
