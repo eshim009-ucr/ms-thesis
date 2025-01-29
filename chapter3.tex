@@ -1,1 +1,47 @@
-\section{Chapter 3 Title}
+\section{Memory Layout}
+
+The primary challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually. There is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster, unnecessarily consuming channel bandwidth.
+
+\newcommand{\clusternode}[1]{
+	% Cluster Boundary
+	\draw ({(#1)*6}, 0) ++(-2.75, 0.5) rectangle ++(5.5, -3);
+	% Tree Nodes
+	\node[tree] at ({(#1)*6}, 0) (n#1 00) {};
+	% Rows
+	\foreach \r [
+		evaluate = \r as \w using int(3^\r),
+		evaluate = \r as \wl using int(3^\r-1)
+	] in {1,...,2} {
+		% Columns
+		\foreach \c [
+			evaluate = \c as \i using int((\w-1)/2 + \c-1),
+			evaluate = \c as \pr using int(\r-1),
+			evaluate = \c as \pc using int(\c/3),
+			evaluate = \c as \cl using int(\c-1)
+		] in {0,...,\wl} {
+			\node[tree] (n#1 \r\c)
+				at ({(#1)*6 + (\c-int(\w/2)) / (\w/5)}, -\r) {};
+			\draw[->] (n#1 \pr\pc) -- (n#1 \r\c);
+			\ifthenelse{\c=0}{}{
+				\draw[->] (n#1 \r\cl) -- (n#1 \r\c);
+			}
+		}
+	}
+}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+	scale=0.7,
+	tree/.style={draw,circle,inner sep=0.5mm}
+]
+	\clusternode{0}
+	\clusternode{1}
+	\draw[->] (n0 00) -- (n1 00);
+	\draw[->] (n0 12) -- (n1 10);
+	\draw[->] (n0 28) -- (n1 20);
+\end{tikzpicture}
+\caption{Linkages Between Nodes in the Cluster}
+\end{figure}
+
+\citeauthor{base} also propose a fine-grained distribution. The downside of this approach for an FPGA system is that increasing linkage between trees and thus the number of nodes that cannot be moved.
