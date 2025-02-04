@@ -1,2 +1,27 @@
 \section{Introduction}
-Introduction goes here
+
+\subsection{FPGA}
+
+Field-Programmable Gate Arrays
+
+that have seen increasing adoption with decreasing costs.
+
+One application that FPGAs are uniquely for is networking, as the dataflow programming model aligns well with the way that streams of data are processed in high throughput networking situations. FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \todocite, rather than simply as accelerators as GPUs are.
+
+
+\subsection{RDMA}
+
+Remote Direct Memory Access (RDMA) is an extension to the concept of direct memory access (DMA), which a system's memory to be accessed without the involvement of its CPU. RDMA is a standard allowing for such transactions to take place over a network rather than a local like like PCIe. Compared to traditional networking protocols, RDMA is significantly faster, moving the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
+
+RDMA has also seen widespread datacenter adoption, though primarily on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations.
+
+\citet{star} has shown the viability of FPGAs as network accelerators, but \citeauthor{star} use them to implement custom a NIC rather than as part of an application \cite{star}.
+
+RDMA operations can be either one-sided or two-sided. One-sided operations access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations  \cite{base}.
+
+For CPU systems, there is a tradeoff between the two types of operations. Using an FPGA
+
+
+\subsection{B-Link Tree}
+
+B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} to support concurrency. Like B+ trees, they are self-balancing data structures with an adjustable fan-out factor that store all data at leaf nodes. B-Link trees introduce additional linkages between nodes and ensure that no more than three nodes are locked at a time-per transaction \cite{b-link}.
