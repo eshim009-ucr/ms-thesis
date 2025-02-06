@@ -2,7 +2,7 @@
 
 \subsection{Memory Layout}
 
-The primary challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually; there is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster.
+The primary challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually; there is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster with links to it.
 
 \newcommand{\clusternode}[1]{
 	% Cluster Boundary
@@ -43,10 +43,10 @@ The primary challenge of converting the design proposed by \citeauthor{base} fro
 		\draw[->] (n0 12) -- (n1 10);
 		\draw[->] (n0 28) -- (n1 20);
 	\end{tikzpicture}
-	\caption{Linkages Between Nodes in the Cluster}
+	\caption{Linkages Between Sub-Trees in the Cluster}
 \label{coarse-link}
 \end{figure}
 
-The most straightforward memory layout is the one shown in figure \ref{coarse-link}; a sub-tree corresponding to a range of input values is allocated to each node. This allows each tree to operate independently from others in most cases. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
+The most straightforward memory layout is the one shown in figure \ref{coarse-link}; a sub-tree corresponding to a range of input values is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
 
-\citeauthor{base} also propose a fine-grained distribution, in which data is inserted on each. The downside of this approach for an FPGA system is that increasing linkage between trees and thus the number of nodes that cannot be moved.
+\citeauthor{base} also propose a fine-grained distribution, in which data is distributed evenly among nodes. The downside of this approach for an FPGA system is that this would require an update to be broadcast to two nodes (parent \& sibling) almost every time a node is created, deleted, or moved.
