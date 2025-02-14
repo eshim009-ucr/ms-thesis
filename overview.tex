@@ -1,23 +1,41 @@
 \section{Overview}
 
-\subsection{B-Link Tree}
+\subsection{Database Indexing}
+% including, but not limited to B-Link trees
 
-B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that expend to B+ trees. Their primary purpose is to support concurrent access with minimal locking. Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes. B-Link trees introduce additional linkages, notably between sibling nodes, and ensure that no more than three nodes are locked at a time for each modification operation \cite{b-link}.
+% I would start with a short 2-3 sentence description of the problem that you are trying to solve, e.g., database indexing. (I don't mean problem in the formal/mathematical sense). The B-Link tree is the chosen solution for the problem.
 
+% If a B-Link tree is an extension of a B+ Tree, perhaps you want to introduce the B+ Tree first?
 
-\subsection{FPGA}
-
-Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. The primary advantage of this structure is exceptional parallelism.
-
-One application that FPGAs are uniquely suited for is networking, as the dataflow programming model of hardware description languages aligns naturally with data flows in high-throughput networking environments. FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \cite{bobda-trets-2022,fang-vldb-2020}, rather than simply as on-demand accelerators as GPUs are.
+B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees.
+% Disagree. Their primary purpose is to solve the database indexing problem. They are a good solution because they support concurrent accesses with minimal locking, which leads to performance advantages.
+Their primary purpose is to support concurrent access with minimal locking.
+Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
+% Can you explain the purpose/utility of these additional linkages?
+B-Link trees introduce additional linkages, notably between sibling nodes, and ensure that no more than three nodes are locked at a time for each modification operation \cite{b-link}.
 
 
 \subsection{RDMA}
+% (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
 Remote Direct Memory Access (RDMA) is an extension to the concept of direct memory access (DMA), which allows a system's memory to be accessed by external devices without the involvement of its CPU. RDMA extends this concept by allowing for such transactions to take place over a network rather than a local link like PCIe. Compared to traditional networking protocols, RDMA is significantly faster, moving the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
 
 RDMA has also seen widespread datacenter adoption, though primarily on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. \citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \cite{star}.
 
 RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations allow the remote node to chose the specific address in its own memory \cite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
+
+
+\subsection{FPGAs}
+% (general background and use of FPGAs for accelerating database applications and applications similar to indexing)
+
+Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. The primary advantage of this structure is exceptional parallelism.
+
+One application that FPGAs are uniquely suited for is networking, as the dataflow programming model of hardware description languages aligns naturally with data flows in high-throughput networking environments.
+% I don't think that we need to get into FPGA vs. GPU here. If this was a compute-centric application, perhaps we would. We're really focusing on the FPGA's ability to perform near-network processing.
+FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \cite{bobda-trets-2022,fang-vldb-2020}, rather than simply as on-demand accelerators as GPUs are.
+
+
+\subsection{RDMA on FPGAs}
+% (lots of support from myself and Prith for this)
 
 For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.
