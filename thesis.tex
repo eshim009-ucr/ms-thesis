@@ -44,7 +44,9 @@
 %% for your publication.
 %%
 %%
-\documentclass[sigconf]{acmart}
+\documentclass[sigconf,natbib=false]{acmart}
+\usepackage[style=acmnumeric]{biblatex}
+\addbibresource{bibfile.bib}
 \usepackage{lmodern}
 \usepackage{tikz}
 \usetikzlibrary{math}
@@ -107,11 +109,7 @@ Acknowledgments go here
 \end{acks}
 
 
-%%
-%% The next two lines define the bibliography style to be used, and
-%% the bibliography file.
-\bibliographystyle{ACM-Reference-Format}
-\bibliography{bibfile}
+\printbibliography
 
 
 %%

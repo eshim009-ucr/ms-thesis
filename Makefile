@@ -17,7 +17,11 @@ LOT=$(subst .pdf,.lot,$(PDF))
 OUT=$(subst .pdf,.out,$(PDF))
 TOC=$(subst .pdf,.toc,$(PDF))
 SYN=$(subst .pdf,.pdfsync,$(PDF))
-TMP=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(SYN) $(TOC)
+# bibtex temp files
+BBL=$(subst .pdf,.bbl,$(PDF))
+BCF=$(subst .pdf,.bcf,$(PDF))
+BLG=$(subst .pdf,.blg,$(PDF))
+TMP=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(SYN) $(TOC) $(BBL) $(BCF) $(BLG)
 
 # Spellcheck backup files #
 BAK=$(wildcard *.bak)
@@ -33,7 +37,7 @@ $(PDF): $(SRC)
 # Regenerate citations
 cite:
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
-	bibtex $(NAME)
+	biber $(NAME)
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 
