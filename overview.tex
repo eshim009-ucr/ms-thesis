@@ -4,11 +4,11 @@
 % including, but not limited to B-Link trees
 
 % I would start with a short 2-3 sentence description of the problem that you are trying to solve, e.g., database indexing. (I don't mean problem in the formal/mathematical sense). The B-Link tree is the chosen solution for the problem.
+Most large databases today require far beyond the resources available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited.
+
+\citeauthor{binnig-vldb-2016} identify three high-level classifications of networked database topology \cite{binnig-vldb-2016}: shared-nothing, distributed shared-memory, and network-attached memory.
 
 % If a B-Link tree is an extension of a B+ Tree, perhaps you want to introduce the B+ Tree first?
-
-% As a precursor, you need to describe Ziegler's design in some amount of detail. You'll need to tie it to earlier discussions of the B-Link tree, database indexing, and RDMA. We can then move on to a discussion of your implementation of it.
-For version control, their design uses optimistic lock coupling rather than traditional lock coupling \cite{base}. The advantage of this strategy is reducing cache misses on multi-core CPUs \cite{leis-daomn-2016}.
 
 B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees.
 % Disagree. Their primary purpose is to solve the database indexing problem. They are a good solution because they support concurrent accesses with minimal locking, which leads to performance advantages.
@@ -21,13 +21,15 @@ B-Link trees introduce additional linkages, notably between sibling nodes, and e
 \subsection{RDMA}
 % (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
+Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: sockets \cite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the active involvement of the operating system.
+
 Remote Direct Memory Access (RDMA) . Compared to traditional networking protocols, RDMA is significantly faster, moving the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
 
 RDMA has also seen widespread datacenter adoption, though primarily on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations.
 % The jump from RDMA NICs that support data centers to FPGAs as network accelerators is rather abrupt. There's a lot that can be said about RDMA NICs in data centers before you need to discuss FPGAs.
 \citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \cite{star}.
 
-RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations allow the remote node to chose the specific address in its own memory \cite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
+RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \cite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
 
 
 \subsection{FPGAs}

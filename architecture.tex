@@ -1,8 +1,18 @@
 \section{System Architecture}
 
+\subsection{Comparison with \citeauthor{base}}
+
+Our design is based on that of \citeauthor{base} in \citetitle{base}. Their design uses a CPU cluster with an RDMA interconnect. The design follows the Network-Attached-Memory (NAM) architecture, where some nodes are dedicated to computation while others are dedicated to storage\cite{base}{binnig-vldb-2016}.
+
+For indexing, they use an adaptation of the B-link tree with a sliding scale of distribution schemes. At one end is the coarse-grained scheme, where entries are assigned to nodes based on ranges or hashes of their keys. This allows for fast traversal at the cost of poor bandwidth utilization, as bulk accesses to ranges of data must all be served from one node. At the other end is the fine-grained scheme, where new values are written to nodes in around-robin manner. This improves bandwidth utilization by allowing all nodes to access memory simultaneously, but slows down the initial lookup process. Finally, they propose a hybrid scheme which uses coarse-grained for the top of the tree and fine-grained for the leaves, attempting to maximize the benefit of each strategy \cite{base}.
+
+To support concurrent access, their design uses optimistic lock coupling rather than traditional lock coupling \cite{base}. A key advantage of this strategy is reducing cache misses due to cache invalidations that result when frequently writing to lock bits in main memory on multi-core CPUs \cite{leis-daomn-2016}. The current iteration of our design does not use caching, so this is not a concern for us. Any caching protocol implemented in the future would be custom designed, so we have the freedom to design a cache that is not as susceptible to
+such problems. As noted by \citeauthor{binnig-vldb-2016}, DBMSs function best with full control over memory management \cite{binnig-vldb-2016}.
+
+
 \subsection{Memory Layout}
 
-The primary challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually; there is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster with links to it.
+A key challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually; there is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster with links to it.
 
 \newcommand{\clusternode}[1]{
 	% Cluster Boundary
@@ -47,6 +57,4 @@ The primary challenge of converting the design proposed by \citeauthor{base} fro
 \label{coarse-link}
 \end{figure}
 
-The most straightforward memory layout is the one shown in figure \ref{coarse-link}; a sub-tree corresponding to a range of input values is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
-
-\citeauthor{base} also propose a fine-grained distribution, in which data is distributed evenly among nodes. The downside of this approach for an FPGA system is that this would require an update to be broadcast to two nodes (parent \& sibling) almost every time a node is created, deleted, or moved.
+The most straightforward memory layout is the one shown in figure \ref{coarse-link}, analogous to \citeauthor{base}'s coarse grained distribution. A sub-tree corresponding to a range of entries is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases, allowing greater flexiblity to manage its own memory. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
