@@ -1,21 +1,12 @@
 \section{Overview}
 
 \subsection{Database Indexing}
-% including, but not limited to B-Link trees
+Most large databases today require far beyond the resources available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited, thus it is critical not only to avoid wasting bandwidth, but to distribute and structure database indices in a way that does not impose undue strain on this scarce resource.
 
-% I would start with a short 2-3 sentence description of the problem that you are trying to solve, e.g., database indexing. (I don't mean problem in the formal/mathematical sense). The B-Link tree is the chosen solution for the problem.
-Most large databases today require far beyond the resources available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited.
+One common strategy is to use a variant of the B-Tree for indexing \cite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control the height of the tree and thus keep lookup times short. B+ trees are a variant the keep all data values at the leaves rather than storing them alongside internal nodes.
 
-\citeauthor{binnig-vldb-2016} identify three high-level classifications of networked database topology \cite{binnig-vldb-2016}: shared-nothing, distributed shared-memory, and network-attached memory.
-
-% If a B-Link tree is an extension of a B+ Tree, perhaps you want to introduce the B+ Tree first?
-
-B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees.
-% Disagree. Their primary purpose is to solve the database indexing problem. They are a good solution because they support concurrent accesses with minimal locking, which leads to performance advantages.
-Their primary purpose is to support concurrent access with minimal locking.
-Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
-% Can you explain the purpose/utility of these additional linkages?
-B-Link trees introduce additional linkages, notably between sibling nodes, and ensure that no more than three nodes are locked at a time for each modification operation \cite{b-link}.
+B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees. Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
+B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible before they have been assigned to a parent. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \cite{b-link}.
 
 
 \subsection{RDMA}
@@ -23,9 +14,10 @@ B-Link trees introduce additional linkages, notably between sibling nodes, and e
 
 Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: sockets \cite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the active involvement of the operating system.
 
-Remote Direct Memory Access (RDMA) . Compared to traditional networking protocols, RDMA is significantly faster, moving the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
+Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant enough to move the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
 
-RDMA has also seen widespread datacenter adoption, though primarily on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations.
+RDMA has seen widespread datacenter adoption \cite{strom} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with a limited set of specialized hardware \cite{strom}.
+
 % The jump from RDMA NICs that support data centers to FPGAs as network accelerators is rather abrupt. There's a lot that can be said about RDMA NICs in data centers before you need to discuss FPGAs.
 \citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \cite{star}.
 
@@ -45,4 +37,4 @@ FPGAs have seen increasing deployment in datacenters as a means to improve the u
 \subsection{RDMA on FPGAs}
 % (lots of support from myself and Prith for this)
 
-For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.
+For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \cite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.

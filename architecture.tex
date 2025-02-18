@@ -57,4 +57,4 @@ A key challenge of converting the design proposed by \citeauthor{base} from CPU 
 \label{coarse-link}
 \end{figure}
 
-The most straightforward memory layout is the one shown in figure \ref{coarse-link}, analogous to \citeauthor{base}'s coarse grained distribution. A sub-tree corresponding to a range of entries is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases, allowing greater flexiblity to manage its own memory. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
+The most straightforward memory layout is the one shown in figure \ref{coarse-link}, analogous to \citeauthor{base}'s coarse grained distribution. A sub-tree corresponding to a range of entries is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases \cite{ma-tpds-2022}, allowing greater flexibility to manage its own memory. This also imposes a worst-case number of links between nodes as the height of each sub-tree.
