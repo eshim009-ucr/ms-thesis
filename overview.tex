@@ -3,25 +3,25 @@
 \subsection{Database Indexing}
 Most large databases today require far beyond the resources available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited, thus it is critical not only to avoid wasting bandwidth, but to distribute and structure database indices in a way that does not impose undue strain on this scarce resource.
 
-One common strategy is to use a variant of the B-Tree for indexing \cite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control the height of the tree and thus keep lookup times short. B+ trees are a variant the keep all data values at the leaves rather than storing them alongside internal nodes.
+One common strategy is to use a variant of the B-Tree for indexing \autocite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control the height of the tree and thus keep lookup times short. B+ trees are a variant the keep all data values at the leaves rather than storing them alongside internal nodes.
 
 B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees. Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
-B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible before they have been assigned to a parent. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \cite{b-link}.
+B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible before they have been assigned to a parent. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \autocite{b-link}.
 
 
 \subsection{RDMA}
 % (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
-Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: sockets \cite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the active involvement of the operating system.
+Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: sockets \autocite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the active involvement of the operating system.
 
-Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant enough to move the bottleneck of distributed systems out of the networking portion and into processing portion \cite{binnig-vldb-2016}.
+Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant enough to move the bottleneck of distributed systems out of the networking portion and into processing portion \autocite{binnig-vldb-2016}.
 
-RDMA has seen widespread datacenter adoption \cite{strom} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with a limited set of specialized hardware \cite{strom}.
+RDMA has seen widespread datacenter adoption \autocite{strom} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with a limited set of specialized hardware \autocite{strom}.
 
 % The jump from RDMA NICs that support data centers to FPGAs as network accelerators is rather abrupt. There's a lot that can be said about RDMA NICs in data centers before you need to discuss FPGAs.
-\citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \cite{star}.
+\citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \autocite{star}.
 
-RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \cite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
+RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \autocite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
 
 
 \subsection{FPGAs}
@@ -31,10 +31,10 @@ Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to 
 
 One application that FPGAs are uniquely suited for is networking, as the dataflow programming model of hardware description languages aligns naturally with data flows in high-throughput networking environments.
 % I don't think that we need to get into FPGA vs. GPU here. If this was a compute-centric application, perhaps we would. We're really focusing on the FPGA's ability to perform near-network processing.
-FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \cite{bobda-trets-2022,fang-vldb-2020}, rather than simply as on-demand accelerators as GPUs are.
+FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \autocites{bobda-trets-2022}{fang-vldb-2020}, rather than simply as on-demand accelerators as GPUs are.
 
 
 \subsection{RDMA on FPGAs}
 % (lots of support from myself and Prith for this)
 
-For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \cite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.
+For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \autocite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.
