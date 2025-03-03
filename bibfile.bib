@@ -1,4 +1,4 @@
-@inproceedings{primary,
+@inproceedings{base,
 	title={Designing Distributed Tree-based Index Structures for Fast RDMA-capable Networks},
 	author={Tobias Ziegler
 		and Sumukha Tumkur Vani
@@ -17,6 +17,221 @@
 	pages={741--758},
 	numpages={18},
 	isbn={9781450356435},
-	doi={10.1145/3299869.3300081},
-	url={https://www.cs.purdue.edu/homes/csjgwang/CloudNativeDB/RDMABtreeSIGMOD20.pdf},
+	doi={10.1145/3299869.3300081}
+}
+
+@article{b-link,
+	title={Efficient locking for concurrent operations on B-trees},
+	author={Philip L. Lehman and S. Bing Yao},
+	journal={ACM Transactions on Database Systems},
+	shortjournal={TODS},
+	volume={6},
+	number={4},
+	pages={650--670},
+	numpages={21},
+	date={1981-12},
+	publisher={Association for Computing Machinery},
+	shortpublisher={ACM},
+	address={New York, NY, USA},
+	issn={0362-5915},
+	doi={10.1145/319628.319663}
+}
+
+@inproceedings{dlsm,
+	title={dLSM},
+	subtitle={An LSM-Based Index for Memory Disaggregation},
+	author={Ruihong Wang
+		and Jianguo Wang
+		and Prishita Kadam
+		and M. Tamer Özsu
+		and Walid G. Aref
+	},
+	booktitle={2023 IEEE 39th International Conference on Data Engineering},
+	shortbooktitle={ICDE},
+	year={2023},
+	publisher={Institute of Electrical and Electronics Engineers},
+	shortpublisher={IEEE},
+	location={Anaheim, CA, USA},
+	eventdate={2023-04-03/2023-04-07},
+	pages={2835--2849},
+	issn={2375-026X},
+	doi={10.1109/ICDE55515.2023.00217}
+}
+
+@inproceedings{star,
+	title={StaR},
+	subtitle={Breaking the Scalability Limit for RDMA},
+	author={Xizheng Wang
+		and Guo Chen
+		and Xijin Yin
+		and Huichen Dai
+		and Bojie Li
+		and Binzhang Fu
+		and Kun Tan
+	},
+	booktitle={2021 IEEE 29th International Conference on Network Protocols},
+	shortbooktitle={ICNP},
+	year={2021},
+	publisher={Institute of Electrical and Electronics Engineers},
+	shortpublisher={IEEE},
+	location={Dallas, TX, USA},
+	eventdate={2021-11-01/2021-11-05},
+	pages={1--11},
+	doi={10.1109/ICNP52444.2021.9651935}
+}
+
+@article{binnig-vldb-2016,
+	title={The End of Slow Networks},
+	subtitle={It's Time for a Redesign},
+	author={Carsten Binnig
+		and Andrew Crotty
+		and Alex Galakatos
+		and Tim Kraska
+		and Erfan Zamanian
+	},
+	journal={Proceedings of the VLDB Endowment},
+	shortjournal={VLDB},
+	date={2016-03},
+	publisher={VLDB Endowment},
+	volume={9},
+	number={7},
+	pages = {528--539},
+	numpages = {12},
+	issn = {2150-8097},
+	doi = {10.14778/2904483.2904485}
+}
+
+@article{bobda-trets-2022,
+	title={The Future of FPGA Acceleration in Datacenters and the Cloud},
+	author={Christophe Bobda
+		and Joel Mandebi Mbongue
+		and Paul Chow
+		and Mohammad Ewais
+		and Naif Tarafdar
+		and Juan Camilo Vega
+		and Ken Eguro
+		and Dirk Koch
+		and Suranga Handagala
+		and Miriam Leeser
+		and Martin Herbordt
+		and Hafsah Shahzad
+		and Peter Hofste
+		and Burkhard Ringlein
+		and Jakub Szefer
+		and Ahmed Sanaullah
+		and Russell Tessier
+	},
+	journal={ACM Transactions on Reconfigurable Technology and Systems},
+	shortjournal={TRETS},
+	date={2022-02},
+	publisher={Association for Computing Machinery},
+	shortpublisher={ACM},
+	address={New York, NY, USA},
+	volume={15},
+	number={3},
+	articleno={34},
+	pages={1--42},
+	numpages={42},
+	issn= {1936-7406},
+	doi={10.1145/3506713},
+}
+
+@article{fang-vldb-2020,
+	title={In-memory database acceleration on FPGAs: a survey},
+	author={Jian Fang
+		and Yvo T.B. Mulder
+		and Jan Hidders
+		and Jinho Lee
+		and H. Peter Hofstee
+	},
+	journal={The VLDB Journal},
+	year={2020},
+	publisher={Springer},
+	volume={29},
+	pages={33--59},
+	doi={10.1007/s00778-019-00581-w}
+}
+
+@inproceedings{leis-daomn-2016,
+	title={The ART of practical synchronization},
+	author= {Viktor Leis
+		and Florian Scheibner
+		and Alfons Kemper
+		and Thomas Neumann
+	},
+	booktitle={Proceedings of the 12th International Workshop on Data Management on New Hardware},
+	shortbooktitle={DaMoN},
+	year={2016},
+	publisher={Association for Computing Machinery},
+	shortpublisher={ACM},
+	address={New York, NY, USA},
+	articleno={3},
+	numpages={8},
+	location={San Francisco, CA, USA},
+	eventdate={2016-06-26/2016-07-01},
+	isbn={9781450343190},
+	doi={10.1145/2933349.2933352}
+}
+
+@article{ma-tpds-2022,
+	title={A Survey of Storage Systems in the RDMA era},
+	author={Shaonan Ma
+		and Teng Ma
+		and Kang Chen
+		and Yongwei Wu
+	},
+	journal={IEEE Transactions on Parallel and Distributed Systems},
+	shortjournal={TPDS},
+	date={2022-07-12},
+	publisher={Institute of Electrical and Electronics Engineers},
+	shortpublisher={IEEE},
+	volume={33},
+	number={12},
+	pages={4395--4409},
+	doi={10.1109/TPDS.2022.3188656}
+}
+
+@inproceedings{strom,
+	author={David Sidler
+		and Zeke Wang
+		and Monica Chiosa
+		and Amit Kulkarni
+		and Gustavo Alonso
+	},
+	title={StRoM},
+	subtitle={Smart Remote Memory},
+	year={2020},
+	publisher={Association for Computing Machinery},
+	shortpublisher={ACM},
+	address={New York, NY, USA},
+	booktitle={Proceedings of the Fifteenth European Conference on Computer Systems},
+	shortbooktitle={EuroSys},
+	articleno={29},
+	numpages={16},
+	location={Heraklion, Greece},
+	eventdate={2020-04-27/2020-04-30},
+	isbn={9781450368827},
+	doi={10.1145/3342195.3387519}
+}
+
+@article{honeycomb,
+	title={Honeycomb: ordered key-value store acceleration on an FPGA-based SmartNIC},
+	author={Junyi Liu
+		and Aleksandar Dragojevi{\'c}
+		and Shane Fleming
+		and Antonios Katsarakis
+		and Dario Korolija
+		and Igor Zablotchi
+		and Ho-Cheung Ng
+		and Anuj Kalia
+		and Miguel Castro
+	},
+	journal={IEEE Transactions on Computers},
+	year={2023},
+	publisher={Institute of Electrical and Electronics Engineers},
+	shortpublisher={IEEE},
+	volume={73},
+	number={3},
+	pages={857--871},
+	doi={10.1109/TC.2023.3345173}
 }

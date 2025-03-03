@@ -27,6 +27,15 @@
 % \documentclass[11pt]{ucthesis}
 % \documentclass[11pt]{ucr}
 \documentclass[oneside,final, letterpaper]{ucr}
+\usepackage{tikz}
+\usetikzlibrary{math}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usepackage{ifthen}
+\tikzset{>={Stealth[length=1.25mm]}}
+\newcommand{\todocite}{{\color{red}CITE}}
+\newcommand{\todo}[1]{{\color{red}TODO: #1}}
+\usepackage{siunitx}
 \begin{document}
 
 % Declarations for Front Matter

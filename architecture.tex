@@ -1,1 +1,59 @@
-\chapter{Chapter 3 Title}
+\section{System Architecture}
+
+\subsection{Comparison with \citeauthor{base}}
+
+Our design is based on that of \citeauthor{base} in \citetitle{base}. Their design uses a CPU cluster with an RDMA interconnect. The design follows the Network-Attached-Memory (NAM) architecture, where some nodes are dedicated to computation while others are dedicated to storage \autocite{base,binnig-vldb-2016}.
+
+For indexing, they use an adaptation of the B-link tree with a sliding scale of distribution schemes. At one end is the coarse-grained scheme, where entries are assigned to nodes based on ranges or hashes of their keys. This allows for fast traversal at the cost of poor bandwidth utilization, as bulk accesses to ranges of data must all be served from one node. At the other end is the fine-grained scheme, where new values are written to nodes in around-robin manner. This improves bandwidth utilization by allowing all nodes to access memory simultaneously, but slows down the initial lookup process. Finally, they propose a hybrid scheme which uses coarse-grained for the top of the tree and fine-grained for the leaves, attempting to maximize the benefit of each strategy \autocite{base}.
+
+To support concurrent access, their design uses optimistic lock coupling rather than traditional lock coupling \autocite{base}. This strategy does not protect areas from concurrent access, but simply identifies when data has been changed. If two writers begin modifying the same data, the one who writes back to main memory second will see that its version is not what was expected, and attempt to restart its operation using this new data. A key advantage of this strategy is reducing cache misses due to cache invalidations that result when frequently writing to lock bits in main memory on multi-core CPUs \autocite{leis-daomn-2016}. The current iteration of our design does not use caching, so this is not a concern for us. Any caching protocol implemented in the future would be custom designed, so we have the freedom to design a cache that is not as susceptible to such problems. As noted by \citeauthor{binnig-vldb-2016}, DBMSs function best with full control over memory management \autocite{binnig-vldb-2016}.
+
+
+\subsection{Memory Layout}
+
+A key challenge of converting the design proposed by \citeauthor{base} from CPU to FPGA is that all memory must be managed manually; there is no operating system or standard library to dynamically allocate memory or handle virtual addressing. This makes it desirable for addresses of nodes within a tree to change as little as possible, as without an internal address translation layer, any movement of a node within a cluster would require that address change to be broadcast to all other nodes in the cluster with links to it.
+
+\newcommand{\clusternode}[1]{
+	% Cluster Boundary
+	\draw ({(#1)*6}, 0) ++(-2.75, 0.5) rectangle ++(5.5, -3);
+	% Tree Nodes
+	\node[tree] at ({(#1)*6}, 0) (n#1 00) {};
+	% Rows
+	\foreach \r [
+		evaluate = \r as \w using int(3^\r),
+		evaluate = \r as \wl using int(3^\r-1)
+	] in {1,...,2} {
+		% Columns
+		\foreach \c [
+			evaluate = \c as \i using int((\w-1)/2 + \c-1),
+			evaluate = \c as \pr using int(\r-1),
+			evaluate = \c as \pc using int(\c/3),
+			evaluate = \c as \cl using int(\c-1)
+		] in {0,...,\wl} {
+			\node[tree] (n#1 \r\c)
+				at ({(#1)*6 + (\c-int(\w/2)) / (\w/5)}, -\r) {};
+			\draw[->] (n#1 \pr\pc) -- (n#1 \r\c);
+			\ifthenelse{\c=0}{}{
+				\draw[->] (n#1 \r\cl) -- (n#1 \r\c);
+			}
+		}
+	}
+}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[
+		scale=0.7,
+		tree/.style={draw,circle,inner sep=0.5mm}
+	]
+		\clusternode{0}
+		\clusternode{1}
+		\draw[->] (n0 00) -- (n1 00);
+		\draw[->] (n0 12) -- (n1 10);
+		\draw[->] (n0 28) -- (n1 20);
+	\end{tikzpicture}
+	\caption{Linkages Between Sub-Trees in the Cluster}
+\label{coarse-link}
+\end{figure}
+
+The most straightforward memory layout is the one shown in figure \ref{coarse-link}, analogous to \citeauthor{base}'s coarse grained distribution. A sub-tree corresponding to a range of entries is allocated to each node in the cluster. This allows each tree to operate independently from others in most cases \autocite{ma-tpds-2022}, allowing greater flexibility to manage its own memory. This also imposes a worst-case number of links between nodes as the height of each sub-tree.

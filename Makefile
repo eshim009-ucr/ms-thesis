@@ -1,12 +1,11 @@
 ### DEFINITIONS ###
 # Root LaTeX file
+NAME=thesis
+ROOT=$(NAME).tex
 SRC=$(wildcard *.tex)
 
-# Citations
-BIB=$(wildcard *.bib)
-
 # Output PDF file #
-PDF=thesis.pdf
+PDF=$(NAME).pdf
 
 # pdflatex build logs #
 LOG=$(subst .tex,.log,$(SRC))
@@ -34,11 +33,15 @@ BAK=$(wildcard *.bak)
 all: $(PDF)
 
 # Build PDF #
-$(PDF): thesis.tex $(SRC) $(BIB)
-	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
-	bibtex $(basename $<)
-	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
-	pdflatex --halt-on-error --jobname $(basename $<) $(basename $@)
+$(PDF): $(SRC)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+
+# Regenerate citations
+cite:
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+	biber $(NAME)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
+	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 
 # Spellcheck source files #
 check:
@@ -58,4 +61,4 @@ clean: clean-tmp
 
 # Remove temporary files #
 clean-tmp:
-	rm -f $(TMP)
+	rm -f $(TMP) comment.cut
