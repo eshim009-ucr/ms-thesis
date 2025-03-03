@@ -39,7 +39,7 @@ $(PDF): $(SRC)
 # Regenerate citations
 cite:
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
-	biber $(NAME)
+	bibtex $(NAME)
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 	pdflatex --halt-on-error --jobname $(NAME) $(NAME)
 
