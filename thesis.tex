@@ -27,6 +27,8 @@
 % \documentclass[11pt]{ucthesis}
 % \documentclass[11pt]{ucr}
 \documentclass[oneside,final, letterpaper]{ucr}
+\usepackage[backend=biber,sortcites=true]{biblatex}
+\addbibresource{bibfile.bib}
 \usepackage{tikz}
 \usetikzlibrary{math}
 \usetikzlibrary{arrows.meta}
@@ -94,8 +96,7 @@ To my parents for all the support.
 \nocite{*}
 % \singlespacing
 % \bibliographystyle{alpha}
-\bibliographystyle{plain}
-\bibliography{bibfile}
+\printbibliography
 
 \input{appendix}
 
