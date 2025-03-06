@@ -12,14 +12,11 @@ B-Link trees introduce linkages between sibling nodes at all levels of the tree.
 \section{RDMA}
 % (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
-Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: sockets \autocite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the active involvement of the operating system.
+Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: network sockets \autocite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the constant active involvement of the operating system.
 
-Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant enough to move the bottleneck of distributed systems out of the networking portion and into processing portion \autocite{binnig-vldb-2016}.
+Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant, often orders of magnitude over over traditional approaches \autocite{ma-tpds-2022,rdma-reads}. This moves the bottleneck of distributed systems out of the networking portion and into processing portion \autocite{binnig-vldb-2016}.
 
-RDMA has seen widespread datacenter adoption \autocite{strom} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with a limited set of specialized hardware \autocite{strom}.
-
-% The jump from RDMA NICs that support data centers to FPGAs as network accelerators is rather abrupt. There's a lot that can be said about RDMA NICs in data centers before you need to discuss FPGAs.
-\citeauthor{star} have shown the viability of FPGAs as network accelerators, but use them to implement custom a NIC protocol rather than as part of an application \autocite{star}.
+RDMA has seen widespread datacenter adoption \autocite{strom,mencer-queue-2020} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with limited hardware capabilities \autocite{strom,honeycomb,rdma-reads}.
 
 RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \autocite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
 
@@ -27,14 +24,12 @@ RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided o
 \section{FPGAs}
 % (general background and use of FPGAs for accelerating database applications and applications similar to indexing)
 
-Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. The primary advantage of this structure is exceptional parallelism.
-
-One application that FPGAs are uniquely suited for is networking, as the dataflow programming model of hardware description languages aligns naturally with data flows in high-throughput networking environments.
-% I don't think that we need to get into FPGA vs. GPU here. If this was a compute-centric application, perhaps we would. We're really focusing on the FPGA's ability to perform near-network processing.
-FPGAs have seen increasing deployment in datacenters as a means to improve the underlying datacenter infrastructure \autocites{bobda-trets-2022}{fang-vldb-2020}, rather than simply as on-demand accelerators as GPUs are.
+Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. The primary advantage of this structure is exceptional parallelism. Originally, they were intended for prototyping application-specific integrated circuits (ASICs), but later found wide usage in the telecom industry \autocite{mencer-queue-2020} and more recently in datacenters \autocite{mencer-queue-2020,hoozemans-cas-2021}. FPGAs are uniquely suited to networking applications because the dataflow programming model \autocite{hoozemans-cas-2021} inherent to their architecture aligns naturally with the flow of packets in high-throughput networking environments.
 
 
 \section{RDMA on FPGAs}
 % (lots of support from myself and Prith for this)
 
-For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \autocite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system.
+Most systems that combine RDMA \& FPGAs do so using so-called SmartNICs, which use a small FPGA in lieu of a small ARM processor. The smaller program space and reduced performance of these FPGAs limit how much work can be moved onto them from other parts of the system \autocite{honeycomb}.
+
+For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \autocite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system. As a result, ``program space'' is often the limiting factor in deciding which portions of a system can be moved onto FPGAs, so common, simple operations are prioritized \autocite{honeycomb,moghaddamfar-damon-2021}.
