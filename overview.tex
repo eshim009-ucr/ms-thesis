@@ -1,35 +1,55 @@
 \section{Overview}
 
 \subsection{Database Indexing}
-Most large databases today require far beyond the resources available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited, thus it is critical not only to avoid wasting bandwidth, but to distribute and structure database indices in a way that does not impose undue strain on this scarce resource.
+\label{sec:indexing}
 
-One common strategy is to use a variant of the B-Tree for indexing \autocite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control the height of the tree and thus keep lookup times short. B+ trees are a variant the keep all data values at the leaves rather than storing them alongside internal nodes.
+Most large databases today require resources far beyond those available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited \autocite{binnig-vldb-2016}, thus it is critical not only to avoid wasting bandwidth, but also to distribute and structure database indices in a way that minimizes unnecessary traffic between machines.
 
-B-Link trees are a data structure proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data that extend to B+ trees. Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
-B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible before they have been assigned to a parent. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \autocite{b-link}.
+One common strategy is to use a variant of the B-Tree for indexing \autocite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control the height of the tree. Because lookup time is proportional to the length of the path from the root node where the search begins to the node holding the desired data, shorter trees mean faster lookups. B+ trees are a variant of B trees the keep all data values at the leaves rather than storing them alongside internal nodes.
+
+B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in \citeyear{b-link} for storing key-value data. Like B+ trees, they are self-balancing, have an adjustable fan-out factor, and store all data at leaf nodes.
+B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible during split operations, even if they have not yet been assigned to a parent node. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \autocite{b-link}.
 
 
 \subsection{RDMA}
+\label{sec:rdma}
 % (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
 Traditionally, the method for interconnect in distributed systems was the same one used for general purpose networking: network sockets \autocite{binnig-vldb-2016}. These allow for easy programming using file I/O APIs, but as a result require the constant active involvement of the operating system.
 
-Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance by reducing the involvement of the CPU. Network performance gains can be significant, often orders of magnitude over over traditional approaches \autocite{ma-tpds-2022,rdma-reads}. This moves the bottleneck of distributed systems out of the networking portion and into processing portion \autocite{binnig-vldb-2016}.
+Remote Direct Memory Access (RDMA) is a family of protocols that seeks to improve networking performance in part by reducing the involvement of the CPU. Network performance gains can be significant, often orders of magnitude over over traditional approaches \autocite{ma-tpds-2022,rdma-reads}. This moves the bottleneck of distributed systems out of the networking portion and into processing portion \autocite{binnig-vldb-2016}.
 
-RDMA has seen widespread datacenter adoption \autocite{strom,mencer-queue-2020} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use multi-core ARM processors combined with limited hardware capabilities \autocite{strom,honeycomb,rdma-reads}.
+% I swear I saw something about RDMA starting off as HPC interconnect
+RDMA has seen widespread datacenter adoption \autocite{strom,mencer-queue-2020} on CPU-based systems that use specialized network interface cards (NICs) to handle RDMA operations. Most of these use ARM processors with limited hardware capabilities \autocite{strom,honeycomb,rdma-reads}.
 
-RDMA operations, or ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \autocite{base}, which imposes a burden on the remote CPU. The channel-like nature of two-sided verbs can provide stronger guarantees and increase efficiency on the networking side.
+% Something should go here probably
+
+RDMA operations, called ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \autocite{base}, which imposes a burden on the remote CPU. However, the channel semantics provided by two-sided verbs can offer stronger guarantees and increased network efficiency.
 
 
 \subsection{FPGAs}
+\label{sec:fpga}
 % (general background and use of FPGAs for accelerating database applications and applications similar to indexing)
 
-Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. The primary advantage of this structure is exceptional parallelism. Originally, they were intended for prototyping application-specific integrated circuits (ASICs), but later found wide usage in the telecom industry \autocite{mencer-queue-2020} and more recently in datacenters \autocite{mencer-queue-2020,hoozemans-cas-2021}. FPGAs are uniquely suited to networking applications because the dataflow programming model \autocite{hoozemans-cas-2021} inherent to their architecture aligns naturally with the flow of packets in high-throughput networking environments.
+Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that can be used to implement complex digital circuits. This lower-level approach allows for designs to exploit more parallelism than CPUs. FPGAs will not perform as well as application-specific integrated circuits (ASICs), but on-demand reconfigurability, shorter lead times, and lower cost (for all but the largest order sizes) offsets these downsides in many applications.
+
+A key difference of FPGAs from CPUs is how computational resources are multiplexed. On CPU-based systems, computational resources are multiplexed temporally; there are a limited number of instructions that can be executed each second. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them.
+
+% HLS
+
+Originally, FPGAs were intended for prototyping ASICs, but later found wide usage in the telecom industry \autocite{bobda-trets-2022,mencer-queue-2020} and more recently in datacenters \autocite{mencer-queue-2020,hoozemans-cas-2021}. FPGAs are uniquely suited to networking applications because the dataflow programming model \autocite{hoozemans-cas-2021} inherent to their architecture aligns naturally with the flow of packets in high-throughput networking environments.
+
+% FPGA database indexing here
+FPGAs implementations of many core database operations have been developed. Converting algorithms from CPU to FPGA is fiarly straightforward \autocite{fang-vldb-2020}, especially with the help of HLS, but optimizing them is a focus of ongoing research \autocite{fang-vldb-2020}
+% TODO
+Simple operations like filter and projection (removing some columns from a table before returning it) \autocite{fang-vldb-2020}
+More complicated oprations like merge \autocite{leggett-trets-2025,moghaddamfar-damon-2021} and sort \autocite{moghaddamfar-damon-2021} have still shown significant improvements, though work to optimize these further is ongiong.
 
 
 \subsection{RDMA on FPGAs}
+\label{sec:rdma-fpga}
 % (lots of support from myself and Prith for this)
 
 Most systems that combine RDMA \& FPGAs do so using so-called SmartNICs, which use a small FPGA in lieu of a small ARM processor. The smaller program space and reduced performance of these FPGAs limit how much work can be moved onto them from other parts of the system \autocite{honeycomb}.
 
-For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \autocite{strom}. On CPU based systems computational resources are multiplexed temporally; there are a limited number of cycles executed each second, and some must be allocated to handling two-sided RDMA that could instead be used for other tasks. FPGAs are multiplexed spatially; all processes can run simultaneously so long as there are sufficient gates available to implement them. Thus, some of these gates can be dedicated to handling two-sided RDMA without imposing overhead on the rest of the system. As a result, ``program space'' is often the limiting factor in deciding which portions of a system can be moved onto FPGAs, so common, simple operations are prioritized \autocite{honeycomb,moghaddamfar-damon-2021}.
+For CPU-based systems, the tradeoff between CPU usage and network usage is an important consideration for choosing which type of verbs to use. In FPGA-based systems, they function near identically \autocite{strom}. Due to the difference in resource multiplexing mentioned in \autoref{sec:fpga}, FPGAs do not suffer any performance penalties for two-sided operations so long as there is space for them to be implemented on the chip. As a result, ``program space'' is often the limiting factor in deciding which portions of a system can be moved onto FPGAs, so common, simple operations are prioritized \autocite{honeycomb,moghaddamfar-damon-2021}.
