@@ -7,23 +7,28 @@ SRC=$(wildcard *.tex)
 # Output PDF file #
 PDF=$(NAME).pdf
 
-# pdflatex build logs #
-LOG=$(subst .tex,.log,$(SRC))
-
 # pdflatex temp files #
-AUX=$(subst .tex,.aux,$(SRC))
-LOF=$(subst .tex,.lof,$(SRC))
-LOT=$(subst .tex,.lot,$(SRC))
+AUX=$(subst .pdf,.aux,$(PDF))
+LOF=$(subst .pdf,.lof,$(PDF))
+LOT=$(subst .pdf,.lot,$(PDF))
 OUT=$(subst .pdf,.out,$(PDF))
-TOC=$(subst .tex,.toc,$(SRC))
+TOC=$(subst .pdf,.toc,$(PDF))
+TMP_PDF=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(TOC) comment.cut
+
+# biblatex
+BBL=$(subst .pdf,.bbl,$(PDF))
+BCF=$(subst .pdf,.bcf,$(PDF))
+BLG=$(subst .pdf,.blg,$(PDF))
+TMP_BIB=$(BBL) $(BCF) $(BLG)
+
+# latexmk temp files
+FDB=$(subst .pdf,.fdb_latexmk,$(PDF))
+FLS=$(subst .pdf,.fls,$(PDF))
 SYN=$(subst .pdf,.pdfsync,$(PDF))
+RUN=$(subst .pdf,.run.xml,$(PDF))
+TMP_LMK=$(FDB) $(FLS) $(SYN) $(RUN)
 
-# biblatex temp files #
-BBL=$(subst .tex,.bbl,$(SRC))
-BCF=$(subst .tex,.bcf,$(SRC))
-BLG=$(subst .tex,.blg,$(SRC))
-
-TMP=$(AUX) $(LOF) $(LOG) $(LOT) $(OUT) $(SYN) $(TOC) $(BBL) $(BCF) $(BLG)
+TMP=$(TMP_PDF) $(TMP_BIB) $(TMP_LMK)
 
 # Spellcheck backup files #
 BAK=$(wildcard *.bak)
