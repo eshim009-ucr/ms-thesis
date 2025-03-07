@@ -1,6 +1,6 @@
-\chapter{Overview}
+\sect{Overview}
 
-\section{Database Indexing}
+\subsect{Database Indexing}
 \label{sec:indexing}
 
 Most large databases today require resources far beyond those available in a single computer, so networks of multiple interconnected machines are used. Interconnect bandwidth is limited \autocite{binnig-vldb-2016}, thus it is critical not only to avoid wasting bandwidth, but also to distribute and structure database indices in a way that minimizes unnecessary traffic between machines.
@@ -11,7 +11,7 @@ B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in \ci
 B-Link trees introduce linkages between sibling nodes at all levels of the tree. Principally, this is to ensure that newly created sibling nodes are still accessible during split operations, even if they have not yet been assigned to a parent node. This structure ensures that no more than three nodes are locked at a time for each modification operation. However, this also brings the benefit that range-based queries can be executed very easily, as subsequent leaf nodes form a linked list \autocite{b-link}.
 
 
-\section{RDMA}
+\subsect{RDMA}
 \label{sec:rdma}
 % (describe RDMA for CPUs, and talk about relevant RDMA applications.)
 
@@ -27,7 +27,7 @@ RDMA has seen widespread datacenter adoption \autocite{strom,mencer-queue-2020} 
 RDMA operations, called ``verbs'', can be either one-sided or two-sided. One-sided operations (READ/WRITE) access memory at a specific location on the remote node. These are lightweight and simple to implement, but are more difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the remote node to chose the specific address in its own memory \autocite{base}, which imposes a burden on the remote CPU. However, the channel semantics provided by two-sided verbs can offer stronger guarantees and increased network efficiency.
 
 
-\section{FPGAs}
+\subsect{FPGAs}
 \label{sec:fpga}
 % (general background and use of FPGAs for accelerating database applications and applications similar to indexing)
 
@@ -42,7 +42,7 @@ Originally, FPGAs were intended for prototyping ASICs, but later found wide usag
 FPGAs implementations of many core database operations have been developed. Converting algorithms from CPU to FPGA is fairly straightforward \autocite{fang-vldb-2020}, especially with the help of HLS, but optimizing them is a focus of ongoing research \autocite{fang-vldb-2020}. Converting simple operations like filter and projection (removing some columns from a table before returning it) are largely a solved problem \autocite{fang-vldb-2020}, but more complicated operations like merge and sort have been implemented in many ways, with some showing significant performance improvements over CPU versions \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
 
 
-\section{RDMA on FPGAs}
+\subsect{RDMA on FPGAs}
 \label{sec:rdma-fpga}
 % (lots of support from myself and Prith for this)
 
