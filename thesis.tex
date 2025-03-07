@@ -48,16 +48,7 @@
 \usepackage[style=acmnumeric,backend=biber,sortcites=true]{biblatex}
 \addbibresource{bibfile.bib}
 \usepackage{lmodern}
-\usepackage{tikz}
-\usetikzlibrary{math}
-\usetikzlibrary{arrows.meta}
-\usetikzlibrary{positioning}
-\usepackage{ifthen}
-\tikzset{>={Stealth[length=1.25mm]}}
-\newcommand{\todocite}{{\color{red}CITE}}
-\newcommand{\todo}[1]{{\color{red}TODO: #1}}
-\usepackage{siunitx}
-\usepackage{hyperref}
+\input{packages}
 
 %% Rights management information.  This information is sent to you
 %% when you complete the rights form.  These commands have SAMPLE
@@ -74,7 +65,7 @@
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Title Goes Here}
+\title{\input{title}}
 
 \author{Clarity Shimoniak}
 \email{clarity.shimoniak@email.ucr.edu}
@@ -108,7 +99,7 @@
 %% identification of the section in the article metadata, and the
 %% consistent spelling of the heading.
 \begin{acks}
-Acknowledgments go here
+\input{acknowledgments}
 \end{acks}
 
 
