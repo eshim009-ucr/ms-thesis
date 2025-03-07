@@ -29,21 +29,12 @@
 \documentclass[oneside,final, letterpaper]{ucr}
 \usepackage[backend=biber,sortcites=true]{biblatex}
 \addbibresource{bibfile.bib}
-\usepackage{tikz}
-\usetikzlibrary{math}
-\usetikzlibrary{arrows.meta}
-\usetikzlibrary{positioning}
-\usepackage{ifthen}
-\tikzset{>={Stealth[length=1.25mm]}}
-\newcommand{\todocite}{{\color{red}CITE}}
-\newcommand{\todo}[1]{{\color{red}TODO: #1}}
-\usepackage{siunitx}
-\usepackage{hyperref}
+\input{packages}
 \begin{document}
 
 % Declarations for Front Matter
 
-\title{The Title of Your Thesis Goes Here}
+\title{\input{title}}
 \author{Clarity Laska Shimoniak}
 \degreemonth{March}
 \degreeyear{2024}
@@ -64,21 +55,14 @@ Dr. Ahmed Eldawy}
 \begin{frontmatter}
 
 \begin{acknowledgements}
-I am grateful to my advisor Philip Brisk, without whose guidance, feedback,
-support, and advocacy I would not have be here.
-
-I am grateful to Prithviraj Yuvaraj, whose support on the navigating Vitis HLS
-and the OCT testbed have been invaluable to my engineering efforts.
-
-I am grateful to my friends in Kansas for telling me about Zotero to keep track
-of all my references..
+\input{acknowledgments}
 \end{acknowledgements}
 
 \begin{dedication}
 \null\vfil
 {\large
 \begin{center}
-To my friends for keeping me sane, and to their cats for helping me smile.
+\input{dedication}
 \end{center}}
 \vfil\null
 \end{dedication}
