@@ -2,6 +2,14 @@
 
 \subsect{Comparison with \citeauthor{base}}
 
+\citeauthor{base}'s design in \citetitle{base} serves as an excellent point of
+comparison to demonstrate the advantages of FPGA's as database processing
+elements. They also implement a fully in-memory database based on the B-link
+Tree \autocite{base}. Databases that rely on SSDs or HDDs would introduce
+significant complication due to filesystem overhead, and the slower speed of
+these systems would likely become a bottleneck, preventing the FPGA from being
+fully utilized.
+
 Our design is based on that of \citeauthor{base} in \citetitle{base}. Their
 design uses a CPU cluster with an RDMA interconnect. The design follows the
 Network-Attached-Memory (NAM) architecture, where some nodes are dedicated to
