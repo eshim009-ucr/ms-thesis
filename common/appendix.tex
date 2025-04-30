@@ -17,6 +17,7 @@ search (BFS) or depth first search (DFS).
 	\item $c$ is the ``column'' where a given node resides  in the tree;
 	the number of nodes away from the left edge.
 \end{itemize}
+\vfill\eject
 
 
 \subsubsect{BFS}
@@ -56,11 +57,11 @@ $$
 
 \subsubsect{DFS}
 
-The equation below corresponds to the (incorrect) tree diagram shown. Note the
-lack of ``jumps'' in leaf indices to correspond with backtracking up the tree.
-
 $$
-	i = r + c\sum_{k=1}^{h-r} m^k = r + c\frac{1 - m^{h-r}}{1 - m}
+	i = r + c\sum_{k=1}^{h-r} m^k
+		+ \sum_{k=1}^{h-2} \left\lfloor\frac{c}{m^k}\right\rfloor
+	= r + c\frac{1 - m^{h-r}}{1 - m}
+		+ \sum_{k=1}^{h-2} \left\lfloor\frac{c}{m^k}\right\rfloor
 $$
 
 \begin{figure}[H]
@@ -80,8 +81,8 @@ $$
 					\r + \c*(
 						1 - (\treem^(\treeh-\r))
 					)/(
-						1-\treem
-					)
+						1 - \treem
+					) + int(\c/3) + int(\c/9)
 				),
 				evaluate = \c as \pr using int(\r-1),
 				evaluate = \c as \pc using int(\c/3),
@@ -93,16 +94,3 @@ $$
 		}
 	\end{tikzpicture}
 \end{figure}
-
-\begin{align*}
-	i &= r + c\sum_{k=1}^{h-r} m^k + \begin{cases}
-			\log_m(c) & c \bmod m = 0 \\
-			& c \neq 0 \\
-			0 & \text{otherwise}
-		\end{cases} \\
-	&= r + c\frac{1 - m^{h-r}}{1 - m} + \begin{cases}
-			\log_m(c) & c \bmod m = 0 \\
-			& c \neq 0 \\
-			0 & \text{otherwise}
-		\end{cases}
-\end{align*}
