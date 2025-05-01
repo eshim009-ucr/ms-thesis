@@ -82,13 +82,26 @@ $$
 	\end{tikzpicture}
 \end{figure}
 
+A level $k$ down the tree from the root will contain $m^k$ nodes.
+Thus, a tree of with $h$ levels will contain
+$\sum_{k=1}^h m^k = \frac{1-m^h}{1-m}$ nodes.
+
+The ratio of leaf nodes to internal nodes is given by:
+$$
+	\frac{m^{h-1}}{\pfrac{1-m^{h-1}}{1-m}}
+	= \frac{m^{h-1}(1-m)}{1-m^{h-1}}
+	= \frac{m^{h-1}-m^{h}}{1-m^{h-1}}
+	% = \frac{m^h-m^{h+1}}{m-m^h}
+	% = \frac{m^h(1-m)}{m^h(m^{1-h} - 1)}
+	= \frac{1-m}{m^{1-h} - 1}
+$$
 
 \subsubsect{DFS}
 
 $$
 	i = r + c\sum_{k=1}^{h-r} m^k
 		+ \sum_{k=1}^{h-2} \left\lfloor\frac{c}{m^k}\right\rfloor
-	= r + c\frac{1 - m^{h-r}}{1 - m}
+	= r + c\pfrac{1 - m^{h-r}}{1 - m}
 		+ \sum_{k=1}^{h-2} \left\lfloor\frac{c}{m^k}\right\rfloor
 $$
 
