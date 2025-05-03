@@ -82,19 +82,6 @@ $$
 	\end{tikzpicture}
 \end{figure}
 
-A level $k$ down the tree from the root will contain $m^k$ nodes.
-Thus, a tree of with $h$ levels will contain
-$\sum_{k=1}^h m^k = \frac{1-m^h}{1-m}$ nodes.
-
-The ratio of leaf nodes to internal nodes is given by:
-$$
-	\frac{m^{h-1}}{\pfrac{1-m^{h-1}}{1-m}}
-	= \frac{m^{h-1}(1-m)}{1-m^{h-1}}
-	= \frac{m^{h-1}-m^{h}}{1-m^{h-1}}
-	% = \frac{m^h-m^{h+1}}{m-m^h}
-	% = \frac{m^h(1-m)}{m^h(m^{1-h} - 1)}
-	= \frac{1-m}{m^{1-h} - 1}
-$$
 
 \subsubsect{DFS}
 
@@ -133,5 +120,148 @@ $$
 				\draw[-] (\pr\pc) -- (\r\c);
 			}
 		}
+	\end{tikzpicture}
+\end{figure}
+
+
+\subsect{Choosing Tree Parameters}
+
+A level $k$ down the tree from the root will contain $m^k$ nodes.
+Thus, a tree of with $h$ levels will contain
+$\sum_{k=1}^h m^k = \frac{1-m^h}{1-m}$ nodes.
+
+The ratio of leaf nodes to internal nodes is given by:
+$$
+	\frac{m^{h-1}}{\pfrac{1-m^{h-1}}{1-m}}
+	= \frac{m^{h-1}(1-m)}{1-m^{h-1}}
+	= \frac{m^{h-1}-m^{h}}{1-m^{h-1}}
+	% = \frac{m^h-m^{h+1}}{m-m^h}
+	% = \frac{m^h(1-m)}{m^h(m^{1-h} - 1)}
+	= \frac{1-m}{m^{1-h} - 1}
+$$
+
+As $h$ increases, this rapidly converges to $m$.
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+		\begin{axis}
+			[
+				xlabel={Tree Height ($h$)},
+				ylabel={Leaf to Internal Ratio},
+				xtick distance=1,
+				ytick distance=4,
+				domain=1:4,
+				smooth
+			]
+			\pgfplotsinvokeforeach{2,4,8} {
+				\addplot+[cycle list name=auto, mark=none]
+					{(1-#1) / (#1^(1-x) - 1)};
+				\addlegendentry{$m=#1$}
+			}
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+As the height of a tree grows, the portion of overall memory that is used for
+leaves decreases, converging to $1-\frac{1}{m}$. Higher branching factors spend
+less memory on traversal data. Recall that internal nodes do not store data;
+they store pointers to other nodes to accelerate lookups over a flat ordered
+list. Such a flat list of $n$ elements is equivalent to a B-Link tree of $m=n$
+and $h=1$.
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+		\begin{axis}
+			[
+				xlabel={Tree Height ($h$)},
+				ylabel={Leaves as Percentage of Total Memory},
+				xtick distance=1,
+				yticklabel={%
+					\pgfmathparse{\tick*100}%
+					\pgfmathprintnumber{\pgfmathresult}%
+					\%%
+				},
+				domain=1:8,
+				ymin=0,
+				smooth
+			]
+			\pgfplotsinvokeforeach{2,4,8,16,128} {
+				\addplot+[cycle list name=auto, mark=none]
+					{#1^(x-1) / ((1-#1^x)/(1-#1))};
+				\addlegendentry{$m=#1$}
+			}
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+A tree containing $N$ nodes will have the height shown below.
+
+\begin{align*}
+	N &= \frac{1-m^h}{1-m} \\
+	N (1-m) &= 1-m^h \\
+	N (1-m) - 1 &= -m^h \\
+	1 - N (1-m) &= m^h \\
+	\log_m\left(1 - N (1-m)\right) &= h
+\end{align*}
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+		\begin{axis}
+			[
+				xlabel={Total Node Count ($N$)},
+				ylabel={Tree Height ($h$)},
+				domain=1:1000,
+				xmode=log,
+				ytick distance=1,
+				legend pos=north west,
+				smooth
+			]
+			\pgfplotsinvokeforeach{2,4,8,16} {
+				\addplot+[cycle list name=auto, mark=none]
+					{ln(1 - x*(1-#1)) / ln(#1)};
+				\addlegendentry{$m=#1$}
+			}
+			\pgfplotsinvokeforeach{2,4,8,16} {
+				\addplot+[cycle list name=auto, mark=none, dashed]
+					{1+ln(x)/ln(#1)};
+				\addlegendentry{$m=#1$, approx.}
+			}
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+As $N$ grows, this relation can be approximtaed as $h = 1 + \frac{\log N}{\log m}$
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+		\begin{axis}
+			[
+				xlabel={Total Node Count ($N$)},
+				ylabel={Tree Height Approximation Error},
+				domain=1:1000000,
+				xmode=log,
+				yticklabel={%
+					\pgfmathparse{\tick*100}%
+					\pgfmathprintnumber{\pgfmathresult}%
+					\%%
+				},
+				smooth
+			]
+			\pgfplotsinvokeforeach{2,4,8,16} {
+				\addplot+[cycle list name=auto, mark=none]
+					{
+						(
+							(
+								1+ln(x)/ln(#1)
+							) - (
+								ln(1 - x*(1-#1)) / ln(#1)
+							)
+						) / (
+							ln(1 - x*(1-#1)) / ln(#1)
+						)
+					};
+				\addlegendentry{$m=#1$}
+			}
+		\end{axis}
 	\end{tikzpicture}
 \end{figure}
