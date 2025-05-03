@@ -204,6 +204,13 @@ A tree containing $N$ nodes will have the height shown below.
 	\log_m\left(1 - N (1-m)\right) &= h
 \end{align*}
 
+As $N$ grows, this relation can be approximtaed as $h \approx 1 + \log_m(N)$.
+This is equivalent to  $m^{h-1} \approx N$. Note that $m^{h-1}$ is the number of
+leaf nodes, so this expression approximates the total count of nodes as the
+number of leaf nodes. As follows from previous derivations, this approximation
+is more accurate for larger $m$, where leaf nodes make up an increasing
+proportion of the tree.
+
 \begin{figure}[H]
 	\begin{tikzpicture}
 		\begin{axis}
@@ -229,8 +236,6 @@ A tree containing $N$ nodes will have the height shown below.
 		\end{axis}
 	\end{tikzpicture}
 \end{figure}
-
-As $N$ grows, this relation can be approximtaed as $h = 1 + \frac{\log N}{\log m}$
 
 \begin{figure}[H]
 	\begin{tikzpicture}
