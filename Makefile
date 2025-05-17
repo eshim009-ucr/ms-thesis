@@ -1,7 +1,9 @@
-VERSIONS=acm ucr
+TARGETS=all clean cite check
 
-.PHONY: acm ucr
-all: $(VERSIONS)
+SUBDIRS=acm ucr
 
-$(VERSIONS):
-	cd $@ && $(MAKE)
+$(TARGETS): $(SUBDIRS)
+$(SUBDIRS):
+	$(MAKE) -C $@ $(MAKECMDGOALS)
+
+.PHONY: $(TOPTARGETS) $(SUBDIRS)
