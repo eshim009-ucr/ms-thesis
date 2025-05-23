@@ -1,0 +1,23 @@
+\begin{tikzpicture}[
+		tree/.style={draw,circle,inner sep=0.25mm,minimum size=14pt}
+	]
+	\node[tree] at (0, 0) (00) {$0,0$};
+	\foreach \r [
+		evaluate = \r as \w using int(3^\r),
+		evaluate = \r as \wl using int(3^\r-1)
+	] in {1,...,2} {
+		% Columns
+		\foreach \c [
+			evaluate = \c as \i using int((\w-1)/2 + \c),
+			evaluate = \c as \pr using int(\r-1),
+			evaluate = \c as \pc using int(\c/3),
+		] in {0,...,\wl} {
+			\node[tree] (\r\c)
+				at ({0.7*\c}, -\r) {$\r,\c$};
+			\draw[-] (\pr\pc.south)
+				-- ++(0, {-((3-\pc) + (\pr-1))/9}) -| (\r\c);
+		}
+	}
+	\node[anchor=east] (legend) at (00 -| 28) {Node text is $r,c$};
+	\node[anchor=east, below=0.1 of legend] {$m=3, h=3$};
+\end{tikzpicture}
