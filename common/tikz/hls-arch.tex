@@ -1,0 +1,30 @@
+\begin{tikzpicture}[
+	node distance = 0.5cm and 1cm,
+	every node/.style={align=center, execute at begin node={\baselineskip=12pt}},
+	mem/.style={draw, text width=4em},
+	mod/.style={draw, text width=4em},
+]
+	% Modules
+	\node[mem] (data-mem) {Data Memory};
+	\node[mem, below=of data-mem] (req-mem) {Request Memory};
+	\node[mem, below=of req-mem] (resp-mem) {Response Memory};
+	\node[mod, right=of req-mem] (decoder) {Request Decoder};
+	\node[mod, right=of resp-mem] (encoder) {Response Encoder};
+	\node[mod, right=of decoder] (search) {Search Module};
+	\node[mod, right=of encoder] (insert) {Insert Module};
+	% Boundaries
+	\draw[dashed] ($(data-mem.north west)+(-0.3,0.3)$)
+		rectangle ($(resp-mem.south east)+(0.3,-0.3)$);
+	\node[above=12pt of data-mem.north] {Shared with Host};
+	% Connections
+	\draw[->] (req-mem) -- (decoder);
+	\draw[<-] (resp-mem) -- (encoder);
+	\draw[->] ($(decoder.east)+(0,0.1)$) -- ($(search.west)+(0,0.1)$);
+	\draw[->] ($(decoder.east)+(0,-0.1)$) -- ++(1em, 0)
+		-- ($(insert.west)+(-1em,0.1)$) -- ++(1em, 0);
+	\draw[<-] ($(encoder.east)+(0,0.1)$) -- ++(1em, 0)
+		-- ($(search.west)+(-1em,-0.1)$) -- ++(1em, 0);
+	\draw[<-] ($(encoder.east)+(0,-0.1)$) -- ($(insert.west)+(0,-0.1)$);
+	\draw[->] ($(data-mem.east)+(0,-0.1)$) -| ($(search.east)+(0.4,0.0)$) -- ++(-0.4, 0);
+	\draw[<->] ($(data-mem.east)+(0,0.1)$) -| ($(insert.east)+(0.6,0.0)$) -- ++(-0.6, 0);
+\end{tikzpicture}

@@ -48,6 +48,7 @@ any movement of a node within a cluster would require that address change to be
 broadcast to all other nodes in the cluster with links to it.
 
 \newcommand{\clusternode}[1]{
+	\tikzset{>={Stealth[length=1.25mm]}}
 	% Cluster Boundary
 	\draw ({(#1)*6}, 0) ++(-2.75, 0.5) rectangle ++(5.5, -3);
 	% Tree Nodes
