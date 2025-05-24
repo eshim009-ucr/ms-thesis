@@ -18,7 +18,7 @@
 				{#1^(x-1) / ((1-#1^x)/(1-#1))};
 			\addlegendentry{$m=#1$}
 		}
-		\pgfplotsset{cycle list shift=-5};
+		\pgfplotsset{cycle list shift=-5}
 		\pgfplotsinvokeforeach{2,4,8,16,128} {
 			\addplot+[cycle list name=color list, mark=none, dashed]
 				{1-(1/#1)};

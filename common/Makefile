@@ -2,7 +2,7 @@
 # Root LaTeX file
 NAME=thesis
 ROOT=$(NAME).tex
-SRC=$(wildcard *.tex)
+SRC=$(wildcard *.tex) $(wildcard */*.tex)
 
 # Output PDF file #
 PDF=$(NAME).pdf
