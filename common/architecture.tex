@@ -50,7 +50,7 @@ A tree containing $N$ nodes will have the height shown below.
 	\log_m\left(1 - N (1-m)\right) &= h
 \end{align*}
 
-As $N$ grows, this relation can be approximtaed as $h \approx 1 + \log_m(N)$,
+As $N$ grows, this relation can be approximated as $h \approx 1 + \log_m(N)$,
 which is equivalent to  $m^{h-1} \approx N$. Because $m^{h-1}$ is the number of
 leaf nodes, this expression approximates the total count of nodes as the number
 of leaf nodes. As follows from previous derivations, this approximation is more
@@ -70,7 +70,7 @@ accurate for larger $m$ where there are more leaves per inner node.
 \subsect{Memory Layout}
 
 Even without the considerations of caching that would arise on CPU-based
-systems, memory access patterns can stil have significant performance impacts.
+systems, memory access patterns can still have significant performance impacts.
 The XCU280 FPGA integrates $\SI{8}{\giga\byte}$ of on-chip High-Bandwidth Memory
 (HBM) with a theoretical maximum bandwidth of $\SI{460}{\giga\byte\per\second}$
 \autocite{u280}, but this is contingent on spreading out the accesses across all
@@ -91,14 +91,14 @@ lay out the tree in memory.
 
 Two memory layout schemes have been implemented. The first maps the tree to a
 simple rectangular matrix. Each row of the matrix corresponds to nodes at the
-same same level of the tree. Node that these are not all inhrently siblings of
+same same level of the tree. Node that these are not all inherently siblings of
 one another, as leaf nodes with different parents are still at the leaf-node
 level of the tree. This strategy maintains locality for tree levels and allows
 for easy determination of what level a node resides in, but wastes more memory
 the closer a level is to the root.
 
 This strategy also imposes a stricter height limit on the tree than may be
-possible with a given amount of memory. Though B-tres are considered
+possible with a given amount of memory. Though B-trees are considered
 ``self-balancing'' in the academic sense, there is no guarantee of a constant
 height for all sub-trees. The easiest demonstration of this is to observe the
 insertion of a sequence of monotonically increasing keys.
