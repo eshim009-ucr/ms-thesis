@@ -1,9 +1,12 @@
 \begin{abstract}
 % Abstract should be double-spaced and limited to 350 words or 2,450 characters.
-Both FPGAs and RDMA have seen increasing adoption in datacenters as a means of
-achieving the parallelism and responsiveness needed in modern applications.
-However, attempts to combine the two are still CPU-centric. We propose a novel
-database architecture built around a distributed FPGA cluster with RDMA as its
-interconnect in order to implement high-performance, in-memory key-value store
-based on the B-Link tree.
+FPGAs have seen increasing adoption in datacenters as a means of achieving the
+parallelism and responsiveness needed in modern applications. However, most use
+cases remain CPU-centric, often citing the difficulty of implementation for
+complex database structures \autocite{honeycomb} in hardware description
+languages (HDLs). Advances in high-level synthesis (HLS) frameworks allow for
+existing software solutions to converted for deployment on FPGAs. We propose a
+novel database architecture which uses an HLS design running on an FPGA running
+as the sole processing element for in-memory key-value store based on
+\citeauthor{base}'s implementation of \citeauthor{b-link}'s B-Link tree.
 \end{abstract}

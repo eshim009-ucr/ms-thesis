@@ -30,40 +30,6 @@ the benefit that range-based queries can be executed very easily, as subsequent
 leaf nodes form a linked list \autocite{b-link}.
 
 
-\subsect{RDMA}
-\label{sec:rdma}
-
-Traditionally, the method for interconnect in distributed systems was the same
-one used for general purpose networking: network sockets
-\autocite{binnig-vldb-2016}. These allow for easy programming using file I/O
-APIs, but as a result require the constant active involvement of the operating
-system.
-
-Remote Direct Memory Access (RDMA) is a family of protocols that seeks to
-improve networking performance in part by reducing the involvement of the CPU.
-Network performance gains can be significant, often orders of magnitude over
-over traditional approaches \autocite{ma-tpds-2022,rdma-reads}. This moves the
-bottleneck of distributed systems out of the networking portion and into
-processing portion \autocite{binnig-vldb-2016}.
-
-% I swear I saw something about RDMA starting off as HPC interconnect
-RDMA has seen widespread datacenter adoption \autocite{strom,mencer-queue-2020}
-on CPU-based systems that use specialized network interface cards (NICs) to
-handle RDMA operations. Most of these use ARM processors with limited hardware
-capabilities \autocite{strom,honeycomb,rdma-reads}.
-
-% Something should go here probably
-
-RDMA operations, called ``verbs'', can be either one-sided or two-sided.
-One-sided operations (READ/WRITE) access memory at a specific location on the
-remote node. These are lightweight and simple to implement, but are more
-difficult for applications to use. Two-sided operations (SEND/RECEIVE) allow the
-remote node to chose the specific address in its own memory \autocite{base},
-which imposes a burden on the remote CPU. However, the channel semantics
-provided by two-sided verbs can offer stronger guarantees and increased network
-efficiency.
-
-
 \subsect{FPGAs}
 \label{sec:fpga}
 
@@ -108,23 +74,3 @@ returning it) are largely a solved problem \autocite{fang-vldb-2020}, but more
 complicated operations like merge and sort have been implemented in many ways,
 with some showing significant performance improvements over CPU versions
 \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
-
-
-\subsect{RDMA on FPGAs}
-\label{sec:rdma-fpga}
-% (lots of support from myself and Prith for this)
-
-Most systems that combine RDMA \& FPGAs do so using so-called SmartNICs, which
-use a small FPGA in lieu of a small ARM processor. The smaller program space and
-reduced performance of these FPGAs limit how much work can be moved onto them
-from other parts of the system \autocite{honeycomb}.
-
-For CPU-based systems, the tradeoff between CPU usage and network usage is an
-important consideration for choosing which type of verbs to use. In FPGA-based
-systems, they function near identically \autocite{strom}. Due to the difference
-in resource multiplexing mentioned in \autoref{sec:fpga}, FPGAs do not suffer
-any performance penalties for two-sided operations so long as there is space for
-them to be implemented on the chip. As a result, ``program space'' is often the
-limiting factor in deciding which portions of a system can be moved onto FPGAs,
-so common, simple operations are prioritized
-\autocite{honeycomb,moghaddamfar-damon-2021}.
