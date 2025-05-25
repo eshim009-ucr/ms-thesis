@@ -16,6 +16,11 @@
 	\draw[dashed] ($(data-mem.north west)+(-0.3,0.3)$)
 		rectangle ($(resp-mem.south east)+(0.3,-0.3)$);
 	\node[above=12pt of data-mem.north] {Shared with Host};
+	\draw[dashed] ($(decoder.north west)+(-0.3,0.3)$)
+		rectangle ($(insert.south east)+(0.3,-0.3)$);
+	\coordinate (fpga north)
+		at ($ (decoder.north west) !.5! (search.north east) $);
+	\node[above=12pt of fpga north] {On FPGA};
 	% Connections
 	\draw[->] (req-mem) -- (decoder);
 	\draw[<-] (resp-mem) -- (encoder);
@@ -25,6 +30,8 @@
 	\draw[<-] ($(encoder.east)+(0,0.1)$) -- ++(1em, 0)
 		-- ($(search.west)+(-1em,-0.1)$) -- ++(1em, 0);
 	\draw[<-] ($(encoder.east)+(0,-0.1)$) -- ($(insert.west)+(0,-0.1)$);
-	\draw[->] ($(data-mem.east)+(0,-0.1)$) -| ($(search.east)+(0.4,0.0)$) -- ++(-0.4, 0);
-	\draw[<->] ($(data-mem.east)+(0,0.1)$) -| ($(insert.east)+(0.6,0.0)$) -- ++(-0.6, 0);
+	\draw[->] ($(data-mem.east)+(0,-0.1)$)
+		-| ($(search.east)+(0.6,0.0)$) -- ++(-0.6, 0);
+	\draw[<->] ($(data-mem.east)+(0,0.1)$)
+		-| ($(insert.east)+(0.8,0.0)$) -- ++(-0.8, 0);
 \end{tikzpicture}
