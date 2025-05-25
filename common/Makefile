@@ -50,13 +50,13 @@ cite:
 
 # Spellcheck source files #
 check:
-	find . -type f -name '*.tex' -exec \
+	find . -type f -maxdepth 1 -name '*.tex' -exec \
 		aspell --extra-dicts ./local-dict.pws check -t {} \
 	\;
 
 # List mispelled words #
 list:
-	@find . -type f -name '*.tex' -exec cat {} \; \
+	@find . -type f -maxdepth 1 -name '*.tex' -exec cat {} \; \
 	| aspell --extra-dicts ./local-dict.pws list -t \
 	| sort -u
 
