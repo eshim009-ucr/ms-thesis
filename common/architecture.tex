@@ -21,23 +21,28 @@ $$
 	= \frac{1-m}{m^{1-h} - 1}
 $$
 
-As $h$ increases, this rapidly converges to $m-1$.
+As $h$ increases, this rapidly converges to $m-1$ as shown in
+\autoref{fig:inner-to-height}.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{pgfplots/inner-to-height}
+	\caption{Leaf to Inner Node Ratio vs Height}
+	\label{fig:inner-to-height}
 \end{figure}
 
 As the height of a tree grows, the portion of overall memory that is used for
-leaves decreases, converging to $1-\frac{1}{m}$. Higher branching factors spend
-less memory on traversal data. Recall that internal nodes do not store data;
-they store pointers to other nodes to accelerate lookups over a flat ordered
-list. Such a flat list of $n$ elements is equivalent to a B-Link tree of $m=n$
-and $h=1$.
+leaves decreases, converging to $1-\frac{1}{m}$ as shown in
+\autoref{fig:memory-to-height}. Higher branching factors spend less memory on
+traversal data. Recall that internal nodes do not store data; they store
+pointers to other nodes to accelerate lookups over a flat ordered list. Such a
+flat list of $n$ elements is equivalent to a B-Link tree of $m=n$ and $h=1$.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{pgfplots/memory-to-height}
+	\caption{Leaves as Percentage of Total Memory vs Height}
+	\label{fig:memory-to-height}
 \end{figure}
 
 A tree containing $N$ nodes will have the height shown below.
@@ -53,17 +58,15 @@ A tree containing $N$ nodes will have the height shown below.
 As $N$ grows, this relation can be approximated as $h \approx 1 + \log_m(N)$,
 which is equivalent to  $m^{h-1} \approx N$. Because $m^{h-1}$ is the number of
 leaf nodes, this expression approximates the total count of nodes as the number
-of leaf nodes. As follows from previous derivations, this approximation is more
-accurate for larger $m$ where there are more leaves per inner node.
+of leaf nodes. As follows from previous derivations and shown in
+\autoref{fig:nodes-to-height}, this approximation is more accurate for larger $m$
+where there are more leaves per inner node.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{pgfplots/nodes-to-height}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/node-count-error}
+	\caption{Height vs Node Count}
+	\label{fig:nodes-to-height}
 \end{figure}
 
 
@@ -83,37 +86,62 @@ abstract tree is accessed is dictated by \citeauthor{b-link}'s original
 algorithm, the best way to optimize memory accesses is to consider how best to
 lay out the tree in memory.
 
-
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{tikz/grid-layout}
+	\caption{Rectangular Grid Layout}
+	\label{fig:grid-layout}
 \end{figure}
 
 Two memory layout schemes have been implemented. The first maps the tree to a
-simple rectangular matrix. Each row of the matrix corresponds to nodes at the
-same same level of the tree. Node that these are not all inherently siblings of
-one another, as leaf nodes with different parents are still at the leaf-node
-level of the tree. This strategy maintains locality for tree levels and allows
-for easy determination of what level a node resides in, but wastes more memory
-the closer a level is to the root.
+simple rectangular matrix as shown in \autoref{fig:grid-layout}. Each row of the
+matrix corresponds to nodes at the same same level of the tree. Node that these
+are not all inherently siblings of one another, as leaf nodes with different
+parents are still at the leaf-node level of the tree. This strategy maintains
+locality for tree levels and allows for easy determination of what level a node
+resides in, but wastes more memory the closer a level is to the root.
 
 This strategy also imposes a stricter height limit on the tree than may be
 possible with a given amount of memory. Though B-trees are considered
-``self-balancing'' in the academic sense, there is no guarantee of a constant
-height for all sub-trees. The easiest demonstration of this is to observe the
-insertion of a sequence of monotonically increasing keys.
+``self-balancing'' in the academic sense due to their limits on underfull nodes,
+there is no guarantee of a constant height for all sub-trees. The easiest
+demonstration of this is to observe the insertion of a sequence of monotonically
+increasing keys shown in \autoref{fig:sequential-imbalance}.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{tikz/sequential-imbalance}
 	\caption{Inner Node Structure for Sequential Insertions on an $m=4$ Tree}
+	\label{fig:sequential-imbalance}
 \end{figure}
 
 
-\subsect{HLS Implementation}
+\subsect{FPGA Implementation}
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\input{tikz/hls-arch}
 	\caption{Architecture of HLS Kernel}
+	\label{fig:hls-arch}
 \end{figure}
+
+The FPGA's HLS implementation wraps a C implementation of the B-Link tree that
+uses purely statically allocated memory. I/O between the host CPU system and the
+FPGA is performed over PCIe using shared memory buffers. Separate buffers are
+used for instructions and data memory, as this both simplifies access and gives
+Vitis more flexibility to parallelize access to these buffers in order to
+maximize memory bandwidth utility.
+
+The compute kernel itself consists of four modules as shown in
+\autoref{fig:hls-arch}; two handle I/O encoding/decoding and two handle tree
+operations. Requests and responses are similar in structure to CPU operations; a
+short opcode at the front deliniates the operation and the remaining bits are
+instruction specific, though care has been taken to align identical fields
+shared between instructions so that they appear at the same offset. Operations
+other than \texttt{NOP} return a status code indicating whether the operation
+succeeded and the cause of its failure if applicable.
+
+Though each search \& insert module can only handle on request at a time,
+multiple copies of the kernel can be instantiated on the same FPGA, each of
+which share the same host memory but with separate request/response buffers,
+allowing for an analog to CPU multithreading.
