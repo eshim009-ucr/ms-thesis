@@ -135,7 +135,7 @@ maximize memory bandwidth utility.
 The compute kernel itself consists of four modules as shown in
 \autoref{fig:hls-arch}; two handle I/O encoding/decoding and two handle tree
 operations. Requests and responses are similar in structure to CPU operations; a
-short opcode at the front deliniates the operation and the remaining bits are
+short opcode at the front delineates the operation and the remaining bits are
 instruction specific, though care has been taken to align identical fields
 shared between instructions so that they appear at the same offset. Operations
 other than \texttt{NOP} return a status code indicating whether the operation

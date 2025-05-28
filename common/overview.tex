@@ -3,31 +3,25 @@
 \subsect{Database Indexing}
 \label{sec:indexing}
 
-Most large databases today require resources far beyond those available in a
-single computer, so networks of multiple interconnected machines are used.
-Interconnect bandwidth is limited \autocite{binnig-vldb-2016}, thus it is
-critical not only to avoid wasting bandwidth, but also to distribute and
-structure database indices in a way that minimizes unnecessary traffic between
-machines.
-
-One common strategy is to use a variant of the B-Tree for indexing
+It is common for modern databases to use a variant of the B-Tree for indexing
 \autocite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control
 the height of the tree. Because lookup time is proportional to the length of the
 path from the root node where the search begins to the node holding the desired
 data, shorter trees mean faster lookups. B+ trees are a variant of B trees the
 keep all data values at the leaves rather than storing them alongside internal
-nodes.
+nodes, which improves the average case time of tree traversal in term of number
+of I/O operations.
 
 B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in
-\citeyear{b-link} for storing key-value data. Like B+ trees, they are
-self-balancing, have an adjustable fan-out factor, and store all data at leaf
-nodes. B-Link trees introduce linkages between sibling nodes at all levels of
-the tree. Principally, this is to ensure that newly created sibling nodes are
-still accessible during split operations, even if they have not yet been
-assigned to a parent node. This structure ensures that no more than three nodes
-are locked at a time for each modification operation. However, this also brings
-the benefit that range-based queries can be executed very easily, as subsequent
-leaf nodes form a linked list \autocite{b-link}.
+\citeyear{b-link} which add fields to provide for thread-safe access. Like B+
+trees, they are self-balancing, have an adjustable fan-out factor, and store all
+data at leaf nodes. B-Link trees introduce linkages between sibling nodes at all
+levels of the tree. Principally, this is to ensure that newly created sibling
+nodes are still accessible during split operations, even if they have not yet
+been assigned to a parent node. This structure ensures that no more than three
+nodes are locked at a time for each modification operation. However, this also
+brings the benefit that range-based queries can be executed very easily, as
+subsequent leaf nodes form a linked list \autocite{b-link}.
 
 
 \subsect{FPGAs}
@@ -37,9 +31,9 @@ Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to
 CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that
 can be used to implement complex digital circuits. This lower-level approach
 allows for designs to exploit more parallelism than CPUs. FPGAs will not perform
-as well as application-specific integrated circuits (ASICs), but on-demand
-reconfigurability, shorter lead times, and lower cost (for all but the largest
-order sizes) offsets these downsides in many applications.
+as well as application-specific integrated circuits (ASICs) for an identical
+design, but on-demand reconfigurability, shorter lead times, and lower cost (for
+all but the largest order sizes) offsets these downsides in many applications.
 
 A key difference of FPGAs from CPUs is how computational resources are
 multiplexed. On CPU-based systems, computational resources are multiplexed
@@ -65,6 +59,10 @@ programming model \autocite{hoozemans-cas-2021} inherent to their architecture
 aligns naturally with the flow of packets in high-throughput networking
 environments.
 
+
+\subsect{FPGAs in the Datacenter}
+\label{sec:datacenter-fpga}
+
 FPGAs implementations of many core database operations have been developed.
 Converting algorithms from CPU to FPGA is fairly straightforward
 \autocite{fang-vldb-2020}, especially with the help of HLS, but optimizing them
@@ -74,3 +72,14 @@ returning it) are largely a solved problem \autocite{fang-vldb-2020}, but more
 complicated operations like merge and sort have been implemented in many ways,
 with some showing significant performance improvements over CPU versions
 \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
+
+Much of the recent research FPGAs for database acceleration focuses on
+specialized Network Interface Cards (NICs) which contain a small FPGA, called
+SmartNICs. These allow some processing to be offloaded from the CPU at the point
+of access to the network, but the smaller program space and reduced performance
+of these FPGAs limit how much work can be moved onto them from other parts of
+the system. For instance, \citetitle{honeycomb} chooses to only accelerate read
+operations, assuming a read-heavy workload \autocite{honeycomb}. The structure
+of FPGAs incentivises prioritizing common, simple operations because of the
+resource multiplexing issues mentioned above
+\autocite{honeycomb,moghaddamfar-damon-2021}.
