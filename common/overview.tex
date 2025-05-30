@@ -4,13 +4,13 @@
 \label{sec:indexing}
 
 It is common for modern databases to use a variant of the B-Tree for indexing
-\autocite{ma-tpds-2022}. The self-balancing nature of B-Trees helps to control
-the height of the tree. Because lookup time is proportional to the length of the
-path from the root node where the search begins to the node holding the desired
-data, shorter trees mean faster lookups. B+ trees are a variant of B trees the
-keep all data values at the leaves rather than storing them alongside internal
-nodes, which improves the average case time of tree traversal in terms of number
-of I/O operations.
+\autocite{ma-tpds-2022}. Shorter trees yield faster lookups, as lookup time is
+proportional to the length of the path from the root node where the search
+begins to the node holding the desired data. The self-balancing nature of
+B-Trees helps to control the height of the tree and thus lookup times. B+ trees
+are a variant of B trees the keep all data values at the leaves rather than
+storing them alongside internal nodes, which improves the average case time of
+tree traversal in terms of number of I/O operations.
 
 B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in
 \citeyear{b-link} which add fields to provide for thread-safe access. Like B+
@@ -74,12 +74,12 @@ with some showing significant performance improvements over CPU versions
 \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
 
 Much of the recent research into using FPGAs for database acceleration focuses
-on specialized Network Interface Cards (NICs) which contain a small FPGA, called
-SmartNICs. These allow some processing to be offloaded from the CPU at the point
-of access to the network, but the smaller program space and reduced performance
-of these FPGAs limit how much work can be moved onto them from other parts of
-the system. For instance, \citetitle{honeycomb} chooses to only accelerate read
-operations, assuming a read-heavy workload \autocite{honeycomb}. The structure
-of FPGAs incentivises prioritizing common, simple operations because of the
-resource multiplexing issues mentioned above
+on specialized Network Interface Cards (NICs) called SmartNICs. These contain a
+small FPGA, which allows for some processing to be offloaded from the CPU at the
+point of access to the network. However, the smaller program space and reduced
+performance of these FPGAs limit how much work can be moved onto them from other
+parts of the system. For instance, \citetitle{honeycomb} chooses to only
+accelerate read operations, assuming a read-heavy workload \autocite{honeycomb}.
+The structure of FPGAs incentivizes prioritizing common, simple operations
+because of the resource multiplexing issues mentioned above
 \autocite{honeycomb,moghaddamfar-damon-2021}.
