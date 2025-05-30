@@ -97,6 +97,15 @@ management \autocite{binnig-vldb-2016}.
 
 \subsect{Memory Layout}
 
+Though FPGAs still have a memory heirarchy as shown in
+\autoref{fig:memory-heirarchy}, it functions differently to that of a CPU.
+
+\begin{figure}
+	\input{tikz/memory-heirarchy}
+	\caption{Memory Heirarchy Comparison}
+	\label{fig:memory-heirarchy}
+\end{figure}
+
 Even without the considerations of caching that would arise on CPU-based
 systems, memory access patterns can still have significant performance impacts.
 The XCU280 FPGA integrates $\SI{8}{\giga\byte}$ of on-chip High-Bandwidth Memory
