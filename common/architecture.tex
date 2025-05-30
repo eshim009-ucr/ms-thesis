@@ -1,4 +1,4 @@
-\sect{Compute Node Architecture}
+\sect{System Architecture}
 
 \subsect{Tree Parameters}
 
@@ -70,6 +70,31 @@ where there are more leaves per inner node.
 \end{figure}
 
 
+\subsect{Concurrency}
+
+Our design is based on that of \citeauthor{base} in \citetitle{base}. Their
+design uses a CPU cluster with an RDMA interconnect. The design follows the
+Network-Attached-Memory (NAM) architecture, where some nodes are dedicated to
+computation while others are dedicated to storage
+\autocite{base,binnig-vldb-2016}.
+
+To support concurrent access, their design uses optimistic lock coupling rather
+than traditional lock coupling. This strategy does not protect areas from
+concurrent access, but simply identifies when data has been changed. If two
+writers begin modifying the same data, the one who writes back to main memory
+second will see that its version is not what was expected, and attempt to
+restart its operation using this new data. A key advantage of this strategy is
+reducing cache misses due to cache invalidations that result when frequently
+writing to lock bits in main memory on multi-core CPUs
+\autocite{leis-damon-2016}. On an FPGA, we have the freedom to design our own
+caching protocol rather than mimic the general purpose caching protocols that
+are fixed in the silicon of CPUs. Thus, this problem could be negated by
+managing lock bits differently from other memory to reduce caching overhead
+rather than avoiding writes altogether. As noted by
+\citeauthor{binnig-vldb-2016}, DBMSs function best with full control over memory
+management \autocite{binnig-vldb-2016}.
+
+
 \subsect{Memory Layout}
 
 Even without the considerations of caching that would arise on CPU-based
@@ -95,7 +120,7 @@ lay out the tree in memory.
 
 Two memory layout schemes have been implemented. The first maps the tree to a
 simple rectangular matrix as shown in \autoref{fig:grid-layout}. Each row of the
-matrix corresponds to nodes at the same same level of the tree. Node that these
+matrix corresponds to nodes at the same same level of the tree. Note that these
 are not all inherently siblings of one another, as leaf nodes with different
 parents are still at the leaf-node level of the tree. This strategy maintains
 locality for tree levels and allows for easy determination of what level a node
@@ -141,7 +166,7 @@ shared between instructions so that they appear at the same offset. Operations
 other than \texttt{NOP} return a status code indicating whether the operation
 succeeded and the cause of its failure if applicable.
 
-Though each search \& insert module can only handle on request at a time,
+Though each search \& insert module can only handle one request at a time,
 multiple copies of the kernel can be instantiated on the same FPGA, each of
 which share the same host memory but with separate request/response buffers,
 allowing for an analog to CPU multithreading.

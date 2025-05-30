@@ -9,7 +9,7 @@ the height of the tree. Because lookup time is proportional to the length of the
 path from the root node where the search begins to the node holding the desired
 data, shorter trees mean faster lookups. B+ trees are a variant of B trees the
 keep all data values at the leaves rather than storing them alongside internal
-nodes, which improves the average case time of tree traversal in term of number
+nodes, which improves the average case time of tree traversal in terms of number
 of I/O operations.
 
 B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in
@@ -63,7 +63,7 @@ environments.
 \subsect{FPGAs in the Datacenter}
 \label{sec:datacenter-fpga}
 
-FPGAs implementations of many core database operations have been developed.
+FPGA implementations of many core database operations have been developed.
 Converting algorithms from CPU to FPGA is fairly straightforward
 \autocite{fang-vldb-2020}, especially with the help of HLS, but optimizing them
 is a focus of ongoing research \autocite{fang-vldb-2020}. Converting simple
@@ -73,8 +73,8 @@ complicated operations like merge and sort have been implemented in many ways,
 with some showing significant performance improvements over CPU versions
 \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
 
-Much of the recent research FPGAs for database acceleration focuses on
-specialized Network Interface Cards (NICs) which contain a small FPGA, called
+Much of the recent research into using FPGAs for database acceleration focuses
+on specialized Network Interface Cards (NICs) which contain a small FPGA, called
 SmartNICs. These allow some processing to be offloaded from the CPU at the point
 of access to the network, but the smaller program space and reduced performance
 of these FPGAs limit how much work can be moved onto them from other parts of
