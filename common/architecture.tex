@@ -1,6 +1,8 @@
 \sect{System Architecture}
+\label{subsec:system-architecture}
 
 \subsect{Tree Parameters}
+\label{subsec:tree-parameters}
 
 In order to reap the full benefit of the tree data structure, an informed choice
 of parameters must be made that takes consideration of the expected workload and
@@ -71,6 +73,7 @@ where there are more leaves per inner node.
 
 
 \subsect{Concurrency}
+\label{subsec:concurrency}
 
 Our design is based on that of \citeauthor{base} in \citetitle{base}. Their
 design uses a CPU cluster with an RDMA interconnect. The design follows the
@@ -96,13 +99,14 @@ management \autocite{binnig-vldb-2016}.
 
 
 \subsect{Memory Layout}
+\label{subsec:memory-layout}
 
-Though FPGAs still have a memory heirarchy as shown in
-\autoref{fig:memory-heirarchy}, it functions differently to that of a CPU.
+Though FPGAs still have a memory hierarchy as shown in
+\autoref{fig:memory-hierarchy}, it functions differently to that of a CPU.
 
 \begin{figure}
 	\input{tikz/memory-heirarchy}
-	\caption{Memory Heirarchy Comparison}
+	\caption{Memory Hierarchy Comparison}
 	\label{fig:memory-heirarchy}
 \end{figure}
 
@@ -151,6 +155,7 @@ increasing keys shown in \autoref{fig:sequential-imbalance}.
 
 
 \subsect{FPGA Implementation}
+\label{subsec:fpga-implementation}
 
 \begin{figure}
 	\centering

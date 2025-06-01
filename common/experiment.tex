@@ -9,10 +9,33 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 
 \subsect{Threads vs. Modules}
 
+Parallel processing on CPUs uses threads as a unit of execution. There is no
+hard limit to how many threads that a program can create, but there will be no
+speedup from using more threads than the physical CPU can support. Additionally,
+threads sharing physical cores through simultaneous multithreading will not
+perform as well as threads running on their own hardware cores.
+
+On an FPGA, all processing is inherently parallel unless there is a data
+dependency between one operation and another. The ceiling to FPGA parallelism is
+the number of instances of a module that can fit into the FPGA's fabric.
+
+Using HLS to run identical code and comparing it to a traditional multi-threaded
+version shows \todo{\ldots}
 
 
 \subsect{Traditional vs. Optimistic Locking}
 
+As discussed in \autoref{subsec:concurrency}, modern CPU designs often avoid
+traditional locks types because of the heavy penalty of unnecessary cache
+invalidations. In \citeyear{b-link} when \citeauthor{b-link} designed the B-Link
+tree, multi-core machines were still decades away, but in the modern era even
+many microcontrollers have multiple cores.
+
+However, FPGAs do not have a native caching protocol and will perform writes
+directly unless a specific caching protocol is implemented by the designer.
+Thus, the penalty for traditional locking is lower. Traditional locking has the
+benefit that it avoids an unbounded number of re-attempts at performing a write
+in a write-heavy workload.
 
 
 \subsect{Read-Dominated vs. Write-Dominated}

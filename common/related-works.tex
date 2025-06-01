@@ -1,20 +1,16 @@
 \sect{Related Works}
 
-\subsect{In Software}
+\subsect{SmartNICs}
 
-\citeauthor{dlsm} propose using Log-Structured Merge Trees as a
-higher-performance alternative to B-trees. However, their system architecture
-assumes a heterogeneous cluster with some nodes dedicated to memory and other
-dedicated to processing \autocite{dlsm}. This structure, often referred to as
-Network Attached Memory (NAM), is found in many contemporary database designs
-\autocites{base,ma-tpds-2022}.
+Several designs \autocite{honeycomb,strom,star} use the SmartNICs mentioned in
+\ref{sec:datacenter-fpga} to implement a small subset of the processing required
+for a complete tree. These NICs sit between several nodes of a cluster connected
+using RDMA where the majority of the application processing still takes place on
+the host CPUs.
 
-
-\subsect{Hardware Acceleration}
-
-\citeauthor{star} have shown the viability of FPGAs as network accelerators, but
-use them to implement custom a NIC protocol rather than as part of an
-application \autocite{star}.
+In \citetitle{star}, \citeauthor{star} have shown the viability of FPGAs as
+network accelerators, but use them to implement custom a NIC protocol rather
+than as part of an application \autocite{star}.
 
 Utilizing more of the U280's memory hierarchy that could be leveraged for some
 of these caching effects. In addition to the $\SI{8}{\giga\byte}$ of HBM used in
@@ -22,7 +18,7 @@ this experiment, it has $\SI{32}{\giga\byte}$ of slower, off-chip DDR and
 $\SI{41}{\kilo\byte}$ of faster, on-chip block RAM (BRAM) and UltraRAM (URAM).
 
 \citetitle{honeycomb} uses a hybrid approach, with the CPU handling modification
-operations and an FPGA-based smart NIC handling lookup operations. The main
+operations and an FPGA-based SmartNIC handling lookup operations. The main
 reason that \citeauthor{honeycomb} give for this approach is that the cost of
 accelerating modification operations was too high due to their complexity to be
 beneficial in read-dominated workloads \autocite{honeycomb}. The U280 that we
@@ -30,3 +26,7 @@ are using is more capable than Honeycomb's embedded FPGA, so ``program space''
 is not as much of a concern. Using Vitis HLS allows for these more complex
 procedures to be described in a traditional software context, lowering the
 amount of effort required to implement them effectively.
+
+\citetitle{strom} is another design that leverages SmartNIC FPGAs for
+processing, but uses them to accelerate tracing pointers between multiple nodes
+of a distributed tree \autocite{strom}.
