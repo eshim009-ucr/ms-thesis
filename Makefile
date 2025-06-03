@@ -1,4 +1,4 @@
-TARGETS=all clean cite check
+TARGETS=all clean cite
 
 SUBDIRS=acm ucr
 
@@ -7,3 +7,7 @@ $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 .PHONY: $(TOPTARGETS) $(SUBDIRS)
+
+.PHONY: check
+check:
+	$(MAKE) -C common check
