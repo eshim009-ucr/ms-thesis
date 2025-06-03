@@ -1,3 +1,45 @@
-\sect{Introduction}
+\sect{Motivation}
 
-Introduction goes here
+As computers have become a central figure of nearly every facet of life, the
+public has grown to expect the trend of constant, exponentially increasing
+performance to be a constant of life. However, the end of many of the scaling
+trends like Dennard scaling that once powered Moore's law has put increasing
+strain on CPU designers to innovate around the physical limits of silicon.
+
+The struggle for a modern CPU designer is trying to create an environment that
+can be interacted with as the same way as CPU from the 1970s (single threaded,
+not pipelined, no instruction reordering) while still delivering sufficient
+performance gains over those CPUs to justify their existence in the market. The
+1970s saw the introduction of the C programming language, and despite many
+innovations in software since then, programming environments like C are still
+seen as the default. Though the C standard is constantly being expanded and
+updated, the need to maintain backwards compatibility with decades of critical
+software infrastructure impedes massive paradigm shifts.
+
+Other strategies like caching, pipelining, and speculative execution are
+intended to provide an invisible performance boost to users while being
+invisible to the average programmer. However, the fixed nature of silicon and
+the massive scale required for cost-effective manufacturing necessitates that
+these technologies must implement best guess at approximating the behavior of
+millions of different users and programs.
+
+For example, though caching should be invisible, writing code with sub-optimal
+access patterns can slow down a program by several orders of magnitude. In a
+worst case scenario, the underlying algorithm behind a program may conflict with
+the assumptions made by the cache protocol designer to a degree the a
+cache-optimal version is not possible without replacing the algorithm in its
+entirety.
+
+Though the CPU is the most popular model of processor, there it is not the only
+one possible. GPUs have quickly risen to prominence for general purpose
+application programming in the last decade, but those too have an expected
+pattern of usage fixed in their silicon. FPGAs offer a solution to this by
+moving some aspects of the system that were previously fixed in silicon back
+into the programmer's control.
+
+The silicon improvements that have fueled the CPU's expansion into our lives
+have also made FPGAs cost-competitive in performance terms for many
+applications, particularly in applications that are highly parallel or need to
+process constant streams of data. The modern datacenter is full of such
+applications, but at present there are not instances in which a full database
+engine has been implemented using an FPGA.
