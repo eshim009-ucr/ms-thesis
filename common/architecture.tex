@@ -28,7 +28,7 @@ $$
 As $h$ increases, this rapidly converges to $m-1$ as shown in
 \autoref{fig:inner-to-height}.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\input{pgfplots/inner-to-height}
 	\caption{Leaf to Inner Node Ratio vs Height}
@@ -41,7 +41,7 @@ leaves decreases, converging to $1-\frac{1}{m}$ as shown in
 traversal data. Recall that internal nodes do not store data; they store
 pointers to other nodes.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\input{pgfplots/memory-to-height}
 	\caption{Leaves as Percentage of Total Memory vs Height}
@@ -65,7 +65,7 @@ of leaf nodes. As follows from previous derivations and shown in
 \autoref{fig:nodes-to-height}, this approximation is more accurate for larger $m$
 where there are more leaves per inner node.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\input{pgfplots/nodes-to-height}
 	\caption{Height vs Node Count}
@@ -102,13 +102,13 @@ concurrent access, but simply identifies when data has been changed. If two
 writers begin modifying the same data, the one who writes back to main memory
 second will see that its version is not what was expected, and attempt to
 restart its operation using this new data. A key advantage of this strategy is
-reducing cache misses due to cache invalidations that result when frequently
-writing to lock bits in main memory on multi-core CPUs
-\autocite{leis-damon-2016}. On an FPGA, we have the freedom to design our own
-caching protocol rather than mimic the general purpose caching protocols that
-are fixed in the silicon of CPUs. Thus, this problem could be negated by
-managing lock bits differently from other memory to reduce caching overhead
-rather than avoiding writes altogether. As noted by
+reducing cache misses on multi-core CPUs. Frequently changing lock bits in main
+memory forces constant cache invalidations, many of which are unnecessary in
+read-dominated workloads \autocite{leis-damon-2016}. On an FPGA, we have the
+freedom to design our own caching protocol rather than simply mimicing the general purpose
+caching protocols that are fixed in the silicon of CPUs. Thus, this problem
+could be negated by managing lock bits differently from other memory to reduce
+caching overhead rather than avoiding writes altogether. As noted by
 \citeauthor{binnig-vldb-2016}, DBMSs function best with full control over memory
 management \autocite{binnig-vldb-2016}.
 
@@ -119,7 +119,8 @@ management \autocite{binnig-vldb-2016}.
 Though FPGAs still have a memory hierarchy as shown in
 \autoref{fig:memory-hierarchy}, it functions differently to that of a CPU.
 
-\begin{figure}
+\begin{figure}[h]
+	\centering
 	\input{tikz/memory-heirarchy}
 	\caption{Memory Hierarchy Comparison}
 	\label{fig:memory-heirarchy}
@@ -139,7 +140,7 @@ abstract tree is accessed is dictated by \citeauthor{b-link}'s original
 algorithm, the best way to optimize memory accesses is to consider how best to
 lay out the tree in memory.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\input{tikz/grid-layout}
 	\caption{Rectangular Grid Layout}
@@ -154,25 +155,29 @@ parents are still at the leaf-node level of the tree. This strategy maintains
 locality for tree levels and allows for easy determination of what level a node
 resides in, but wastes more memory the closer a level is to the root.
 
-This strategy also imposes a stricter height limit on the tree than may be
-possible with a given amount of memory. Though B-trees are considered
-``self-balancing'' in the academic sense due to their limits on underfull nodes,
-there is no guarantee of a constant height for all sub-trees. The easiest
-demonstration of this is to observe the insertion of a sequence of monotonically
-increasing keys shown in \autoref{fig:sequential-imbalance}.
-
-\begin{figure}
-	\centering
-	\input{tikz/sequential-imbalance}
-	\caption{Inner Node Structure for Sequential Insertions on an $m=4$ Tree}
-	\label{fig:sequential-imbalance}
-\end{figure}
+% vvv   This all might be wrong   vvv
+%
+% This strategy also imposes a stricter height limit on the tree than may be
+% possible with a given amount of memory. Alhough B-trees are considered
+% ``self-balancing'' in the academic sense due to their limits on underfull nodes,
+% there is no guarantee of a constant height for all sub-trees. The easiest
+% demonstration of this is to observe the insertion of a sequence of monotonically
+% increasing keys shown in \autoref{fig:sequential-imbalance}.
+%
+% \begin{figure}[h]
+% 	\centering
+% 	\input{tikz/sequential-imbalance}
+% 	\caption{Inner Node Structure for Sequential Insertions on an $m=4$ Tree}
+% 	\label{fig:sequential-imbalance}
+% \end{figure}
+%
+% ^^^   This all might be wrong   ^^^
 
 
 \subsect{FPGA Implementation}
 \label{subsec:fpga-implementation}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\input{tikz/hls-arch}
 	\caption{Architecture of HLS Kernel}

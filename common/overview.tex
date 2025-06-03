@@ -32,8 +32,8 @@ CPUs. Structurally, FPGAs are large arrays of reconfigurable logic gates that
 can be used to implement complex digital circuits. This lower-level approach
 allows for designs to exploit more parallelism than CPUs. FPGAs will not perform
 as well as application-specific integrated circuits (ASICs) for an identical
-design, but on-demand reconfigurability, shorter lead times, and lower cost (for
-all but the largest order sizes) offsets these downsides in many applications.
+design, but on-demand reconfigurability, shorter lead times, and lower upfront
+cost offsets these downsides in many applications.
 
 A key difference of FPGAs from CPUs is how computational resources are
 multiplexed. On CPU-based systems, computational resources are multiplexed
@@ -48,8 +48,8 @@ frameworks convert programs written in traditional programming languages like C
 \& C++ into HDL. This allows for easier conversion of existing algorithms and
 codebases as well as increasing the pool of potential developers
 \autocite{martin-destest-2009}. More recently, projects like Chisel seek to blur
-the line by modifying an existing programming language, Scala, to support HDL
-semantics \autocite{chisel}.
+the line by extending the Scala programming language to support HDL semantics
+\autocite{chisel}.
 
 Originally, FPGAs were intended for prototyping ASICs, but later found wide
 usage in the telecom industry \autocite{bobda-trets-2022,mencer-queue-2020} and
@@ -76,9 +76,10 @@ with some showing significant performance improvements over CPU versions
 Much of the recent research into using FPGAs for database acceleration focuses
 on specialized Network Interface Cards (NICs) called SmartNICs. These contain a
 small FPGA, which allows for some processing to be offloaded from the CPU at the
-point of access to the network \autocite{strom,honeycomb}. However, the smaller program space and reduced
-performance of these FPGAs limit how much work can be moved onto them from other
-parts of the system. For instance, \citetitle{honeycomb} chooses to only
+point of access to the network \autocite{strom,honeycomb}. However, the smaller
+program space and reduced performance of these FPGAs limit how much work can be
+moved onto them from other parts of the system. For instance, the
+\citetitle{honeycomb} system proposed by \citeauthor{honeycomb} chooses to only
 accelerate read operations, assuming a read-heavy workload \autocite{honeycomb}.
 The structure of FPGAs incentivizes prioritizing common, simple operations
 because of the resource multiplexing issues mentioned above
