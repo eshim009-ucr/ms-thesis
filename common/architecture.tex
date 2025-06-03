@@ -4,6 +4,8 @@
 \subsect{Tree Parameters}
 \label{subsec:tree-parameters}
 
+\subsubsect{Relations of Parameters}
+
 In order to reap the full benefit of the tree data structure, an informed choice
 of parameters must be made that takes consideration of the expected workload and
 usage of scarce memory resources.
@@ -37,8 +39,7 @@ As the height of a tree grows, the portion of overall memory that is used for
 leaves decreases, converging to $1-\frac{1}{m}$ as shown in
 \autoref{fig:memory-to-height}. Higher branching factors spend less memory on
 traversal data. Recall that internal nodes do not store data; they store
-pointers to other nodes to accelerate lookups over a flat ordered list. Such a
-flat list of $n$ elements is equivalent to a B-Link tree of $m=n$ and $h=1$.
+pointers to other nodes.
 
 \begin{figure}
 	\centering
@@ -70,6 +71,20 @@ where there are more leaves per inner node.
 	\caption{Height vs Node Count}
 	\label{fig:nodes-to-height}
 \end{figure}
+
+
+\subsubsect{Choosing Parameters}
+
+The optimal choice of tree parameters will likely be different between FPGA and
+CPU implementations due to optimizations that HLS can make to source code that
+are infeasible or impossible on a CPU.
+
+When checking all of a node's keys in order to find a specific key, a CPU must
+evaluate each key one at a time. The can be accelerated with binary search so
+that it can be performed in $O(\log_2 m)$. However, on an FPGA all keys can be
+evaluated \emph{simultaneously}, i.e. $O(1)$, and in fact this is Vitis' default
+behavior when translating \texttt{for} loops with a sufficiently low, constant
+iteration count into hardware.
 
 
 \subsect{Concurrency}
