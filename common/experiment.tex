@@ -7,6 +7,52 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 20.04 LTS.
 
 
+\subsect{Tree Fanout}
+
+\subsubsect{CPU Insertion}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/sequential-insertion}
+	\caption{Sequential Insertion}
+	\label{fig:cpu-fanout-write}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/random-insertion}
+	\caption{Random Insertion}
+	\label{fig:random-insertion}
+\end{figure}
+
+
+\subsubsect{CPU Search}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/sequential-search}
+	\caption{Sequential Search}
+	\label{fig:sequential-search}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/random-search}
+	\caption{Random Search}
+	\label{fig:random-search}
+\end{figure}
+
+
+\subsect{Workload Balance}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/rw-balance}
+	\caption{Read-Write Balance for a CPU Tree with $m=4$}
+	\label{fig:rw-balance}
+\end{figure}
+
+
 \subsect{Threads vs. Modules}
 
 Parallel processing on CPUs uses threads as a unit of execution. There is no

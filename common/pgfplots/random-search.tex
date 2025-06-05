@@ -1,0 +1,44 @@
+\begin{tikzpicture}
+	\begin{axis}
+		[
+			xlabel={Request Count},
+			ylabel={Execution Time ($\unit{\milli\second}$)},
+			legend pos=south east,
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+		]
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 0.1745)
+				(10000, 1.4755)
+				(100000, 17.6925)
+				(1000000, 196.162)
+			};
+		\addlegendentry{$m=4$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 0.14825)
+				(10000, 1.359)
+				(100000, 11.65825)
+				(1000000, 118.58525)
+			};
+		\addlegendentry{$m=8$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 0.157)
+				(10000, 1.10625)
+				(100000, 10.11075)
+				(1000000, 100.97525)
+			};
+		\addlegendentry{$m=16$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 7.78025)
+				(10000, 8.2265)
+				(100000, 74.595)
+				(1000000, 75.23)
+			};
+		\addlegendentry{$m=32$}
+	\end{axis}
+\end{tikzpicture}
