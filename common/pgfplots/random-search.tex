@@ -1,43 +1,43 @@
 \begin{tikzpicture}
 	\begin{axis}
 		[
-			xlabel={Request Count},
-			ylabel={Execution Time ($\unit{\milli\second}$)},
-			legend pos=south east,
+			xlabel={Input Size (Requests)},
+			ylabel={Throughput (Requests per Second)},
+			legend pos=outer north east,
 			domain=1:1000000,
 			xmode=log,
 			ymode=log,
 		]
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 0.1745)
-				(10000, 1.4755)
-				(100000, 17.6925)
-				(1000000, 196.162)
+				(1000, 560695.262125035)
+				(10000, 101360.511465141)
+				(100000, 12619.1842517628)
+				(1000000, 6227.580709446)
 			};
 		\addlegendentry{$m=4$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 0.14825)
-				(10000, 1.359)
-				(100000, 11.65825)
-				(1000000, 118.58525)
+				(1000, 646830.530401035)
+				(10000, 228327.444387997)
+				(100000, 436217.860285963)
+				(1000000, 126103.285526527)
 			};
 		\addlegendentry{$m=8$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 0.157)
-				(10000, 1.10625)
-				(100000, 10.11075)
-				(1000000, 100.97525)
+				(1000, 692400.90012117)
+				(10000, 453720.508166969)
+				(100000, 299889.190943946)
+				(1000000, 344826.099887501)
 			};
 		\addlegendentry{$m=16$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 7.78025)
-				(10000, 8.2265)
-				(100000, 74.595)
-				(1000000, 75.23)
+				(1000, 135240.220441559)
+				(10000, 3027.12684039852)
+				(100000, 1457848.14324816)
+				(1000000, 3436.79814137957)
 			};
 		\addlegendentry{$m=32$}
 	\end{axis}
