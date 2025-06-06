@@ -15,12 +15,29 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 	\centering
 	\input{pgfplots/sequential-insertion}
 	\caption{Sequential Insertion}
-	\label{fig:cpu-fanout-write}
+	\label{fig:sequential-insertion}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\input{pgfplots/random-insertion}
+	\caption{Random Insertion}
+	\label{fig:random-insertion}
+\end{figure}
+
+
+\subsubsect{FPGA Insertion}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/fpga-sequential-insertion}
+	\caption{Sequential Insertion}
+	\label{fig:cpu-fanout-write}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/fpga-random-insertion}
 	\caption{Random Insertion}
 	\label{fig:random-insertion}
 \end{figure}
@@ -38,6 +55,23 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 \begin{figure}[H]
 	\centering
 	\input{pgfplots/random-search}
+	\caption{Random Search}
+	\label{fig:random-search}
+\end{figure}
+
+
+\subsubsect{FPGA Search}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/fpga-sequential-search}
+	\caption{Sequential Search}
+	\label{fig:sequential-search}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{pgfplots/fpga-random-search}
 	\caption{Random Search}
 	\label{fig:random-search}
 \end{figure}

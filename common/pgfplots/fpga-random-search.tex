@@ -1,0 +1,44 @@
+\begin{tikzpicture}
+	\begin{axis}
+		[
+			xlabel={Input Size (Requests)},
+			ylabel={Throughput (Requests per Second)},
+			legend pos=outer north east,
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+		]
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 1974333.66238894)
+				(10000, 16380016.3800164)
+				(100000, 160000000)
+				(1000000, 1328903654.48505)
+			};
+		\addlegendentry{$m=4$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 2208724.46162341)
+				(10000, 16743407.2833822)
+				(100000, 164001640.0164)
+				(1000000, 1391788448.15588)
+			};
+		\addlegendentry{$m=8$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 2022244.69160768)
+				(10000, 16488046.1665293)
+				(100000, 164744645.799012)
+				(1000000, 1342732460.55723)
+			};
+		\addlegendentry{$m=16$}
+		\addplot+[cycle list name=color list]
+			coordinates {
+				(1000, 1619433.19838057)
+				(10000, 16090104.5856798)
+				(100000, 130975769.482646)
+				(1000000, 1377410468.31956)
+			};
+		\addlegendentry{$m=32$}
+	\end{axis}
+\end{tikzpicture}
