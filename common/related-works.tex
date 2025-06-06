@@ -1,6 +1,6 @@
 \sect{Related Works}
 
-\subsect{SmartNICs}
+% \subsect{SmartNICs}
 
 Several designs \autocite{honeycomb,strom,star} use the SmartNICs mentioned in
 \ref{sec:datacenter-fpga} to implement a small subset of the processing required
@@ -30,3 +30,10 @@ amount of effort required to implement them effectively.
 \citetitle{strom} is another design that leverages SmartNIC FPGAs for
 processing, but uses them to accelerate tracing pointers between multiple nodes
 of a distributed tree \autocite{strom}.
+
+\citeauthor{ren-fpl-2019} propose an FPGA B-Tree that differentiates itself by
+support for version snapshots. In this case, all operations except for range
+queries are fully handled by the FPGA. They use a Xilinx KCU105 with
+$\SI{2}{\giga\byte}$ of DDR4 and a tree of order $m=8$. Despite the lower memory
+size and bandwidth, they still observed an order of magnitue in performance with
+gains over a purely CPU solution \autocite{ren-fpl-2019}.
