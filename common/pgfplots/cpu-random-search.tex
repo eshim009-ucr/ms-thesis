@@ -1,9 +1,13 @@
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.8]
 	\begin{axis}
 		[
 			xlabel={Input Size (Requests)},
 			ylabel={Throughput (Requests per Second)},
-			legend pos=outer north east,
+			legend style={
+				at={(0.5, 1.05)},
+				anchor=south,
+				legend columns=4
+			},
 			domain=1:1000000,
 			xmode=log,
 			ymode=log,

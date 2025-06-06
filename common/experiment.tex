@@ -9,71 +9,76 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 
 \subsect{Tree Fanout}
 
-\subsubsect{CPU Insertion}
-
 \begin{figure}[H]
 	\centering
-	\input{pgfplots/cpu-sequential-insertion}
-	\caption{Sequential Insertion}
-	\label{fig:cpu-sequential-insertion}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-sequential-insertion}
+		\caption{Sequential Insertion}
+		\label{fig:cpu-sequential-insertion}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-random-insertion}
+		\caption{Random Insertion}
+		\label{fig:cpu-random-insertion}
+	\end{subfigure}
+	\caption{CPU Insertion}
+	\label{fig:cpu-insertion}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\input{pgfplots/cpu-random-insertion}
-	\caption{Random Insertion}
-	\label{fig:cpu-random-insertion}
-\end{figure}
-
-
-\subsubsect{FPGA Insertion}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/fpga-sequential-insertion}
-	\caption{Sequential Insertion}
-	\label{fig:cpu-fanout-write}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/fpga-random-insertion}
-	\caption{Random Insertion}
-	\label{fig:random-insertion}
-\end{figure}
-
-
-\subsubsect{CPU Search}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/cpu-sequential-search}
-	\caption{Sequential Search}
-	\label{fig:cpu-sequential-search}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-sequential-insertion}
+		\caption{Sequential Insertion}
+		\label{fig:fpga-sequential-insertion}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-random-insertion}
+		\caption{Random Insertion}
+		\label{fig:fpga-random-insertion}
+	\end{subfigure}
+	\caption{FPGA Insertion}
+	\label{fig:fpga-insertion}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\input{pgfplots/cpu-random-search}
-	\caption{Random Search}
-	\label{fig:cpu-random-search}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-sequential-search}
+		\caption{Sequential Search}
+		\label{fig:cpu-sequential-search}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/cpu-random-search}
+		\caption{Random Search}
+		\label{fig:cpu-random-search}
+	\end{subfigure}
+	\caption{CPU Search}
+	\label{fig:cpu-search}
 \end{figure}
-
-
-\subsubsect{FPGA Search}
 
 \begin{figure}[H]
 	\centering
-	\input{pgfplots/fpga-sequential-search}
-	\caption{Sequential Search}
-	\label{fig:cpu-sequential-search}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/fpga-random-search}
-	\caption{Random Search}
-	\label{fig:cpu-random-search}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-sequential-search}
+		\caption{Sequential Search}
+		\label{fig:fpga-sequential-search}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/fpga-random-search}
+		\caption{Random Search}
+		\label{fig:fpga-random-search}
+	\end{subfigure}
+	\caption{FPGA Search}
+	\label{fig:fpga-search}
 \end{figure}
 
 
