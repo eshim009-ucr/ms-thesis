@@ -1,0 +1,46 @@
+\begin{tikzpicture}[scale=0.8]
+	\begin{axis}
+		[
+			xlabel={Input Size (Requests)},
+			ylabel={Speedup},
+			legend style={
+				at={(0.5, 1.05)},
+				anchor=south,
+				legend columns=3
+			},
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+			ymin=0.2, ymax=300,
+			cycle list name=rainbow,
+		]
+		\addplot coordinates {
+			(1000, 0.309157959434542)
+			(10000, 2.1794101583834)
+			(100000, 23.620082815735)
+			(1000000, 214.608667247387)
+		};
+		\addlegendentry{$m=4$}
+		\addplot coordinates {
+			(1000, 0.4024)
+			(10000, 2.47738835500283)
+			(100000, 20.7277472527473)
+			(1000000, 164.921340629275)
+		};
+		\addlegendentry{$m=8$}
+		\addplot coordinates {
+			(1000, 1.39441591784339)
+			(10000, 9.47141344626787)
+			(100000, 94.0264305177112)
+			(1000000, 122.260208926876)
+		};
+		\addlegendentry{$m=16$}
+		\addplot coordinates {
+			(1000, 1.86494638069705)
+			(10000, 12.2645714285714)
+			(100000, 108.964765100671)
+			(1000000, 71.4358802502234)
+		};
+		\addlegendentry{$m=32$}
+	\end{axis}
+\end{tikzpicture}

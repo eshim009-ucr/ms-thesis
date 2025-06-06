@@ -9,76 +9,41 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 
 \subsect{Tree Fanout}
 
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/cpu-sequential-insertion}
+		\input{pgfplots/speedup-insert-sequential}
 		\caption{Sequential Insertion}
-		\label{fig:cpu-sequential-insertion}
+		\label{fig:fpga-sequential-insert}
 	\end{subfigure}
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/cpu-random-insertion}
+		\input{pgfplots/speedup-insert-random}
 		\caption{Random Insertion}
-		\label{fig:cpu-random-insertion}
+		\label{fig:fpga-random-insert}
 	\end{subfigure}
-	\caption{CPU Insertion}
-	\label{fig:cpu-insertion}
+	\caption{Insertion Speedup}
+	\label{fig:insert-speedup}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/fpga-sequential-insertion}
-		\caption{Sequential Insertion}
-		\label{fig:fpga-sequential-insertion}
-	\end{subfigure}
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/fpga-random-insertion}
-		\caption{Random Insertion}
-		\label{fig:fpga-random-insertion}
-	\end{subfigure}
-	\caption{FPGA Insertion}
-	\label{fig:fpga-insertion}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/cpu-sequential-search}
-		\caption{Sequential Search}
-		\label{fig:cpu-sequential-search}
-	\end{subfigure}
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/cpu-random-search}
-		\caption{Random Search}
-		\label{fig:cpu-random-search}
-	\end{subfigure}
-	\caption{CPU Search}
-	\label{fig:cpu-search}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/fpga-sequential-search}
+		\input{pgfplots/speedup-search-sequential}
 		\caption{Sequential Search}
 		\label{fig:fpga-sequential-search}
 	\end{subfigure}
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/fpga-random-search}
+		\input{pgfplots/speedup-search-random}
 		\caption{Random Search}
 		\label{fig:fpga-random-search}
 	\end{subfigure}
-	\caption{FPGA Search}
-	\label{fig:fpga-search}
+	\caption{Search Speedup}
+	\label{fig:search-speedup}
 \end{figure}
 
 
