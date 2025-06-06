@@ -3,42 +3,57 @@
 		[
 			xlabel={Input Size (Requests)},
 			ylabel={Throughput (Requests per Second)},
-			legend pos=south east,
+			legend style={
+				at={(0.5, 1.05)},
+				anchor=south,
+				legend columns=3
+			},
 			domain=1:1000000,
 			xmode=log,
 			ymode=log,
+			cycle list name=rainbow,
 		]
-		\addplot+[cycle list name=color list]
-			coordinates {
-				(1000, 5730659.02578797)
-				(10000, 6777363.60555744)
-				(100000, 5652112.47703829)
-				(1000000, 5097827.30600218)
-			};
+		\addplot coordinates {
+			(1000, 7952286.28230617)
+			(10000, 10023806.5405338)
+			(100000, 8765394.22360521)
+			(1000000, 8117846.78173038)
+		};
 		\addlegendentry{$m=4$}
-		\addplot+[cycle list name=color list]
-			coordinates {
-				(1000, 6745362.56323777)
-				(10000, 7358351.72921266)
-				(100000, 8577616.70919735)
-				(1000000, 8432751.96535826)
-			};
+		\addplot coordinates {
+			(1000, 7952286.28230616)
+			(10000, 9127210.49629207)
+			(100000, 10603188.9090644)
+			(1000000, 11059729.4513683)
+		};
 		\addlegendentry{$m=8$}
-		\addplot+[cycle list name=color list]
-			coordinates {
-				(1000, 6369426.75159236)
-				(10000, 9039548.02259887)
-				(100000, 9890463.12093564)
-				(1000000, 9903416.92642504)
-			};
+		\addplot coordinates {
+			(1000, 1841196.77790564)
+			(10000, 2235698.51605511)
+			(100000, 2318323.15686064)
+			(1000000, 15535187.1990057)
+		};
 		\addlegendentry{$m=16$}
-		\addplot+[cycle list name=color list]
-			coordinates {
-				(1000, 128530.57421034)
-				(10000, 1215583.78411232)
-				(100000, 1340572.42442523)
-				(1000000, 13292569.4536754)
-			};
+		\addplot coordinates {
+			(1000, 1437556.15453729)
+			(10000, 1863672.36639799)
+			(100000, 2053082.44665835)
+			(1000000, 25019781.2645623)
+		};
 		\addlegendentry{$m=32$}
+		\addplot coordinates {
+			(1000, 819336.337566571)
+			(10000, 976276.481499561)
+			(100000, 969410.259268774)
+			(1000000, 50839487.0295759)
+		};
+		\addlegendentry{$m=64$}
+		\addplot coordinates {
+			(1000, 654986.081545767)
+			(10000, 657959.667072409)
+			(100000, 592388.108993488)
+			(1000000, 10012741.2131938)
+		};
+		\addlegendentry{$m=128$}
 	\end{axis}
 \end{tikzpicture}
