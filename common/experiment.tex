@@ -92,6 +92,60 @@ Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of installed RAM running Ubuntu
 \end{figure}
 
 
+\subsect{HBM Speedup}
+
+One unique benefit of using an accelerator card rather than a CPU is the ability
+to use High-Bandwidth Memory (HBM) for main system memory rather than being
+limited to the Double-Data Rate (DDR) that is used on essentially all CPU
+systems. However, the U280 has both technologies available, so the effect of
+this vaiable can be isolated from the computation itself. When allocating memory
+bandwidth in the config files, in both cases the tree's data memory was given
+half of the bandwidth, while the request and response buffers were each given a
+quarter of the bandwidth.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/hbm-speedup-sequential-insertion}
+		\caption{Sequential Insertion}
+		\label{fig:hbm-speedup-sequential-insertion}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/hbm-speedup-random-insertion}
+		\caption{Random Insertion}
+		\label{fig:hbm-speedup-random-insertion}
+	\end{subfigure}
+	\caption{HBM Insertion Speedup}
+	\label{fig:hbm-insertion-speedup}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/hbm-speedup-sequential-search}
+		\caption{Sequential Search}
+		\label{fig:hbm-speedup-sequential-search}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/hbm-speedup-random-search}
+		\caption{Random Search}
+		\label{fig:hbm-speedup-random-search}
+	\end{subfigure}
+	\caption{HVM Search Speedup}
+	\label{fig:hbm-search-speedup}
+\end{figure}
+
+As shown in \autoref{fig:hbm-insertion-speedup} \&
+\autoref{fig:hbm-search-speedup}, in nearly all cases there is a performance
+benefit that can in the best cases result in a doubling of performance.
+Insertions benefit more than searches due to better parallelism of read and
+write accesses.
+
+
 \subsect{Threads vs. Modules}
 
 Parallel processing on CPUs uses threads as a unit of execution. There is no
