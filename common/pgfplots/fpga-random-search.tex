@@ -2,42 +2,41 @@
 	\begin{axis}
 		[
 			xlabel={Input Size (Requests)},
-			ylabel={Throughput (Requests per Second)},
+			ylabel={Execution Time (Milliseconds)},
 			legend pos=outer north east,
 			domain=1:1000000,
 			xmode=log,
-			ymode=log,
 		]
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 1974333.66238894)
-				(10000, 16380016.3800164)
-				(100000, 160000000)
-				(1000000, 1328903654.48505)
+				(1000, 0.5065)
+				(10000, 0.6105)
+				(100000, 0.625)
+				(1000000, 0.7525)
 			};
 		\addlegendentry{$m=4$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 2208724.46162341)
-				(10000, 16743407.2833822)
-				(100000, 164001640.0164)
-				(1000000, 1391788448.15588)
+				(1000, 0.45275)
+				(10000, 0.59725)
+				(100000, 0.60975)
+				(1000000, 0.7185)
 			};
 		\addlegendentry{$m=8$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 2022244.69160768)
-				(10000, 16488046.1665293)
-				(100000, 164744645.799012)
-				(1000000, 1342732460.55723)
+				(1000, 0.4945)
+				(10000, 0.6065)
+				(100000, 0.607)
+				(1000000, 0.74475)
 			};
 		\addlegendentry{$m=16$}
 		\addplot+[cycle list name=color list]
 			coordinates {
-				(1000, 1619433.19838057)
-				(10000, 16090104.5856798)
-				(100000, 130975769.482646)
-				(1000000, 1377410468.31956)
+				(1000, 0.6175)
+				(10000, 0.6215)
+				(100000, 0.7635)
+				(1000000, 0.726)
 			};
 		\addlegendentry{$m=32$}
 	\end{axis}
