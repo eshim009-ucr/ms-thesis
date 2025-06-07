@@ -105,7 +105,7 @@ restart its operation using this new data. A key advantage of this strategy is
 reducing cache misses on multi-core CPUs. Frequently changing lock bits in main
 memory forces constant cache invalidations, many of which are unnecessary in
 read-dominated workloads \autocite{leis-damon-2016}. On an FPGA, we have the
-freedom to design our own caching protocol rather than simply mimicing the general purpose
+freedom to design our own caching protocol rather than simply mimicking the general purpose
 caching protocols that are fixed in the silicon of CPUs. Thus, this problem
 could be negated by managing lock bits differently from other memory to reduce
 caching overhead rather than avoiding writes altogether. As noted by
