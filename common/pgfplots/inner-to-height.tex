@@ -6,16 +6,17 @@
 			xtick distance=1,
 			ytick distance=4,
 			domain=1:4,
-			smooth
+			smooth,
+			cycle list name=rainbow4,
 		]
 		\pgfplotsinvokeforeach{2,4,8} {
-			\addplot+[cycle list name=color list, mark=none]
+			\addplot+[mark=none]
 				{(1-#1) / (#1^(1-x) - 1)};
 			\addlegendentry{$m=#1$}
 		}
 		\pgfplotsset{cycle list shift=-3}
 		\pgfplotsinvokeforeach{2,4,8} {
-			\addplot+[cycle list name=color list, mark=none, dashed] {#1-1};
+			\addplot+[mark=none, dashed] {#1-1};
 		}
 	\end{axis}
 \end{tikzpicture}

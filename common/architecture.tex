@@ -9,12 +9,12 @@
 In order to reap the full benefit of the tree data structure, an informed choice
 of parameters must be made that takes consideration of the expected workload and
 usage of scarce memory resources.
-
+%
 The tree's branching factor $m$ defines the maximum number of children that each
 node can have (as well as its minimum, which is $m/2$). A level $k$ down the
 tree from the root will contain $m^k$ nodes. Thus, a full tree of height $h$
 will contain $\sum_{k=1}^h m^k = \frac{1-m^h}{1-m}$ nodes.
-
+%
 The ratio of leaf nodes to internal nodes is given by:
 $$
 	\frac{m^{h-1}}{\pfrac{1-m^{h-1}}{1-m}}
@@ -25,17 +25,17 @@ $$
 	= \frac{1-m}{m^{1-h} - 1}
 $$
 
-As $h$ increases, this rapidly converges to $m-1$ as shown in
+As $h$ increases, this ratio rapidly converges to $m-1$ as shown in
 \autoref{fig:inner-to-height}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\input{pgfplots/inner-to-height}
 	\caption{Leaf to Inner Node Ratio vs Height}
 	\label{fig:inner-to-height}
 \end{figure}
 
-As the height of a tree grows, the portion of overall memory that is used for
+As the height of a tree grows, the percentage of overall memory that is used for
 leaves decreases, converging to $1-\frac{1}{m}$ as shown in
 \autoref{fig:memory-to-height}. Higher branching factors spend less of their
 total memory on internal nodes, which only store traversal data.
@@ -47,7 +47,7 @@ total memory on internal nodes, which only store traversal data.
 	\label{fig:memory-to-height}
 \end{figure}
 
-A tree containing $N$ nodes will have the height shown below.
+A tree containing $N$ nodes will have the height shown below:
 
 \begin{align*}
 	N &= \frac{1-m^h}{1-m} \\
@@ -80,15 +80,22 @@ are infeasible or impossible on a CPU.
 
 When checking all of a node's keys in order to find a specific key, a CPU must
 evaluate each key one at a time. The can be accelerated with binary search so
-that it can be performed in $O(\log_2 m)$, but for common $m$ values the
-overhead of binary search erodes most gains compared over a simple linear
-search. However, on an FPGA all keys can be evaluated \emph{simultaneously},
-i.e. $O(1)$, and in fact this is Vitis' default behavior when translating
+that it can be performed in $O(\log_2 m)$, but common $m$ values are small
+enough that the overhead of binary search erodes most gains compared over a
+simple linear search.
+%
+However, on an FPGA all keys can be evaluated \emph{simultaneously}, i.e.
+$O(1)$, and in fact this is Vitis' default behavior when translating
 \texttt{for} loops with a sufficiently low, constant iteration count into
 hardware. Larger loops can also be forced to behave this was using pre-processor
 directives.
 
-% TODO: mention upper bound from O(m) insertion
+However, inserting a new entry into a non-full node is still $O(m)$, as in the
+worst case all existing nodes will need to be copied into an empty slot to their
+right one at a time before inserting a new entry at the front of the list. Thus,
+very large $m$ may perform better in read-dominated workloads, but in general a
+the choice of $m=8$ used by \citeauthor{ren-fpl-2019} is a reasonable choice
+\autocite{ren-fpl-2019}.
 
 
 \subsect{Concurrency}
@@ -157,11 +164,11 @@ controlling memory access patterns. Because the manner that the abstract tree is
 accessed is dictated by \citeauthor{b-link}'s original algorithm, the best way
 to optimize memory accesses is to consider how best to lay out the tree in
 memory.
-
-Because each level of the tree has a known maximum width for a given height and
-branching factor $m$, each level can be assigned a fixed segment of memory. The
-starts, ends, and widths of these segments are stored in lookup tables. The tree
-is stored ``bottom to top'' in order of memory addresses.
+%
+Each level of the tree has a known maximum width for a given height and
+branching factor $m$, so each level can be assigned a fixed segment of memory at
+build time. The starts, ends, and widths of these segments are stored in lookup
+tables. The tree is stored ``bottom to top'' in order of memory addresses.
 
 The first node is created as the far left leaf on the bottom of the tree rather
 than at the node where the root of a full tree would reside. This is because in
@@ -233,7 +240,7 @@ to 153 million nodes in order to store a single extra entry.
 A Python script has been created to automate the process of deriving the correct
 level widths and memory size for a given $m$ value and maximum entry count $c$.
 %
-This is done by iteratively finding the neessary tree height \& level widths
+This is done by iteratively finding the necessary tree height \& level widths
 using \autoref{eq:entry-max}, finding the necessary number of leaf nodes with
 $l=(c+1)\left\lfloor{m/2}\right\rfloor$, then truncating the lower levels so
 that they all contain $\leq l$ nodes.
