@@ -7,8 +7,8 @@
 \subsubsect{Relations of Parameters}
 
 In order to reap the full benefit of the tree data structure, an informed choice
-of parameters must be made that takes consideration of the expected workload and
-usage of scarce memory resources.
+of parameters must be made that takes into consideration the expected workload
+and usage of scarce memory resources.
 %
 The tree's branching factor $m$ defines the maximum number of children that each
 node can have (as well as its minimum, which is $m/2$). A level $k$ down the
@@ -79,9 +79,9 @@ CPU implementations due to optimizations that HLS can make to source code that
 are infeasible or impossible on a CPU.
 
 When checking all of a node's keys in order to find a specific key, a CPU must
-evaluate each key one at a time. The can be accelerated with binary search so
+evaluate each key one at a time. This can be accelerated with a binary search so
 that it can be performed in $O(\log_2 m)$, but common $m$ values are small
-enough that the overhead of binary search erodes most gains compared over a
+enough that the overhead of a binary search erodes most gains compared over a
 simple linear search.
 %
 However, on an FPGA all keys can be evaluated \emph{simultaneously}, i.e.
@@ -134,7 +134,7 @@ CPU.
 \label{subsec:memory-layout}
 
 Though FPGAs still have a memory hierarchy as shown in
-\autoref{fig:memory-hierarchy}, it functions differently to that of a CPU. The
+\autoref{fig:memory-hierarchy}, it functions differently from that of a CPU. The
 datasheet for the U280 lists counts of these elements rather than a raw size in
 bytes because individual modules will have dedicated connections to separate
 BRAM elements rather than sharing a single cache.
@@ -159,11 +159,11 @@ there remains the coarse-grained option to choose between HBM and traditional
 DDR. For non-parallel access patterns, it is often faster to use DDR memory, as
 its lower latency offers superior performance for single-threaded accesses.
 
-Beyond memory technologies, it is still possible to reap some benefits by
-controlling memory access patterns. Because the manner that the abstract tree is
-accessed is dictated by \citeauthor{b-link}'s original algorithm, the best way
-to optimize memory accesses is to consider how best to lay out the tree in
-memory.
+Beyond memory technologies, it is still possible to reap some performance
+benefits by controlling memory access patterns. Because the manner that the
+abstract tree is accessed is dictated by \citeauthor{b-link}'s original
+algorithm, the best way to optimize memory accesses is to consider how best to
+lay out the tree in memory.
 %
 Each level of the tree has a known maximum width for a given height and
 branching factor $m$, so each level can be assigned a fixed segment of memory at
@@ -198,7 +198,7 @@ location of the root node is a shared variable accessible by all threads.
 		\label{fig:max22}
 	\end{subfigure}
 	\caption{Sequential Insertion into a Tree with $m=4$}
-	\label{fig:memory-hierarchy}
+	\label{fig:sequential-insertion}
 \end{figure}
 
 A single node can hold $d_1=m$ entries, thus a tree of height 1 can hold $m$
@@ -229,8 +229,9 @@ Recall that as shown in \autoref{fig:nodes-to-height}, the memory required for a
 full tree increases exponentially with each level added. When allocating large
 trees, the underfull levels resulting from the above strategy yield substantial
 memory savings. If a full tree were allocated, the exponential increases in size
-of the lower levels of a tree may result in allocating far more memory than is
-need for a given application, which can result in allocation failures.
+of the lower levels of a tree can result in allocating far more memory than is
+needed for a given application, and in a worst case scenario in allocation
+failures.
 %
 For example on an $m=8$ tree, 9 levels are required to store 611,668 entries,
 but storing the 611,669th entry requires 10 levels. If a full tree were
@@ -245,8 +246,9 @@ using \autoref{eq:entry-max}, finding the necessary number of leaf nodes with
 $l=(c+1)\left\lfloor{m/2}\right\rfloor$, then truncating the lower levels so
 that they all contain $\leq l$ nodes.
 %
-While it is possible to store more than $c$ entries, it is not successful
-insertion is not guaranteed.
+$c$ is the maximum count of \emph{safe} insertions according to the worst case
+insertion pattern in \autoref{fig:sequential-insertion}, but more entries can be
+inserted so long as they reside in leaves other than the rightmost.
 
 
 \subsect{FPGA Implementation}

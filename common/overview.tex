@@ -8,7 +8,7 @@ It is common for modern databases to use a variant of the B-Tree for indexing
 proportional to the length of the path from the root node where the search
 begins to the node holding the desired data. The self-balancing nature of
 B-Trees helps to control the height of the tree and thus lookup times. B+ trees
-are a variant of B trees the keep all data values at the leaves rather than
+are a variant of B trees that keep all data values at the leaves rather than
 storing them at all levels of the tree, which improves the average case time of
 tree traversal in terms of number of I/O operations.
 
@@ -19,7 +19,7 @@ data at leaf nodes. B-Link trees introduce linkages between sibling nodes at all
 levels of the tree. Principally, this is to ensure that newly created sibling
 nodes are still accessible during split operations, even if they have not yet
 been assigned to a parent node. This structure ensures that no more than three
-nodes are locked at a time for each modification operation. However, this also
+nodes are locked at a time for each modification operation. Moreover, this also
 brings the benefit that range-based queries can be executed very easily, as
 subsequent leaf nodes form a linked list \autocite{b-link}.
 
@@ -35,7 +35,7 @@ as well as application-specific integrated circuits (ASICs) for an identical
 design, but on-demand reconfigurability, shorter lead times, and lower upfront
 cost offsets these downsides in many applications.
 
-A key difference of FPGAs from CPUs is how computational resources are
+A key difference between FPGAs and CPUs is how computational resources are
 multiplexed. On CPU-based systems, computational resources are multiplexed
 temporally; there are a limited number of instructions that can be executed each
 second. FPGAs are multiplexed spatially; all processes can run simultaneously so
