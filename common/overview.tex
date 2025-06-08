@@ -9,7 +9,7 @@ proportional to the length of the path from the root node where the search
 begins to the node holding the desired data. The self-balancing nature of
 B-Trees helps to control the height of the tree and thus lookup times. B+ trees
 are a variant of B trees the keep all data values at the leaves rather than
-storing them alongside internal nodes, which improves the average case time of
+storing them at all levels of the tree, which improves the average case time of
 tree traversal in terms of number of I/O operations.
 
 B-Link trees are an extension to B+ trees proposed by \citeauthor{b-link} in
@@ -24,7 +24,7 @@ brings the benefit that range-based queries can be executed very easily, as
 subsequent leaf nodes form a linked list \autocite{b-link}.
 
 
-\subsect{FPGAs}
+\subsect{FPGAs, HDLs, and HLS}
 \label{sec:fpga}
 
 Field-Programmable Gate Arrays (FPGAs) are an alternative processing element to
@@ -45,11 +45,15 @@ Traditionally, FPGA designs are written in hardware description languages
 (HDLs), with the two most prominent being Verilog and VHDL. However, in recent
 years attempts have been made to change this. High-Level Synthesis (HLS)
 frameworks convert programs written in traditional programming languages like C
-\& C++ into HDL. This allows for easier conversion of existing algorithms and
-codebases as well as increasing the pool of potential developers
-\autocite{martin-destest-2009}. More recently, projects like Chisel seek to blur
-the line by extending the Scala programming language to support HDL semantics
-\autocite{chisel}.
+\& C++ into an HDL that can be synthesized. This allows for easier conversion of
+existing algorithms and codebases as well as increasing the pool of potential
+developers \autocite{martin-destest-2009}. More recently, projects like Chisel
+have sought to blur the line between software and HDL by extending the Scala programming language to support HDL
+semantics \autocite{chisel}.
+
+
+\subsect{FPGAs in the Datacenter}
+\label{sec:datacenter-fpga}
 
 Originally, FPGAs were intended for prototyping ASICs, but later found wide
 usage in the telecom industry \autocite{bobda-trets-2022,mencer-queue-2020} and
@@ -59,18 +63,14 @@ programming model \autocite{hoozemans-cas-2021} inherent to their architecture
 aligns naturally with the flow of packets in high-throughput networking
 environments \autocite{mueller-sigmod-2009}.
 
-
-\subsect{FPGAs in the Datacenter}
-\label{sec:datacenter-fpga}
-
 FPGA implementations of many core database operations have been developed.
-Converting algorithms from CPU to FPGA is fairly straightforward
-\autocite{fang-vldb-2020}, especially with the help of HLS, but optimizing them
-is a focus of ongoing research \autocite{fang-vldb-2020}. Converting simple
-operations like filter and projection (removing some columns from a table before
-returning it) are largely a solved problem \autocite{fang-vldb-2020}, but more
-complicated operations like merge and sort have been implemented in many ways,
-with some showing significant performance improvements over CPU versions
+Converting algorithms from CPU to FPGA is fairly straightforward, especially
+with the help of HLS, but optimizing them is a focus of ongoing research
+\autocite{fang-vldb-2020}. Converting simple operations like filter and
+projection (removing some columns from a table before returning it) are largely
+a solved problem \autocite{fang-vldb-2020}, but more complicated operations like
+merge and sort have been implemented in many ways, with some showing significant
+performance improvements over CPU versions
 \autocite{leggett-trets-2025,moghaddamfar-damon-2021}.
 
 Much of the recent research into using FPGAs for database acceleration focuses
