@@ -176,18 +176,18 @@ location of the root node is a shared variable accessible by all threads.
 % nodes all the way up the tree.
 
 A single node can hold $d_1=m$ entries, thus a tree of height 1 can hold $m$
-entries. A tree of height 2 can hold $d_2 = m + d_1\left\lfloor{m/2}\right\rfloor= 
-(d_1+1)\left\lfloor{m/2}\right\rfloor$ entries, as each entry from the last
-level of the tree corresponds to one node at this level of the tree. Insertions
-can occur until a node is full, which in the extreme case leaves all
-other nodes as half full.
+entries. A tree of height 2 can hold $d_2 = (1)m +
+(d_1-1)\left\lfloor{m/2}\right\rfloor = (d_1+1)\left\lfloor{m/2}\right\rfloor$
+entries, as each entry from the last level of the tree corresponds to one node
+at this level of the tree. Insertions can occur until a node is full, which in
+the extreme case leaves all other nodes as half full.
 %
 This recursive expression can be generalized to any tree height, yielding:
 
 {\ssp$$
 	d_i = \begin{cases}
 		m & i = 1 \\
-		d_{i-1} & i > 1 \\
+		(d_{i-1}+1)\left\lfloor{m/2}\right\rfloor & i > 1 \\
 	\end{cases}
 $$}
 
