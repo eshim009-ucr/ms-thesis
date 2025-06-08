@@ -1,12 +1,15 @@
 \sect{Experiment}
 
+\subsect{Setup}
+
 FPGA data was collected on a system with a Xilinx Alveo U280 PCIe card,
-containing a XCU280 FPGA, $\SI{8}{\giga\byte}$ of on-chip HBM, and
-$\SI{32}{\giga\byte}$ DDR4 memory on two RDIMMs operating at
+which contains an XCU280 FPGA with $\SI{8}{\giga\byte}$ of on-chip HBM as well
+as $\SI{32}{\giga\byte}$ DDR4 memory on two RDIMMs operating at
 $\SI{2400}{\mega{T}\per\second}$ \autocite{u280}. The CPU baseline was collected
-on a system with an AMD Ryzen 7 7700X CPU and $\SI{96}{\giga\byte}$ of DDR5 on 4
-UDIMMs operating at $\SI{3600}{\mega{T}\per\second}$ memory running AlmaLinux
-9.6.
+on a system with an AMD Ryzen 7 7700X CPU and $\SI{96}{\giga\byte}$ of DDR5
+memory on four UDIMMs operating at $\SI{3600}{\mega{T}\per\second}$. The system
+is running AlmaLinux 9.6 (binary compatible with Red Hat Enterprise Linux) and
+kernel version 5.14.0.
 %
 Unless stated otherwise, a branching factor of $m=8$ will be used in all
 experiments.
