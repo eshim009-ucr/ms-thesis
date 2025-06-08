@@ -7,7 +7,7 @@ put increasing strain on CPU designers to innovate around the physical limits of
 silicon \autocite{dark-silicon}.
 %
 The struggle for a modern CPU designer is trying to create an environment that
-can be interacted in the same way as CPU from the 1970s (single threaded, not
+can be interacted with in the same way as CPU from the 1970s (single threaded, not
 pipelined, no instruction reordering) while still delivering sufficient
 performance gains over last year's model to justify their existence in the
 market. The 1970s saw the introduction of the C programming language, and
@@ -17,17 +17,17 @@ expanded and updated, the need to maintain backwards compatibility with decades
 of critical software infrastructure impedes massive paradigm shifts.
 
 Other strategies like caching, pipelining, and speculative execution are
-intended to provide an invisible performance boost to users while being
-invisible to the average programmer. However, the fixed nature of silicon and
-the massive scale required for cost-effective manufacturing necessitates that
-these technologies must implement best guess at approximating the behavior of
-billions of different users and programs.
+intended to provide a performance boost to users while being invisible to the
+average programmer. However, the fixed nature of silicon and the massive scale
+required for cost-effective manufacturing necessitates that these technologies
+must implement a best guess at approximating the behavior of billions of
+different users and programs.
 %
 For example, though caching should be invisible, a program written with with
 sub-optimal access patterns can be slowed down by several orders of magnitude.
 In a worst case scenario, the underlying algorithm behind a program may conflict
-with the assumptions made by the cache protocol designer to a degree the a
-cache-optimal version of the program is not possible without entirely
+with the assumptions made by the cache protocol designer to a degree such that
+creating a cache-optimal version of the program is not possible without entirely
 restructuring the underlying algorithm.
 
 Though the CPU is the most popular conceptual model of a processor, it is
