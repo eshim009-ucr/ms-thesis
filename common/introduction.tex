@@ -1,21 +1,20 @@
 \sect{Motivation}
 
-As computers have become a central figure of nearly every facet of life, the
-public has grown to expect the trend of constant, exponentially increasing
-performance to be a constant of life. However, the end of many of the scaling
-trends like Dennard scaling that once powered Moore's law has put increasing
-strain on CPU designers to innovate around the physical limits of silicon
-\autocite{dark-silicon}.
-
+As computers have become central to nearly every facet of life, industry has
+become accustomed the trend of constant, exponentially increasing performance.
+However, the end of many of the scaling trends that once powered Moore's law has
+put increasing strain on CPU designers to innovate around the physical limits of
+silicon \autocite{dark-silicon}.
+%
 The struggle for a modern CPU designer is trying to create an environment that
-can be interacted with as the same way as CPU from the 1970s (single threaded,
-not pipelined, no instruction reordering) while still delivering sufficient
-performance gains over those CPUs to justify their existence in the market. The
-1970s saw the introduction of the C programming language, and despite many
-innovations in software since then, programming environments like C are still
-seen as the default. Though the C standard is constantly being expanded and
-updated, the need to maintain backwards compatibility with decades of critical
-software infrastructure impedes massive paradigm shifts.
+can be interacted in the same way as CPU from the 1970s (single threaded, not
+pipelined, no instruction reordering) while still delivering sufficient
+performance gains over last year's model to justify their existence in the
+market. The 1970s saw the introduction of the C programming language, and
+despite many innovations in software since then, programming environments like C
+are still seen as the default. Though the C standard is constantly being
+expanded and updated, the need to maintain backwards compatibility with decades
+of critical software infrastructure impedes massive paradigm shifts.
 
 Other strategies like caching, pipelining, and speculative execution are
 intended to provide an invisible performance boost to users while being
@@ -23,25 +22,25 @@ invisible to the average programmer. However, the fixed nature of silicon and
 the massive scale required for cost-effective manufacturing necessitates that
 these technologies must implement best guess at approximating the behavior of
 billions of different users and programs.
-
-For example, though caching should be invisible, writing code with sub-optimal
-access patterns can slow down a program by several orders of magnitude. In a
-worst case scenario, the underlying algorithm behind a program may conflict with
-the assumptions made by the cache protocol designer to a degree the a
+%
+For example, though caching should be invisible, a program written with with
+sub-optimal access patterns can be slowed down by several orders of magnitude.
+In a worst case scenario, the underlying algorithm behind a program may conflict
+with the assumptions made by the cache protocol designer to a degree the a
 cache-optimal version of the program is not possible without entirely
 restructuring the underlying algorithm.
 
-Though the CPU is the most popular model of processor, there it is not the only
-one possible. GPUs have quickly risen to prominence for general purpose
-application programming in the last decade, but those too have an expected
-pattern of usage fixed in their silicon, and likewise are susceptible to orders
-of magnitudes in slowdowns through sub-optimal access patterns or algorithm
-design. FPGAs offer a solution to this by moving some aspects of the system that
-were previously fixed in silicon back into the programmer's control.
+Though the CPU is the most popular conceptual model of a processor, it is
+not the only one possible. GPUs have quickly risen to prominence for general
+purpose application programming in the last decade, but those too have an
+expected pattern of usage fixed in their silicon, and likewise are susceptible
+to orders of magnitudes in slowdowns through sub-optimal access patterns or
+algorithm design. FPGAs offer a solution to this by moving some aspects of the
+system that were previously fixed in silicon back into the programmer's control.
 
 The silicon improvements that have fueled the CPU's expansion into our lives
-have also made FPGAs cost-competitive in performance terms for many
-applications, particularly in applications that are highly parallel or need to
+have also made FPGAs cost-competitive in performance terms for a new range of
+applications, particularly those that are highly parallel or need to
 process constant streams of data. The modern datacenter is full of such
 applications, but at present there are not instances in which a full database
 engine has been implemented using an FPGA.
