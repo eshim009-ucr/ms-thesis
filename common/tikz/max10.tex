@@ -1,0 +1,12 @@
+\begin{tikzpicture}[node distance=0.25]
+	\node[draw] (leaf1) {1, 2};
+	\node[draw] (leaf2) [right=of leaf1] {3, 4};
+	\node[draw] (leaf3) [right=of leaf2] {5, 6};
+	\node[draw] (leaf4) [right=of leaf3] {7, 8, 9, 10};
+	\coordinate (center) at ($ (leaf2) !.5! (leaf3) $);
+	\node[draw] (root) [above=0.5 of center] {2, 4, 6, 10};
+	\draw (root) -- (leaf1);
+	\draw (root) -- (leaf2);
+	\draw (root) -- (leaf3);
+	\draw (root) -- (leaf4);
+\end{tikzpicture}

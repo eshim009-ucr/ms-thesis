@@ -1,0 +1,36 @@
+\begin{tikzpicture}[node distance=0.25]
+	\node[draw] (leaf1) {1, 2};
+	\node[draw] (leaf2) [right=of leaf1] {3, 4};
+	\node[draw] (leaf3) [right=of leaf2] {5, 6};
+	\node[draw] (leaf4) [right=of leaf3] {7, 8};
+	\node[draw] (leaf5) [right=of leaf4] {9, 10};
+	\node[draw] (leaf6) [right=of leaf5] {11, 12};
+	\node[draw] (leaf7) [right=of leaf6] {13, 14};
+	\node[draw] (leaf8) [right=of leaf7] {15. 16};
+	\node[draw] (leaf9) [right=of leaf8] {17, 18};
+	\node[draw] (leaf10) [right=of leaf9] {19, 20, 21, 22};
+	\coordinate (center1) at ($ (leaf1) !.5! (leaf2) $);
+	\coordinate (center2) at ($ (leaf3) !.5! (leaf4) $);
+	\coordinate (center3) at ($ (leaf5) !.5! (leaf6) $);
+	\coordinate (center4) at ($ (leaf8) !.5! (leaf9) $);
+	\node[draw] (inner1) [above=0.5 of center1] {2, 4};
+	\node[draw] (inner2) [above=0.5 of center2] {6, 8};
+	\node[draw] (inner3) [above=0.5 of center3] {10, 12};
+	\node[draw] (inner4) [above=0.5 of center4] {14, 16, 18, 22};
+	\coordinate (center5) at ($ (inner2) !.5! (inner3) $);
+	\node[draw] (root) [above=0.5 of center5] {4, 8, 12, 22};
+	\draw (root) -- (inner1);
+	\draw (root) -- (inner2);
+	\draw (root) -- (inner3);
+	\draw (root) -- (inner4);
+	\draw (inner1) -- (leaf1);
+	\draw (inner1) -- (leaf2);
+	\draw (inner2) -- (leaf3);
+	\draw (inner2) -- (leaf4);
+	\draw (inner3) -- (leaf5);
+	\draw (inner3) -- (leaf6);
+	\draw (inner4) -- (leaf7);
+	\draw (inner4) -- (leaf8);
+	\draw (inner4) -- (leaf9);
+	\draw (inner4) -- (leaf10);
+\end{tikzpicture}
