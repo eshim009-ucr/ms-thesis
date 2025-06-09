@@ -87,7 +87,7 @@ simple linear search.
 However, on an FPGA all keys can be evaluated \emph{simultaneously}, i.e.
 $O(1)$, and in fact this is Vitis' default behavior when translating
 \texttt{for} loops with a sufficiently low, constant iteration count into
-hardware. Larger loops can also be forced to behave this was using pre-processor
+hardware. Larger loops can also be forced to behave this way using pre-processor
 directives.
 
 However, inserting a new entry into a non-full node is still $O(m)$, as in the
