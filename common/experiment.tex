@@ -15,142 +15,40 @@ Unless stated otherwise, a branching factor of $m=8$ will be used in all
 experiments.
 
 
-\subsect{Tree Fanout}
-
+\subsect{Throughput Comparison at Different Branching Factors}
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/speedup-insert-sequential}
+		\input{pgfplots/fpga-insert-sequential}
 		\caption{Sequential Insertion}
-		\label{fig:fpga-sequential-insert}
+		\label{fig:fpga-insert-sequential}
 	\end{subfigure}
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/speedup-insert-random}
+		\input{pgfplots/fpga-insert-random}
 		\caption{Random Insertion}
-		\label{fig:fpga-random-insert}
+		\label{fig:fpga-insert-random}
 	\end{subfigure}
-	\caption{Insertion Speedup}
-	\label{fig:insert-speedup}
+	\caption{FPGA Insertion}
+	\label{fig:fpga-insert}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/speedup-search-sequential}
-		\caption{Sequential Search}
-		\label{fig:fpga-sequential-search}
-	\end{subfigure}
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/speedup-search-random}
-		\caption{Random Search}
-		\label{fig:fpga-random-search}
-	\end{subfigure}
-	\caption{Search Speedup}
-	\label{fig:search-speedup}
-\end{figure}
-
-
-\subsect{Workload Balance}
-
-\begin{figure}[H]
-	\centering
-	\input{pgfplots/rw-balance}
-	\caption{Read-Write Balance for a CPU Tree with $m=4$}
-	\label{fig:rw-balance}
-\end{figure}
-
-
-\subsect{HBM Speedup}
-
-One unique benefit of using an accelerator card rather than a CPU is the ability
-to use High-Bandwidth Memory (HBM) for main system memory rather than being
-limited to the Double-Data Rate (DDR) that is used on essentially all CPU
-systems. However, the U280 has both technologies available, so the effect of
-this variable can be isolated from the computation itself. When allocating
-memory resources, in both cases the tree's data memory was given half of the
-bandwidth, while the request and response buffers were each given a quarter of
-the bandwidth.
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/hbm-speedup-sequential-insertion}
+		\input{pgfplots/cpu-insert-sequential}
 		\caption{Sequential Insertion}
-		\label{fig:hbm-speedup-sequential-insertion}
+		\label{fig:cpu-insert-sequential}
 	\end{subfigure}
 	\begin{subfigure}{7.5cm}
 		\centering
-		\input{pgfplots/hbm-speedup-random-insertion}
+		\input{pgfplots/cpu-insert-random}
 		\caption{Random Insertion}
-		\label{fig:hbm-speedup-random-insertion}
+		\label{fig:cpu-insert-random}
 	\end{subfigure}
-	\caption{DDR/HBM Insertion Speedup}
-	\label{fig:hbm-insertion-speedup}
+	\caption{CPU Insertion}
+	\label{fig:cpu-insert}
 \end{figure}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/hbm-speedup-sequential-search}
-		\caption{Sequential Search}
-		\label{fig:hbm-speedup-sequential-search}
-	\end{subfigure}
-	\begin{subfigure}{7.5cm}
-		\centering
-		\input{pgfplots/hbm-speedup-random-search}
-		\caption{Random Search}
-		\label{fig:hbm-speedup-random-search}
-	\end{subfigure}
-	\caption{DDR/HBM Search Speedup}
-	\label{fig:hbm-search-speedup}
-\end{figure}
-
-As shown in \autoref{fig:hbm-insertion-speedup} \&
-\autoref{fig:hbm-search-speedup}, in nearly all cases there is a performance
-benefit that can in the best cases result in a doubling of performance.
-Insertions benefit more than searches due to better parallelism of read and
-write accesses.
-
-
-\subsect{Threads vs. Modules}
-
-Parallel processing on CPUs uses threads as a unit of execution. There is no
-hard limit to how many threads that a program can create, but there will be no
-speedup from using more threads than the physical CPU can support. Additionally,
-threads sharing physical cores through simultaneous multithreading will not
-perform as well as threads running on their own hardware cores.
-
-On an FPGA, all processing is inherently parallel unless there is a data
-dependency between one operation and another. The ceiling to FPGA parallelism is
-the number of instances of a module that can fit into the FPGA's fabric.
-
-Using HLS to run identical code and comparing it to a traditional multi-threaded
-version shows \todo{\ldots}
-
-
-\subsect{Traditional vs. Optimistic Locking}
-
-As discussed in \autoref{subsec:concurrency}, modern CPU designs often avoid
-traditional lock types because of the heavy penalty of unnecessary cache
-invalidations. In \citeyear{b-link} when \citeauthor{b-link} designed the B-Link
-tree, multi-core machines were still decades away, but in the modern era even
-many microcontrollers have multiple cores.
-
-However, FPGAs do not have a native caching protocol and will perform writes
-directly unless a specific caching protocol is implemented by the designer.
-Thus, the penalty for traditional locking is lower. Traditional locking has the
-benefit that it avoids an unbounded number of re-attempts at performing a write
-in a write-heavy workload.
-
-
-\subsect{Read-Dominated vs. Write-Dominated}
-
-
-\subsect{Node Allocation Strategies}

@@ -1,0 +1,41 @@
+\begin{tikzpicture}[scale=0.8]
+	\begin{axis}
+		[
+			xlabel={Input Size (Requests)},
+			ylabel={Throughput (Requests per Second)},
+			legend pos=south east,
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+			cycle list name=rainbow,
+		]
+		\addplot coordinates {
+			(1000, 17781.4858893307)
+			(10000, 173726.842293357)
+			(100000, 1707846.92643144)
+			(1000000, 5488020.73462042)
+		};
+		\addlegendentry{$m=4$}
+		\addplot coordinates {
+			(1000, 141939.252129178)
+			(10000, 1201016.17978972)
+			(100000, 4737921.90883672)
+			(1000000, 6596058.84692369)
+		};
+		\addlegendentry{$m=8$}
+		\addplot coordinates {
+			(1000, 39970.0867867497)
+			(10000, 330957.532621574)
+			(100000, 2701367.53354676)
+			(1000000, 5810578.23495743)
+		};
+		\addlegendentry{$m=16$}
+		\addplot coordinates {
+			(1000, 52375.1687282428)
+			(10000, 410651.166063492)
+			(100000, 2819090.511644)
+			(1000000, 6213739.35505282)
+		};
+		\addlegendentry{$m=32$}
+	\end{axis}
+\end{tikzpicture}
