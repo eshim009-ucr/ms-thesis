@@ -27,7 +27,7 @@
 %%%     keywords        = "LaTeX, ucthesis",
 %%%     docstring       = "This file is the main file for the ucr
 %%%                        class, which is intended to meet the requirements
-%%%                        for University of California Riverside Ph.D. dissertations.
+%%%                        for University of California Riverside Ph.D. theses.
 %%%			   It is a direct port to LaTeX2e from UCTHESIS
 %%%			   v2.7 by Ethan V. Munson, with no changes other
 %%%			   than those for compatibility.  The major modifictions
@@ -429,7 +429,7 @@
 \vspace{6ex}
     \bigskip \medskip
 \fmsmallfont
-  Dissertation Committee:
+  Thesis Committee:
 \begin{quote}
 {\@chair}, Chairperson\newline
 {\@othermembers}
@@ -480,7 +480,7 @@ Copyright by\par
 \thispagestyle{empty}
 \null\vfill
 
-\fmfont The Dissertation of {\@author} is approved: \\
+\fmfont The Thesis of {\@author} is approved: \\
 \begin{center}
 \vspace{.25in}
 \vspace{\@approvalspace}
@@ -546,7 +546,7 @@ $\:\overline{~~~~ \mbox{\rule{0in}{0.16in}\small ~\hspace{2.03in} Committee Chai
 %
 % The ABSTRACT environment allows for multi-page abstracts which,
 % in accordance with UC rules, is numbered separately from the rest
-% of the rest of the dissertation in Arabic.  It requires definition
+% of the rest of the Thesis in Arabic.  It requires definition
 % of the \title, \author, \degree, \field, \campus, and \chair macros.
 
 
@@ -558,7 +558,7 @@ $\:\overline{~~~~ \mbox{\rule{0in}{0.16in}\small ~\hspace{2.03in} Committee Chai
 % \setcounter{page}{1}
 \begin{center}
 {\fmfont
-{\expandafter\uppercase\expandafter{\abstractname}} OF THE DISSERTATION\par
+{\expandafter\uppercase\expandafter{\abstractname}} OF THE Thesis\par
 \vspace{.5in}
 \ssp\@title\par
 \vspace{.25in}
@@ -582,7 +582,7 @@ University of California, {\@campus}, {\@degreemonth} {\@degreeyear}\par
 \vspace{1.7cm}
 \rule{3.2in}{.5pt}\\
 \@chair\\
-Dissertation Committee Chair
+Thesis Committee Chair
 \end{minipage}}
 
 
@@ -591,7 +591,7 @@ Dissertation Committee Chair
 % The FRONTMATTER environment makes sure that page numbering is set
 % correctly (roman, lower-case, starting at 3) for the front matter
 % that follows the abstract.  It also resets page-numbering for
-% the remainder of the dissertation (arabic, starting at 1).
+% the remainder of the Thesis (arabic, starting at 1).
 
 \newenvironment{frontmatter}
 {\setcounter{page}{1}\renewcommand{\thepage}{\roman{page}}}

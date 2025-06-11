@@ -17,7 +17,7 @@
 % LaTeX Package "ucr" is modified from LaTeX package "ucthesis."
 % This modification is therefore under to the conditions of
 % the LaTeX Project Public License.
-% Its formality is suitable for the dissertation of Universty of
+% Its formality is suitable for the thesis of Universty of
 % California, Riverside.
 % This test document is for the convenience of all students of
 % Universty of California, Riverside.
@@ -88,9 +88,10 @@ Dr. Ahmed Eldawy}
 
 
 % \nocite{*}
-% \singlespacing
-% \bibliographystyle{alpha}
-\printbibliography
+{\ssp%
+\setlength\bibitemsep{0.5\baselineskip}%
+\printbibliography%
+}
 
 \input{appendix}
 
