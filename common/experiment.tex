@@ -6,10 +6,8 @@ FPGA data was collected on a system with a Xilinx Alveo U280 PCIe card,
 which contains an XCU280 FPGA with $\SI{8}{\giga\byte}$ of on-chip HBM as well
 as $\SI{32}{\giga\byte}$ DDR4 memory on two RDIMMs operating at
 $\SI{2400}{\mega{T}\per\second}$ \autocite{u280}. The CPU baseline was collected
-on a system with an AMD Ryzen 7 7700X CPU and $\SI{96}{\giga\byte}$ of DDR5
-memory on four UDIMMs operating at $\SI{3600}{\mega{T}\per\second}$. The system
-is running AlmaLinux 9.6 (binary compatible with Red Hat Enterprise Linux) and
-kernel version 5.14.0.
+on a system with an Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of DDR4.
+The system is running Ubuntu 20.04 LTS.
 
 The C code used to synthesize the tree under HLS is the same code used to obtain
 the CPU baseline. The C version uses pthreads for locking and concurrency
