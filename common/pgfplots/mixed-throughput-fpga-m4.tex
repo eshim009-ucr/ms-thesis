@@ -1,0 +1,41 @@
+\begin{tikzpicture}[scale=0.8]
+	\begin{axis}
+		[
+			xlabel={Input Size (Requests)},
+			ylabel={Throughput (Requests per Second)},
+			legend style={
+				at={(0.5, 1.05)},
+				anchor=south,
+				legend columns=2
+			},
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+			cycle list name=rainbow4,
+		]
+		\addplot coordinates {
+			(1000, 26634.9166308917)
+			(10000, 256720.378046995)
+			(100000, 1930947.02293897)
+		};
+		\addlegendentry{80/20 Read/Write}
+		\addplot coordinates {
+			(1000, 26667.0081657027)
+			(10000, 256446.31259281)
+			(100000, 1933143.21462495)
+		};
+		\addlegendentry{60/40 Read/Write}
+		\addplot coordinates {
+			(1000, 26653.5229525202)
+			(10000, 257318.882650967)
+			(100000, 1935484.10048387)
+		};
+		\addlegendentry{40/60 Read/Write}
+		\addplot coordinates {
+			(1000, 26657.9401076127)
+			(10000, 256798.857049262)
+			(100000, 1934544.20568633)
+		};
+		\addlegendentry{20/80 Read/Write}
+	\end{axis}
+\end{tikzpicture}

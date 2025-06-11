@@ -30,6 +30,9 @@ program with C++'s \texttt{std::chrono} library.
 Request data was stored in pre-generated binary files that are loaded by a
 testbench program, which also initializes the main memory buffer that will store
 the tree.
+% 
+Before running a search or mixed request file, an insert request file of the
+same size is run to populate the tree.
 %
 In both cases, only a single ``processor'' was dedicated to the tree engine: on
 the CPU this means running on a single thread and on the FPGA this means running
@@ -66,7 +69,6 @@ execution time as attempts to allocate new nodes would quickly fail. Increasing
 memory size further was not possible at this time due to issues with routing and
 memory allocation on the FPGA and CPU, respectively.
 
-
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{7.5cm}
@@ -88,3 +90,21 @@ memory allocation on the FPGA and CPU, respectively.
 Examining execution time shows that the FPGA only begins to become saturated at
 under a load of $10^6$ requests, whereas the single-threaded CPU instance
 immediately shows strain under load.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/mixed-throughput-cpu-m4}
+		\caption{CPU Throughput}
+		\label{fig:mixed-throughput-cpu}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/mixed-throughput-fpga-m4}
+		\caption{FPGA Throughput}
+		\label{fig:mixed-throughput-fpga}
+	\end{subfigure}
+	\caption{Throughput Comparison in Mixed Workloads}
+	\label{fig:rw-comparison}
+\end{figure}
