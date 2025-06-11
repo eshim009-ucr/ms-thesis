@@ -7,14 +7,13 @@
 			ytick distance=4,
 			domain=1:4,
 			smooth,
-			cycle list name=rainbow4,
+			cycle list name=rainbow3,
 		]
 		\pgfplotsinvokeforeach{2,4,8} {
 			\addplot+[mark=none]
 				{(1-#1) / (#1^(1-x) - 1)};
 			\addlegendentry{$m=#1$}
 		}
-		\pgfplotsset{cycle list shift=-3}
 		\pgfplotsinvokeforeach{2,4,8} {
 			\addplot+[mark=none, dashed] {#1-1};
 		}

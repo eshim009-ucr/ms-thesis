@@ -10,7 +10,8 @@
 				\pgfmathprintnumber{\pgfmathresult}%
 				\%%
 			},
-			smooth
+			smooth,
+			cycle list name=rainbow4,
 		]
 		\pgfplotsinvokeforeach{2,4,8,16} {
 			\addplot+[cycle list name=color list, mark=none]
