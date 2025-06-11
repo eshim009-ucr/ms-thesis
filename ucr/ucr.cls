@@ -430,7 +430,7 @@
     \bigskip \medskip
 \fmsmallfont
   Thesis Committee:
-\begin{quote}
+\vspace{-12pt}\begin{quote}
 {\@chair}, Chairperson\newline
 {\@othermembers}
 \end{quote}
@@ -558,7 +558,7 @@ $\:\overline{~~~~ \mbox{\rule{0in}{0.16in}\small ~\hspace{2.03in} Committee Chai
 % \setcounter{page}{1}
 \begin{center}
 {\fmfont
-{\expandafter\uppercase\expandafter{\abstractname}} OF THE Thesis\par
+{\expandafter\uppercase\expandafter{\abstractname}} OF THE THESIS\par
 \vspace{.5in}
 \ssp\@title\par
 \vspace{.25in}
@@ -961,8 +961,12 @@ Thesis Committee Chair
      \penalty\@highpenalty %% added 24 May 89, suggested by J. Leichter
    \endgroup}
 
-\def\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-\def\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
+\def\l@section{%
+  \vskip 1.0em plus\p@   % space above section line
+  \@dottedtocline{1}{1.5em}{2.3em}}
+\def\l@subsection{%
+  \vskip 1.0em plus\p@   % space above subsection line
+  \@dottedtocline{2}{3.8em}{3.2em}}
 \def\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
 \def\l@paragraph{\@dottedtocline{4}{10em}{5em}}
 \def\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
