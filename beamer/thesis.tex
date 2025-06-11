@@ -1,0 +1,123 @@
+\documentclass{beamer}
+
+\input{packages}
+\usepackage{biblatex}
+\addbibresource{bibfile.bib}
+
+\AtBeginSection[] {
+	\begin{frame}
+		\frametitle{Table of Contents}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+\AtBeginSubsection[] {
+	\begin{frame}
+		\frametitle{Table of Contents}
+		\tableofcontents[currentsubsection]
+	\end{frame}
+}
+
+\title{\input{title}}
+\author{Clarity Shimoniak}
+\institute[UCR]{University of California, Riverside}
+\date{2025}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+	\frametitle{Table of Contents}
+	\tableofcontents
+\end{frame}
+
+
+\section{Motivation}
+
+\begin{frame}
+	\frametitle{Motivation}
+	
+	\begin{columns}[onlytextwidth,T]
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item Demand for computation is increasing
+			\item Demand for data storage is increasing
+			\item Silicon's physical properties are limited
+			\begin{itemize}
+				\item Clock speeds cannot increase further
+			\end{itemize}
+		\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{figure}
+			\centering
+			\input{pgfplots/clock}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+
+\section{Overview}
+
+\begin{frame}
+	\frametitle{Database Indexing}
+	\todo{Content}
+\end{frame}
+
+
+\section{Architecture}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\subsection{Trees}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\subsection{Memory}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\subsection{FPGA}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\section{Results}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\section{Conclusion}
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\todo{Content}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{\todo{Title}}
+	\printbibliography
+\end{frame}
+
+
+\end{document}

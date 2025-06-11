@@ -1,3 +1,12 @@
 \sect{Conclusions}
 
-Conclusions go here
+The FPGA tree engine offers a modest increase in throughput at higher entry
+counts, though there remains room for further improvement. The limitations on
+HBM size can be circumvented by distributing the system across a cluster using
+RDMA as \citeauthor{base} do with their CPU B-Link tree. The same strategy can
+also be used to circumvent routing issues, as can the creation of a custom
+internal memory pipeline.
+%
+As shown in \autoref{fig:floorplan} and \autoref{table:resource-usage}, the
+majority of the FPGA fabric remains available for utilization by additional
+instances of the kernel for greater parallelism.

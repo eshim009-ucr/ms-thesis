@@ -4,6 +4,7 @@
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{positioning}
 \usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
 \pgfplotscreateplotcyclelist{rainbow}{
 	{red,mark=*},
 	{orange,mark=*},
@@ -11,6 +12,15 @@
 	{green!50!black,mark=*},
 	{blue,mark=*},
 	{purple!50!black,mark=*}%
+}
+\pgfplotscreateplotcyclelist{rainbow2}{
+	{red,mark=*},
+	{blue,mark=*}%
+}
+\pgfplotscreateplotcyclelist{rainbow3}{
+	{red,mark=*},
+	{green!50!black,mark=*},
+	{blue,mark=*}%
 }
 \pgfplotscreateplotcyclelist{rainbow4}{
 	{red,mark=*},

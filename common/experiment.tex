@@ -6,10 +6,85 @@ FPGA data was collected on a system with a Xilinx Alveo U280 PCIe card,
 which contains an XCU280 FPGA with $\SI{8}{\giga\byte}$ of on-chip HBM as well
 as $\SI{32}{\giga\byte}$ DDR4 memory on two RDIMMs operating at
 $\SI{2400}{\mega{T}\per\second}$ \autocite{u280}. The CPU baseline was collected
-on a system with an AMD Ryzen 7 7700X CPU and $\SI{96}{\giga\byte}$ of DDR5
-memory on four UDIMMs operating at $\SI{3600}{\mega{T}\per\second}$. The system
-is running AlmaLinux 9.6 (binary compatible with Red Hat Enterprise Linux) and
-kernel version 5.14.0.
+on a system with an Intel Core i9-9900 CPU and $\SI{32}{\giga\byte}$ of DDR4.
+The system is running Ubuntu 20.04 LTS.
+
+The C code used to synthesize the tree under HLS is the same code used to obtain
+the CPU baseline. The C version uses pthreads for locking and concurrency
+support. Because a pthread mutex takes more space than a lock bit, the CPU
+version uses more memory per node. Though running as a single-threaded program,
+locks are still acquired and released in order to demonstrate their negative
+impact on caching.
 %
-Unless stated otherwise, a branching factor of $m=8$ will be used in all
+Unless stated otherwise, a branching factor of $m=4$ will be used in all
 experiments.
+
+
+\subsect{Methodology}
+
+In both CPU and FPGA cases, computation time measures only the time that the
+database engine spends processing data, not the time spent preparing the
+request, response, and memory buffers. Timing data is collected by the testbench
+program with C++'s \texttt{std::chrono} library.
+%
+Request data was stored in pre-generated binary files that are loaded by a
+testbench program, which also initializes the main memory buffer that will store
+the tree.
+%
+In both cases, only a single ``processor'' was dedicated to the tree engine: on
+the CPU this means running on a single thread and on the FPGA this means running
+with one kernel instance.
+
+
+\subsect{Comparison}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/search-throughput-comparison-m4}
+		\caption{Search Throughput}
+		\label{fig:search-throughput-comparison}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/insert-throughput-comparison-m4}
+		\caption{Insertion Throughput}
+		\label{fig:insert-throughput-comparison}
+	\end{subfigure}
+	\caption{Throughput Comparison}
+	\label{fig:throughput-comparison}
+\end{figure}
+
+As shown, the FPGA offers similar throughput for both read and write operations,
+which leads to the most compelling case being write-heavy workloads. This may be
+due in part to caching effects and the lack thereof on the FPGA, which at
+present does not implement any caching protocol.
+
+Testing with larger input sizes than those shown here lead to plateaus in
+execution time as attempts to allocate new nodes would quickly fail. Increasing
+memory size further was not possible at this time due to issues with routing and
+memory allocation on the FPGA and CPU, respectively.
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/search-time-comparison-m4}
+		\caption{Search Execution Time}
+		\label{fig:search-time-comparison}
+	\end{subfigure}
+	\begin{subfigure}{7.5cm}
+		\centering
+		\input{pgfplots/insert-time-comparison-m4}
+		\caption{Insertion Throughput}
+		\label{fig:insert-time-comparison}
+	\end{subfigure}
+	\caption{Execution Time Comparison}
+	\label{fig:time-comparison}
+\end{figure}
+
+Examining execution time shows that the FPGA only begins to become saturated at
+under a load of $10^6$ requests, whereas the single-threaded CPU instance
+immediately shows strain under load.

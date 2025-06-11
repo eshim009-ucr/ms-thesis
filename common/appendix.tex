@@ -1,5 +1,21 @@
-% \appendix
-% 
-% \sect{Appendix Section 1}
-% 
-% Appendix goes here
+\appendix
+
+\sect{Design Utilization}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|ccccccccc}
+		& \textbf{LUT} & \textbf{Register} & \textbf{BRAM} & \textbf{URAM} & \textbf{DSP} \\
+		\hline
+		Count & 38,827 & 38,729 & 24 & 0 & 5 \\
+		Percentage & 2.98 & 1.71 & 1.19 & 0.0 & 0.06 \\
+	\end{tabular}
+	\caption{Design Resource Usage}
+	\label{table:resource-usage}
+\end{table}
+
+\begin{figure}[H]
+	\includegraphics[width=0.9\textwidth]{floorplan}
+	\caption{Design Floorplan}
+	\label{fig:floorplan}
+\end{figure}

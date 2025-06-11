@@ -1,0 +1,31 @@
+\begin{tikzpicture}[scale=0.8]
+	\begin{axis}
+		[
+			xlabel={Input Size (Requests)},
+			ylabel={Throughput (Requests per Second)},
+			legend style={
+				at={(0.5, 1.05)},
+				anchor=south,
+				legend columns=2
+			},
+			domain=1:1000000,
+			xmode=log,
+			ymode=log,
+			cycle list name=rainbow2,
+		]
+		\addplot coordinates {
+			(1000, 4827778.20055007)
+			(10000, 5381869.19452038)
+			(100000, 4065170.01316331)
+			(1000000, 3657002.23888243)
+		};
+		\addlegendentry{CPU}
+		\addplot coordinates {
+			(1000, 26717.4913090758)
+			(10000, 257112.873988185)
+			(100000, 1935652.66519638)
+			(1000000, 5566292.93810852)
+		};
+		\addlegendentry{FPGA}
+	\end{axis}
+\end{tikzpicture}
