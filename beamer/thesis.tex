@@ -322,7 +322,8 @@
 			\item Pool of developers is small
 			\item Limited abstraction
 			\begin{itemize}
-				\item Complex designs are difficult
+				\item Complex designs are difficult to implement
+				\autocite{honeycomb}
 			\end{itemize}
 		\end{itemize}
 		
@@ -369,16 +370,10 @@
 
 \section{Architecture}
 
-\begin{frame}
-	\frametitle{\todo{Title}}
-	\todo{Content}
-\end{frame}
-
-
 \subsection{Trees}
 
 \begin{frame}
-	\frametitle{\todo{Title}}
+	\frametitle{Tree Parameters}
 	\todo{Content}
 \end{frame}
 
@@ -386,7 +381,7 @@
 \subsection{Memory}
 
 \begin{frame}
-	\frametitle{\todo{Title}}
+	\frametitle{Memory Layout}
 	\todo{Content}
 \end{frame}
 
@@ -394,23 +389,78 @@
 \subsection{FPGA}
 
 \begin{frame}
-	\frametitle{\todo{Title}}
-	\todo{Content}
+	\frametitle{FPGA}
+	\note[item] {Now for the downsides of FPGA design}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item \todo{Content}
+		\end{itemize}
+		
+		\column{0.5\linewidth}
+		\begin{figure}
+			\resizebox{\textwidth}{!}{\input{tikz/hls-arch}}
+			\caption{System Block Diagram}
+		\end{figure}
+	\end{columns}
 \end{frame}
 
 
-\section{Results}
+\section{Experiment}
 
 \begin{frame}
-	\frametitle{\todo{Title}}
-	\todo{Content}
+	\frametitle{Methodology}
+	\begin{itemize}
+		\item Only computation time was measured, not request loading
+		\note[item] {No live request input system was set up}
+		\note[item] {PCIe transfer overhead would be large}
+		\item Input data was pregenerated and the same for both platforms
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Throughput}
+	\begin{figure}
+		\begin{subfigure}{0.49\textwidth}
+			\resizebox{\textwidth}{!}{
+				\input{pgfplots/search-throughput-comparison-m4.tex}
+			}
+			\caption{Search Throughput}
+		\end{subfigure}
+		\begin{subfigure}{0.49\textwidth}
+			\resizebox{\textwidth}{!}{
+				\input{pgfplots/insert-throughput-comparison-m4.tex}
+			}
+			\caption{Insert Throughput}
+		\end{subfigure}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Execution Time}
+	\begin{figure}
+		\begin{subfigure}{0.49\textwidth}
+			\resizebox{\textwidth}{!}{
+				\input{pgfplots/search-time-comparison-m4.tex}
+			}
+			\caption{Search Time}
+		\end{subfigure}
+		\begin{subfigure}{0.49\textwidth}
+			\resizebox{\textwidth}{!}{
+				\input{pgfplots/insert-time-comparison-m4.tex}
+			}
+			\caption{Insert Time}
+		\end{subfigure}
+	\end{figure}
 \end{frame}
 
 
 \section{Conclusion}
 
 \begin{frame}
-	\frametitle{\todo{Title}}
+	\frametitle{Conclusion}
 	\begin{itemize}
 		\item More FPGA parallelism is possible
 		\begin{itemize}
