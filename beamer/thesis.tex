@@ -175,7 +175,7 @@
 			}
 			\item All data stored at leaves
 			\note[item] {
-				Another way to think of it is that each all nodes have keys and
+				Another way to think of it is that all nodes have keys and
 				values.
 				Values are pointers.
 				Internal node pointers go to other nodes.
@@ -183,7 +183,7 @@
 				On a file system, this could be a disk block.
 			}
 			\item Number of children set with tree parameter
-			\item Widely used in databases file systems
+			\item Widely used in databases \& file systems
 		\end{itemize}
 	\end{multicols}
 	\begin{figure}[H]
@@ -262,7 +262,7 @@
 		\column{0.47\linewidth}
 		\begin{itemize}
 			\item On a CPU, computation is multiplexed \emph{temporally}
-			\item Instructions per clock cycle is limited
+			\item Instructions per clock cycle are limited
 			\item Even with superscalar architectures, pipeline stages are a
 			limiting factor
 			\note[item] {
@@ -289,7 +289,7 @@
 			\item On an FPGA, computation is multiplexed \emph{spatially}
 			\item All functional units can operate simultaneously
 			\note[item]{
-				This isn't to say that FPGAs don't have critical paths, but they
+				This isn't to say that FPGAs don't have critical paths, but the
 				floorplan is far more likely to become a bottleneck
 			}
 			\item FPGA fabric contains registers, memory, LUTs, and ALUs
@@ -558,7 +558,7 @@
 			\begin{tabular}{c|cc}
 				& FF & LUT \\
 				\hline
-				Search & 1,841 & 3537 \\
+				Search & 1,841 & 3,537 \\
 				Insert & 35,717 & 55,609 \\
 			\end{tabular}
 			\caption{Resource Usage by Sub-Module}
