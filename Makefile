@@ -1,6 +1,6 @@
 TARGETS=all clean cite
 
-SUBDIRS=acm ucr
+SUBDIRS=beamer ucr
 
 $(TARGETS): $(SUBDIRS)
 $(SUBDIRS):

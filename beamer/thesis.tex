@@ -122,8 +122,8 @@
 			\end{itemize}
 			\item Both CPUs \& GPUs are fixed-function silicon
 			\note[item]{
-				As Professor Wong told my class, GPUs are great at throughput but
-				lousy at branching
+				As Professor Wong told my class, GPUs are great at throughput
+				but lousy at branching
 			}
 			\item FPGAs can implement generic digital logic
 			\note[item]{
@@ -133,7 +133,8 @@
 				FPGAs excel where no accelerator chip can be economically built
 			}
 			\note[item]{
-				I'll get into more about the implications of that in a few slides
+				I'll get into more about the implications of that in a few
+				slides
 			}
 		\end{itemize}
 
@@ -228,9 +229,9 @@
 	\begin{itemize}
 		\item Reconfigurable array of programmable logic elements
 		\note[item] {
-			Introduction classes only mentoin LUTs, but there's more available
+			Introduction classes only mention LUTs, but there's more available
 		}
-		\item Can implement niche accelerators cost effictively
+		\item Can implement niche accelerators cost effectively
 		\begin{itemize}
 			\item Alternative to custom silicon
 			\item Flexibility to update as needed
@@ -338,7 +339,7 @@
 	\begin{itemize}
 		\item HLS converts software programs into HDL designs
 		\begin{itemize}
-			\item \texttt{\#pragma}s are used to tweak HDL implemention
+			\item \texttt{\#pragma}s are used to tweak HDL implementation
 		\end{itemize}
 		\item Can create parallel designs without needing to understand hardware
 		\note[item] {
@@ -370,19 +371,88 @@
 
 \section{Architecture}
 
-\subsection{Trees}
+% \subsection{Trees}
 
-\begin{frame}
-	\frametitle{Tree Parameters}
-	\todo{Content}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Tree Parameters}
+% 	\begin{itemize}
+% 		\item As a tree grows,
+% 	\end{itemize}
+% \end{frame}
 
 
 \subsection{Memory}
 
 \begin{frame}
-	\frametitle{Memory Layout}
-	\todo{Content}
+	\frametitle{Tree Parameters}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item $m^{h-1}$ leaves are added at level $h$
+			\item Even a flattened tree may require more memory than available
+		\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{figure}
+			\centering
+			\resizebox{\textwidth}{!}{\input{pgfplots/nodes-to-height}}
+			\caption{Height vs Node Count for at Various Branching Factors}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tree Parameters}
+	\begin{itemize}
+		\item Depending on the key insertion pattern, all leaves are not
+		guaranteed to be 
+		\note[item] {
+			Re-balancing requires grabbing excessive locks to maintain
+			\citeauthor{b-link}'s concurrency assumptions
+		}
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\begin{subfigure}{6em}
+			\centering
+			\resizebox{0.6\textwidth}{!}{\input{tikz/max4}}
+			\caption{Height 1}
+		\end{subfigure}
+		\begin{subfigure}{15em}
+			\centering
+			\resizebox{0.7\textwidth}{!}{\input{tikz/max10}}
+			\caption{Height 2}
+		\end{subfigure}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\resizebox{\textwidth}{!}{\input{tikz/max22}}
+			\caption{Height 3}
+		\end{subfigure}
+		\caption{Sequential Insertion into a Tree with $m=4$}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tree Parameter Algorithm}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{enumerate}
+			\item Increase the tree height according to worst-case insertion
+			pattern
+			\item Stop when there are enough leaves
+			\item Truncate leaves to the minimum necessary
+		\end{enumerate}
+
+		\column{0.5\linewidth}
+		\begin{figure}
+			\centering
+			\input{tikz/truncated-tree}
+		\end{figure}
+	\end{columns}
+	\note[item] {
+		This is all managed with a Python script because the C pre-processor
+		isn't very capable for this kind of math
+	}
 \end{frame}
 
 
@@ -390,11 +460,16 @@
 
 \begin{frame}
 	\frametitle{FPGA}
-	\note[item] {Now for the downsides of FPGA design}
 	\begin{columns}
 		\column{0.47\linewidth}
 		\begin{itemize}
-			\item \todo{Content}
+			\item Inputs and outputs are initially stored in memory
+			\item Most communication between modules is done with FIFOs
+			\item Search/insert directly wrap a C implementation
+			\note[] {
+				Some \texttt{\#ifdefs} are used when necessary, but the
+				algorithms are the same
+			}
 		\end{itemize}
 		
 		\column{0.5\linewidth}
@@ -411,10 +486,12 @@
 \begin{frame}
 	\frametitle{Methodology}
 	\begin{itemize}
+		\item Compared against same C code compiled for a CPU
+		\note[item] {Stored as a git sub-module that could be compiled and run separately}
 		\item Only computation time was measured, not request loading
 		\note[item] {No live request input system was set up}
 		\note[item] {PCIe transfer overhead would be large}
-		\item Input data was pregenerated and the same for both platforms
+		\item Input data was pre-generated and the same for both platforms
 	\end{itemize}
 \end{frame}
 
@@ -460,13 +537,33 @@
 \section{Conclusion}
 
 \begin{frame}
-	\frametitle{Conclusion}
-	\begin{itemize}
-		\item More FPGA parallelism is possible
+	\frametitle{Future Work}
+	\begin{columns}
+		\column{0.47\linewidth}
 		\begin{itemize}
-			\item Multimodule, heterogeneous modules
+			\item More FPGA parallelism is possible
+			\note[item] {Will lead to better HBM utilization}
+			\item Multi-module, heterogeneous modules
+			\begin{itemize}
+				\item More flexible than CPU multithreading
+				\note[item] {CPU thread count is fixed}
+				\note[item] {Modules can vary in size based on complexity}
+			\end{itemize}
+			\item FPGA cluster with RDMA
+			\note[item] {Eventual Publication Goal}
 		\end{itemize}
-	\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{table}
+			\begin{tabular}{c|cc}
+				& FF & LUT \\
+				\hline
+				Search & 1,841 & 3537 \\
+				Insert & 35,717 & 55,609 \\
+			\end{tabular}
+			\caption{Resource Usage by Sub-Module}
+		\end{table}
+	\end{columns}
 \end{frame}
 
 
