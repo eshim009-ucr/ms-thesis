@@ -1,8 +1,25 @@
 \documentclass{beamer}
 
 \input{packages}
+\usepackage{multicol}
+\usepackage{listings}
+\lstset{
+	basicstyle=\tiny\ttfamily\color{blue!50!black},
+	keywordstyle=\color{purple},
+	identifierstyle=\color{black},
+	stringstyle=\color{green!50!black},
+	showstringspaces=false,
+	commentstyle=\color{gray},
+	tabsize=2,
+	gobble=4
+}
 \usepackage{biblatex}
 \addbibresource{bibfile.bib}
+
+\setbeameroption{show notes on second screen=right}
+\day=12\relax
+\month=06\relax
+\year=2025\relax
 
 \AtBeginSection[] {
 	\begin{frame}
@@ -36,9 +53,12 @@
 \section{Motivation}
 
 \begin{frame}
-	\frametitle{Motivation}
-	
-	\begin{columns}[onlytextwidth,T]
+	\frametitle{Hardware Limitations}
+	\note[item]{
+		These are the same slides that have come at the beginning of half of my
+		classes in the last few years, so I'll keep this brief
+	}
+	\begin{columns}
 		\column{0.47\linewidth}
 		\begin{itemize}
 			\item Demand for computation is increasing
@@ -47,6 +67,7 @@
 			\begin{itemize}
 				\item Clock speeds cannot increase further
 			\end{itemize}
+			\item Parallelism is the only route forward
 		\end{itemize}
 
 		\column{0.5\linewidth}
@@ -58,11 +79,291 @@
 \end{frame}
 
 
-\section{Overview}
+\begin{frame}
+	\frametitle{Sequential Thinking}
+	\begin{itemize}
+		\note[item]{Preface each of these with ``most''}
+		\item Programmers think of software sequentially
+		\begin{itemize}
+			\item University curriculum focuses on sequential complexity
+		\end{itemize}
+		\note[item]{
+			Students aren't asking themselves, ``How can I parallelize this?''
+		}
+		\item Programming languages are designed to express sequential
+		algorithms
+		\note[item]{
+			There are exceptions like Go, but by and large this is the trend
+		}
+		\item The CPU model is a sequential model
+		\note[item]{CPU parallelism is bolted on}
+		\note[item]{
+			I joke to friends that we're duct taping two CPUs together because
+			we can't make faster CPUs anymore
+		}
+		\item New CPUs need to remain compatible with old programs
+		\begin{itemize}
+			\item Rely on behind-the-scenes tricks to boost performance
+			\note[item] {Cache-ignorant code can be very slow}
+			\note[item] {Speculative execution has posed security risks}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}
-	\frametitle{Database Indexing}
-	\todo{Content}
+	\frametitle{Alternative Processor Models}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item GPUs dominate the discussion
+			\begin{itemize}
+				\item Along with TPUs \& other linear algebra accelerators
+			\end{itemize}
+			\item Both CPUs \& GPUs are fixed-function silicon
+			\note[item]{
+				As Professor Wong told my class, GPUs are great at throughput but
+				lousy at branching
+			}
+			\item FPGAs can implement generic digital logic
+			\note[item]{
+				FPGAs will perform poorly trying to copy a CPU or GPU exactly
+			}
+			\note[item]{
+				FPGAs excel where no accelerator chip can be economically built
+			}
+			\note[item]{
+				I'll get into more about the implications of that in a few slides
+			}
+		\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{itemize}
+			\item GPUs can benefit aggregation operations, but not traversal
+			\item Databases need branching \emph{and} throughput
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+\section{Overview}
+
+\subsection{Database Indexing}
+
+\begin{frame}
+	\vfill
+	\centering
+	\begin{beamercolorbox}{title}
+		\usebeamerfont{title}\insertsubsectionhead\par%
+	\end{beamercolorbox}
+	\vfill
+	\note[item]{Though some in my lab are big on hashing, trees remain popular}
+	\note[item]{There are many variants of B-Trees}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{B+ Tree}
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item Keys represent key ranges of sub-trees
+			\item Self-balancing
+			\note[item] {
+				Self balancing is ensured by requiring all nodes be at least
+				half full
+			}
+			\item All data stored at leaves
+			\note[item] {
+				Another way to think of it is that each all nodes have keys and
+				values.
+				Values are pointers.
+				Internal node pointers go to other nodes.
+				Leaf node pointers go to a data address.
+				On a file system, this could be a disk block.
+			}
+			\item Number of children set with tree parameter
+			\item Widely used in databases file systems
+		\end{itemize}
+	\end{multicols}
+	\begin{figure}[H]
+		\centering
+		\input{tikz/b-plus}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{B-Link Tree \autocite{b-link}}
+	\note[item]{
+		\citeauthor{b-link} say B* tree, maybe terminology wasn't solidified yet
+	}
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item Thread safe extension to B+ tree
+			\item Adds locks, reads are lock-free
+			\note[item]{%
+				The system was originally designed for disk-based storage, so
+				locking overhead was less important
+			}
+			\item Adds left-to-right linkages at all levels
+			\note[item]{Some B+ tree link leaves, but \emph{only} leaves}
+			\note[item]{
+				Linkages ensure that leaves are reachable even before being
+				assigned to a parent
+			}
+			\item Nodes are always accessible, even during intermediate states
+		\end{itemize}
+	\end{multicols}
+	\begin{figure}[H]
+		\centering
+		\input{tikz/b-link}
+	\end{figure}
+\end{frame}
+
+
+\subsection{FPGAs}
+
+\begin{frame}
+	\frametitle{FPGAs}
+	\begin{itemize}
+		\item Reconfigurable array of programmable logic elements
+		\note[item] {
+			Introduction classes only mentoin LUTs, but there's more available
+		}
+		\item Can implement niche accelerators cost effictively
+		\begin{itemize}
+			\item Alternative to custom silicon
+			\item Flexibility to update as needed
+			\note[item] {Used in some cellular modems for this reason}
+			\note[item] {Silicon bugs are insanely costly}
+			\note[item] {
+				Pentium FDIV happened 5 years before I was born and I've still
+				heard of it
+			}
+			\item Faster development cycle
+			\note[item] {
+				For those who enjoy ``moving fast and breaking things''
+			}
+		\end{itemize}
+		\item Relatively low clock speeds save power
+		\note[item] {
+			Important in the age of nuclear-powered AI datacenters
+		}
+		\item Size of designs that can be implemented on one chip has increased
+		over time
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Resource Multiplexing}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item On a CPU, computation is multiplexed \emph{temporally}
+			\item Instructions per clock cycle is limited
+			\item Even with superscalar architectures, pipeline stages are a
+			limiting factor
+			\note[item] {
+				Even if the five-stage pipeline isn't in vogue anymore, the
+				concept still stands
+			}
+		\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{figure}
+			\centering
+			\input{tikz/cpu-pipeline}
+			\caption{Generic CPU Pipeline}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Resource Multiplexing}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item On an FPGA, computation is multiplexed \emph{spatially}
+			\item All functional units can operate simultaneously
+			\note[item]{
+				This isn't to say that FPGAs don't have critical paths, but they
+				floorplan is far more likely to become a bottleneck
+			}
+			\item FPGA fabric contains registers, memory, LUTs, and ALUs
+			\note[item] {
+				These aren't proper generic ALUs, but dedicated implementations
+				of adders and other common arithmetic circuits.
+			}
+			\item Interconnect scarcity is also important
+		\end{itemize}
+
+		\column{0.5\linewidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{floorplan.png}
+			\caption{Our Design's Floorplan}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+
+\subsection{HDLs \& HLS}
+
+\begin{frame}
+	\frametitle{Hardware Description Languages}
+	\note[item] {Now for the downsides of FPGA design}
+	\begin{columns}
+		\column{0.47\linewidth}
+		\begin{itemize}
+			\item Different programming paradigm
+			\item Learning curve is steep
+			\item Pool of developers is small
+			\item Limited abstraction
+			\begin{itemize}
+				\item Complex designs are difficult
+			\end{itemize}
+		\end{itemize}
+		
+		\column{0.5\linewidth}
+		\lstinputlisting[language=verilog]{hdl.v}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{High-Level Synthesis}
+	\begin{itemize}
+		\item HLS converts software programs into HDL designs
+		\begin{itemize}
+			\item \texttt{\#pragma}s are used to tweak HDL implemention
+		\end{itemize}
+		\item Can create parallel designs without needing to understand hardware
+		\note[item] {
+			Similar to how you can write good software without understanding how
+			transistors work
+		}
+		\note[item] {
+			Professor Krishnamurthy me
+		}
+		\item Automates interfacing with other hardware
+		\note[item] {
+			My design uses HBM and PCIe interfaces, but I never needed to touch
+			either of those protocols
+		}
+		\note[item] {
+			HDL IPs for those things surely exist, but connecting them properly
+			is often non-trivial
+		}
+		\item Brings higher level of abstraction to FPGA design
+	\end{itemize}
+
+	\lstinputlisting[
+		language=c,
+		morekeywords={pragma},
+		xleftmargin=0.2\textwidth
+	]{hls.c}
 \end{frame}
 
 
@@ -110,12 +411,17 @@
 
 \begin{frame}
 	\frametitle{\todo{Title}}
-	\todo{Content}
+	\begin{itemize}
+		\item More FPGA parallelism is possible
+		\begin{itemize}
+			\item Multimodule, heterogeneous modules
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{\todo{Title}}
+	\frametitle{References}
 	\printbibliography
 \end{frame}
 

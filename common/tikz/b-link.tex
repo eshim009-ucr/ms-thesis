@@ -1,0 +1,65 @@
+\begin{tikzpicture}[
+		scale=0.8,
+		transform shape,
+		x=2em,
+		node distance=0.5,
+		treenode/.style={
+			draw,
+			rectangle split,
+			rectangle split horizontal=true,
+			rectangle split parts=9,
+			rectangle split empty part width=-3mm,
+			rectangle split part fill={
+				none, none, none, none, none, none, none, none,
+				yellow!50
+			}
+		}
+	]
+	% Nodes
+	\node[treenode] (leaf1) {
+		\nodepart{two}1\nodepart{three}
+		\nodepart{four}2\nodepart{five}
+		\nodepart{six}\phantom{0}\nodepart{seven}
+		\nodepart{eight}\phantom{0}
+	};
+	\node[treenode, right=of leaf1] (leaf2) {
+		\nodepart{two}3\nodepart{three}
+		\nodepart{four}4\nodepart{five}
+		\nodepart{six}\phantom{0}\nodepart{seven}
+		\nodepart{eight}\phantom{0}
+	};
+	\node[treenode, right=of leaf2] (leaf3) {
+		\nodepart{two}5\nodepart{three}
+		\nodepart{four}6\nodepart{five}
+		\nodepart{six}\phantom{0}\nodepart{seven}
+		\nodepart{eight}\phantom{0}
+	};
+	\node[treenode, right=of leaf3] (leaf4) {
+		\nodepart{two}7\nodepart{three}
+		\nodepart{four}8\nodepart{five}
+		\nodepart{six}9\nodepart{seven}
+		\nodepart{eight}10
+	};
+	\coordinate (center) at ($ (leaf2) !.5! (leaf3) $);
+	\node[treenode, above=1 of center] (root) {
+		\nodepart{two}2\nodepart{three}
+		\nodepart{four}4\nodepart{five}
+		\nodepart{six}6\nodepart{seven}
+		\nodepart{eight}10
+	};
+	% Connections
+	\draw[->] (root.south west)++(0.2,0) to[out=220,in=67.5] (leaf1.four north);
+	\draw[->] (root.three south) to[out=270,in=90] (leaf2.four north);
+	\draw[->] (root.five south) to[out=270,in=90] (leaf3.four north);
+	\draw[->] (root.seven south) to[out=320,in=112.5] (leaf4.eight north);
+	\draw[->] (leaf1.east) -- (leaf2.west);
+	\draw[->] (leaf2.east) -- (leaf3.west);
+	\draw[->] (leaf3.east) -- (leaf4.west);
+	% Data
+	\foreach \i in {1,2,3,4} {
+		\draw[->] (leaf\i.south west)++(0.2,0) -- ++(0, -0.5) node {$\vdots$};
+		\draw[->] (leaf\i.three south) -- ++(0, -0.5) node {$\vdots$};
+	}
+	\draw[->] (leaf4.five south) -- ++(0, -0.5) node {$\vdots$};
+	\draw[->] (leaf4.seven south) -- ++(0, -0.5) node {$\vdots$};
+\end{tikzpicture}
